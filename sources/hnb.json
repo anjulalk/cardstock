@@ -1,0 +1,29 @@
+{
+  "id": "hnb",
+  "name": "Hatton National Bank",
+  "kind": "api",
+  "policy": {
+    "robots": "Disallow: (all allowed)",
+    "delayMs": 800,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "web",
+      "url": "https://venus.hnb.lk/api/get_all_web_card_promos",
+      "params": { "page": 1, "limit": 999 }
+    },
+    {
+      "name": "premium",
+      "url": "https://venus.hnb.lk/api/get_all_pcard_promotions"
+    }
+  ],
+  "sourceUrlTemplate": "https://www.hnb.lk/card-promotion/search/{id}",
+  "imageBase": "https://www.hnb.lk/local-images/card-promotion/",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 700,
+    "maxDropRatio": 0.15,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

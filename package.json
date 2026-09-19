@@ -1,0 +1,29 @@
+{
+  "name": "cardstock",
+  "description": "Credit card offers in Sri Lanka, on a calendar, filtered to the cards you actually hold",
+  "author": {
+    "name": "Anjula Karunarathne",
+    "url": "https://anjula.dev"
+  },
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "sync": "npm run sync --workspace @cardstock/worker",
+    "chunk": "npm run chunk --workspace @cardstock/worker",
+    "probe": "npm run probe --workspace @cardstock/worker",
+    "test": "npm run test --workspaces --if-present",
+    "dev": "npm run dev --workspace @cardstock/web",
+    "build": "npm run build --workspace @cardstock/web",
+    "check": "npm run check --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

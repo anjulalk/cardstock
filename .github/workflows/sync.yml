@@ -1,0 +1,70 @@
+name: sync
+
+# Offers change on the banks' own schedule, so twice a day is plenty. The job
+# fetches, validates, commits the run counters, then builds and deploys in the
+# same run, so fresh data never waits on a second trigger.
+on:
+  schedule:
+    # 06:10 and 18:10 Asia/Colombo.
+    - cron: '40 0,12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Test
+        run: npm test
+
+      # Validation runs before anything is written, so a source that breaks
+      # fails the job instead of publishing half its offers.
+      - name: Sync
+        run: npm run sync
+
+      - name: Build chunks
+        run: npm run chunk
+
+      - name: Commit the run
+        run: |
+          git config user.name 'cardstock bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/latest.json data/runs.json
+          if git diff --cached --quiet; then
+            echo 'run counters unchanged'
+          else
+            git commit -m "data: $(date -u '+%Y-%m-%d %H:%MZ')"
+            git push
+          fi
+
+      - name: Build
+        env:
+          BASE_PATH: /
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/web/dist
+
+      - id: pages
+        uses: actions/deploy-pages@v4

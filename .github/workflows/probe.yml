@@ -1,0 +1,29 @@
+name: probe
+
+# The fixture tests prove the parsers still read the shape they were written
+# for. This proves the shape is still there. A bank redesign fails the job and
+# GitHub mails the owner, which is the whole notification system.
+on:
+  schedule:
+    # 06:45 Asia/Colombo, ahead of the first sync.
+    - cron: '15 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Probe the live sources
+        run: npm run probe

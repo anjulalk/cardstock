@@ -1,0 +1,16 @@
+{
+  "banks": [
+    { "id": "hnb", "name": "HNB", "aliases": ["Hatton National Bank"], "site": "https://www.hnb.lk" },
+    { "id": "sampath", "name": "Sampath Bank", "aliases": ["Sampath"], "site": "https://www.sampath.lk" },
+    { "id": "seylan", "name": "Seylan Bank", "aliases": ["Seylan"], "site": "https://www.seylan.lk" },
+    { "id": "ntb", "name": "Nations Trust Bank", "aliases": ["Nations Trust", "NTB"], "site": "https://www.nationstrust.com" },
+    { "id": "combank", "name": "Commercial Bank", "aliases": ["ComBank", "Commercial Bank of Ceylon"], "site": "https://www.combank.lk" },
+    { "id": "ndb", "name": "NDB", "aliases": ["National Development Bank"], "site": "https://www.ndbbank.com" },
+    { "id": "dfcc", "name": "DFCC Bank", "aliases": ["DFCC"], "site": "https://www.dfcc.lk" },
+    { "id": "peoples", "name": "People's Bank", "aliases": ["Peoples Bank", "People's"], "site": "https://www.peoplesbank.lk" },
+    { "id": "boc", "name": "Bank of Ceylon", "aliases": ["BOC"], "site": "https://www.boc.lk" },
+    { "id": "union", "name": "Union Bank", "aliases": ["Union"], "site": "https://www.unionb.com" },
+    { "id": "amana", "name": "Amana Bank", "aliases": ["Amana"], "site": "https://www.amanabank.lk" },
+    { "id": "panasia", "name": "Pan Asia Bank", "aliases": ["Pan Asia", "PABC"], "site": "https://www.pabcbank.com" }
+  ]
+}

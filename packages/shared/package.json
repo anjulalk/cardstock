@@ -1,0 +1,13 @@
+{
+  "name": "@cardstock/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "node --test src/*.test.ts",
+    "check": "tsc --noEmit"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@cardstock/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node src/sync.ts",
+    "chunk": "node src/chunk.ts",
+    "probe": "node src/probe.ts",
+    "test": "node --test src/*.test.ts",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cardstock/shared": "*"
+  }
+}

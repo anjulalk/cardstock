@@ -1,0 +1,115 @@
+@import 'tailwindcss';
+
+/* Design tokens: the shared anjula.dev system, mirrored from
+   https://anjula.dev/design/tokens.css and the blog's paper palette. */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-paper: #faf8f3;
+  --color-card: #ffffff;
+  --color-wash: #f4f2ec;
+  --color-hair: #f0ede4;
+  --color-line: #dfdbd0;
+
+  --color-ink: #44403a;
+  --color-mute: #5f5a51;
+  --color-soft: #767064;
+  --color-faint: #948e80;
+
+  --color-clay: #c1603c;
+  --color-clay-strong: #9e4a2d;
+  --color-gold: #8a6309;
+  --color-up: #157a58;
+  --color-down: #b3323f;
+
+  --radius-card: 0.875rem;
+  --shadow-card: 0 1px 2px rgb(28 27 23 / 0.04), 0 8px 24px -12px rgb(28 27 23 / 0.08);
+}
+
+.dark {
+  --color-paper: #282622;
+  --color-card: #2f2d29;
+  --color-wash: #33312c;
+  --color-hair: #3a3833;
+  --color-line: #5b564c;
+
+  --color-ink: #f4f2ec;
+  --color-mute: #cdc8bb;
+  --color-soft: #948e80;
+  --color-faint: #767064;
+
+  --color-clay: #e7966e;
+  --color-clay-strong: #d97757;
+  --color-gold: #d3b45c;
+  --color-up: #6cc4a1;
+  --color-down: #e08d92;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color-scheme: light;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-mute);
+    background:
+      radial-gradient(900px 480px at 8% -10%, rgb(193 96 60 / 0.05), transparent 62%),
+      radial-gradient(760px 420px at 92% -4%, rgb(21 122 88 / 0.04), transparent 58%),
+      var(--color-paper);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    letter-spacing: -0.011em;
+  }
+
+  ::selection {
+    background: rgb(193 96 60 / 0.18);
+  }
+}
+
+/* Small uppercase metadata, as the blog uses for eyebrows. */
+@utility label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@utility card {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-line);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+}
+
+@utility rise {
+  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

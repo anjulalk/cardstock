@@ -1,0 +1,15 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Canonical offers are rebuilt from the sources on every sync, so they are not
+# committed. The run log and the last counts are, as the audit trail.
+data/offers.jsonl
+
+# Built chunks that the browser downloads.
+packages/web/public/data/
+
+.tmp/
+.env
+.DS_Store
+*.log
