@@ -215,5 +215,40 @@
     "offers": 200,
     "ms": 101212,
     "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-19T21:01:22.242Z",
+    "offers": 72,
+    "ms": 2641,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T21:01:22.242Z",
+    "offers": 894,
+    "ms": 5308,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-19T21:01:22.242Z",
+    "offers": 97,
+    "ms": 2527,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T21:01:22.242Z",
+    "offers": 115,
+    "ms": 3577,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-19T21:01:22.242Z",
+    "offers": 200,
+    "ms": 94607,
+    "ok": true
   }
 ]

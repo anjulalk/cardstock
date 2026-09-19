@@ -1,6 +1,6 @@
 /** Shapes that cross the contract boundary between the build and the browser.
  *  Bump CONTRACT when a field changes meaning; adding a field is free. */
-export const CONTRACT = 1
+export const CONTRACT = 2
 
 export type CardType = 'credit' | 'debit'
 export type Network = 'visa' | 'mastercard' | 'amex'
@@ -105,6 +105,12 @@ export interface ChunkRef {
   offers?: number
 }
 
+/** A month is published per bank, so a visitor who holds two banks downloads
+ *  two files rather than every offer in the country. */
+export interface MonthRef {
+  banks: Record<string, ChunkRef>
+}
+
 /** data/index.json, the agreement between the build and the client. */
 export interface Manifest {
   contract: number
@@ -124,13 +130,14 @@ export interface Manifest {
   sourceTemplates: Record<string, string>
   chunks: {
     cards: ChunkRef
-    months: Record<string, ChunkRef>
+    months: Record<string, MonthRef>
   }
 }
 
-/** A month as it travels: a field header plus positional entries. */
+/** One bank's offers for one month, as it travels. */
 export interface MonthChunk {
   month: string
+  bank: string
   fields: string[]
   entries: unknown[][]
 }

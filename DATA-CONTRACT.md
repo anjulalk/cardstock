@@ -30,7 +30,12 @@ Fetched with `cache: no-cache` on boot. Small, and the only file the client must
   "chunks": {
     "cards": { "url": "cards.bd1f5de697.json", "bytes": 5204 },
     "months": {
-      "2026-09": { "url": "m/2026-09.bd1f5de697.json", "bytes": 243710, "offers": 836 }
+      "2026-09": {
+        "banks": {
+          "hnb": { "url": "m/2026-09/hnb.bd1f5de697.json", "bytes": 226710, "offers": 788 },
+          "seylan": { "url": "m/2026-09/seylan.bd1f5de697.json", "bytes": 41677, "offers": 158 }
+        }
+      }
     }
   }
 }
@@ -39,15 +44,21 @@ Fetched with `cache: no-cache` on boot. Small, and the only file the client must
 `bytes` is there so a client can decide before it spends the request. `sourceTemplates` is why a
 chunk does not repeat a bank URL for every offer: the client rebuilds it from the offer's id.
 
+A month is published **one file per bank**. A visitor who holds two banks downloads two files, not
+every offer in the country, and the calendar still needs no more than the month they are looking at.
+For scale: September 2026 is 345 KB of JSON across five banks, 39 KB once compressed, and a visitor
+holding HNB and NDB fetches 26 KB of that.
+
 ## Chunks
 
 Every chunk is a field header plus positional entries. Field names are the bulk of a JSON object and
 there are hundreds of offers, so the wire format drops them and the client decodes once.
 
 ```jsonc
-// m/2026-09.<version>.json
+// m/2026-09/hnb.<version>.json
 {
   "month": "2026-09",
+  "bank": "hnb",
   "fields": ["id","title","vendor","vendorHint","category","banks","tiers","networks","cardTypes",
              "discount","validFrom","validTo","days","terms"],
   "entries": [
@@ -77,12 +88,20 @@ converts an entry back into the readable shape. Notes on the values:
 | --- | --- |
 | Opens the site | `index.json` |
 | Opens the picker or filters | `cards.<v>.json`, once, cached per version |
-| Opens a month | `m/<month>.<v>.json` |
-| Steps a month | the new month, plus the two neighbours on idle |
+| Opens a month, no cards picked | every bank's file for that month |
+| Opens a month with cards picked | only the files for the banks those cards belong to |
+| Steps a month | the same set, plus the two neighbours on idle |
 | Taps a day | nothing, the month chunk already holds it |
 | Returns later in the same version | nothing, the decoded month is in memory |
 
 Request coalescing is per URL, so a component asking twice for September makes one request.
+
+## Versions
+
+| Version | Change |
+| --- | --- |
+| 2 | Months are published per bank, so the manifest's `chunks.months` holds a `banks` map |
+| 1 | First published shape |
 
 ## Cache rules
 

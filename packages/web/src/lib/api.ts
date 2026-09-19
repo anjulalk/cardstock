@@ -7,8 +7,8 @@ import type { CardProduct, Manifest, MonthChunk, MonthOffer } from '@shared/type
 
 const dataBase = `${import.meta.env.BASE_URL}data/`
 const inflight = new Map<string, Promise<unknown>>()
-/** Decoded months, keyed by file, so moving back and forth costs nothing. */
-const monthCache = new Map<string, MonthOffer[]>()
+/** Decoded offers per chunk file, so moving back and forth costs nothing. */
+const fileCache = new Map<string, MonthOffer[]>()
 
 let manifest: Manifest | null = null
 
@@ -42,16 +42,25 @@ export async function loadCards(): Promise<CardProduct[]> {
   return load<CardProduct[]>(manifest.chunks.cards.url)
 }
 
-export async function loadMonth(key: string): Promise<MonthOffer[]> {
+async function loadMonthFile(url: string): Promise<MonthOffer[]> {
+  const cached = fileCache.get(url)
+  if (cached) return cached
+  const chunk = await load<MonthChunk>(url)
+  const offers = chunk.entries.map((entry) => decodeMonthOffer(entry, manifest!.sourceTemplates))
+  fileCache.set(url, offers)
+  return offers
+}
+
+/** A month is published one file per bank, so the caller says which banks it
+ *  cares about. Leaving them out fetches the whole month. */
+export async function loadMonth(key: string, banks?: string[]): Promise<MonthOffer[]> {
   if (!manifest) throw new Error('the manifest must load first')
   const ref = manifest.chunks.months[key]
   if (!ref) return []
-  const cached = monthCache.get(ref.url)
-  if (cached) return cached
-  const chunk = await load<MonthChunk>(ref.url)
-  const decoded = chunk.entries.map((entry) => decodeMonthOffer(entry, manifest!.sourceTemplates))
-  monthCache.set(ref.url, decoded)
-  return decoded
+  const wanted =
+    banks && banks.length > 0 ? banks.filter((bank) => ref.banks[bank]) : Object.keys(ref.banks)
+  const parts = await Promise.all(wanted.map((bank) => loadMonthFile(ref.banks[bank]!.url)))
+  return parts.flat()
 }
 
 /** The months that cover a range, so "next 30 days" is derived, not guessed. */

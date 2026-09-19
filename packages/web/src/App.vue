@@ -35,6 +35,14 @@ const myCards = computed(() =>
   selected.value.length > 0 ? allCards.value.filter((card) => selected.value.includes(card.id)) : [],
 )
 
+/** Which banks the calendar needs. With cards picked, only those banks are
+ *  downloaded; with nothing picked, the whole month is. */
+const banksToLoad = computed(() =>
+  onlyMine.value && myCards.value.length > 0
+    ? [...new Set(myCards.value.map((card) => card.bank))]
+    : undefined,
+)
+
 const visible = computed(() => {
   let list = monthOffers.value
   if (onlyMine.value && myCards.value.length > 0) {
@@ -107,12 +115,12 @@ const canGoForward = computed(() => !!window_.value && month.value < window_.val
 async function showMonth(key: string): Promise<void> {
   monthLoading.value = true
   try {
-    monthOffers.value = await loadMonth(key)
+    monthOffers.value = await loadMonth(key, banksToLoad.value)
     if (selectedDay.value && monthKey(selectedDay.value) !== key) selectedDay.value = null
     const neighbours = [addMonths(key, -1), addMonths(key, 1)]
     for (const neighbour of neighbours) {
       if (window_.value && neighbour >= window_.value.from && neighbour <= window_.value.to) {
-        void loadMonth(neighbour).catch(() => undefined)
+        void loadMonth(neighbour, banksToLoad.value).catch(() => undefined)
       }
     }
   } catch (cause) {
@@ -141,6 +149,7 @@ function clearCards(): void {
 }
 
 watch(month, (key) => void showMonth(key))
+watch(banksToLoad, () => void showMonth(month.value))
 watch(onlyMine, (value) => saveOnlyMine(value))
 watch(selectedDay, (value) => {
   if (value && monthKey(value) !== month.value) month.value = monthKey(value)

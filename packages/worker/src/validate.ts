@@ -49,7 +49,7 @@ export function validateSource(
  *  agree, and every entry must be usable by the client without further work. */
 export function validateChunks(
   manifest: Manifest,
-  months: Map<string, MonthChunk>,
+  months: Map<string, Map<string, MonthChunk>>,
   window: { from: string; to: string },
 ): string[] {
   const errors: string[] = []
@@ -63,33 +63,52 @@ export function validateChunks(
     errors.push('manifest: no source templates, so offer links cannot be built')
   }
 
+  const ids = new Set<string>()
+
   for (const [key, ref] of Object.entries(manifest.chunks.months)) {
     if (key < window.from || key > window.to) {
       errors.push(`manifest: month ${key} sits outside the window`)
     }
-    if (!ref.url || ref.bytes <= 0) errors.push(`manifest: month ${key} has no usable ref`)
-    if (!months.has(key)) errors.push(`manifest: month ${key} is listed but was not built`)
-  }
-  for (const key of months.keys()) {
-    if (!manifest.chunks.months[key]) errors.push(`chunk ${key} was built but is not listed`)
-  }
+    const byBank = months.get(key)
+    if (!byBank) {
+      errors.push(`manifest: month ${key} is listed but was not built`)
+      continue
+    }
 
-  const ids = new Set<string>()
-  for (const [key, chunk] of months) {
-    if (chunk.entries.length === 0) errors.push(`chunk ${key}: no offers`)
-    if (chunk.fields.length !== MONTH_FIELDS.length) {
-      errors.push(`chunk ${key}: the field header has ${chunk.fields.length} names`)
-    }
-    for (const entry of chunk.entries) {
-      const id = String(entry[0])
-      if (!id) errors.push(`chunk ${key}: an entry has no id`)
-      if (!Array.isArray(entry[12]) || (entry[12] as unknown[]).length === 0) {
-        errors.push(`chunk ${key}: ${id} has no days`)
+    const monthIds = new Map<string, string>()
+    for (const [bank, bankRef] of Object.entries(ref.banks)) {
+      const chunk = byBank.get(bank)
+      if (!chunk) {
+        errors.push(`manifest: ${key} lists ${bank}, which was not built`)
+        continue
       }
-      ids.add(id)
+      if (!bankRef.url || bankRef.bytes <= 0) errors.push(`manifest: ${key}/${bank} has no usable ref`)
+      if (bankRef.offers !== chunk.entries.length) {
+        errors.push(`manifest: ${key}/${bank} claims ${bankRef.offers} entries, built ${chunk.entries.length}`)
+      }
+      if (chunk.fields.length !== MONTH_FIELDS.length) {
+        errors.push(`chunk ${key}/${bank}: the field header has ${chunk.fields.length} names`)
+      }
+      const bankIds = new Set<string>()
+      for (const entry of chunk.entries) {
+        const id = String(entry[0])
+        if (!id) errors.push(`chunk ${key}/${bank}: an entry has no id`)
+        if (!Array.isArray(entry[12]) || (entry[12] as unknown[]).length === 0) {
+          errors.push(`chunk ${key}/${bank}: ${id} has no days`)
+        }
+        if (bankIds.has(id)) errors.push(`chunk ${key}/${bank}: ${id} appears twice`)
+        bankIds.add(id)
+
+        // An offer belongs to one bank, so a month must not repeat an id either.
+        const seenIn = monthIds.get(id)
+        if (seenIn) errors.push(`chunk ${key}: ${id} appears under ${seenIn} and ${bank}`)
+        else monthIds.set(id, bank)
+        ids.add(id)
+      }
     }
-    if (chunk.entries.length !== manifest.chunks.months[key]?.offers) {
-      errors.push(`chunk ${key}: entry count does not match the manifest ref`)
+
+    for (const bank of byBank.keys()) {
+      if (!ref.banks[bank]) errors.push(`chunk ${key}/${bank} was built but is not listed`)
     }
   }
 

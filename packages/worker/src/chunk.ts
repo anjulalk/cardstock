@@ -22,6 +22,10 @@ import { validateChunks } from './validate.ts'
 const BACK_MONTHS = 3
 const FORWARD_MONTHS = 6
 
+/** month -> bank -> chunk. Splitting by bank is what keeps a visitor who holds
+ *  two banks from downloading every offer in the country. */
+type MonthTree = Map<string, Map<string, MonthChunk>>
+
 function readOffers(): Offer[] {
   const path = resolve(dataDir, 'offers.jsonl')
   if (!existsSync(path)) {
@@ -81,7 +85,7 @@ function main(): void {
     to: addMonths(monthKey(today), FORWARD_MONTHS),
   }
 
-  const months = new Map<string, MonthChunk>()
+  const tree: MonthTree = new Map()
   const published = new Set<string>()
   const inWindow: Offer[] = []
 
@@ -89,8 +93,8 @@ function main(): void {
     // Nothing without an end date can be placed on a calendar.
     if (offer.status === 'unconfirmed' || !offer.validTo) continue
 
-    // A source that publishes only an end date (HNB's feeds do) leaves the
-    // start unknown. The current month is the honest floor: the offer was
+    // A source that publishes only an end date (HNB and BOC's feeds do) leaves
+    // the start unknown. The current month is the honest floor: the offer was
     // published, so it is running, and the month is where a visitor looks.
     const from = offer.validFrom ?? `${monthKey(today)}-01`
     const to = offer.validTo
@@ -109,9 +113,13 @@ function main(): void {
       const days = qualifyingDays(segmentFrom, segmentTo, offer.days, offer.dates).map(dayOf)
       if (days.length === 0) continue
 
-      const chunk = months.get(key) ?? { month: key, fields: [...MONTH_FIELDS], entries: [] }
+      const byBank = tree.get(key) ?? new Map<string, MonthChunk>()
+      const chunk =
+        byBank.get(offer.bank) ??
+        ({ month: key, bank: offer.bank, fields: [...MONTH_FIELDS], entries: [] } satisfies MonthChunk)
       chunk.entries.push(toEntry(offer, [...new Set(days)].sort((a, b) => a - b)))
-      months.set(key, chunk)
+      byBank.set(offer.bank, chunk)
+      tree.set(key, byBank)
       published.add(offer.id)
     }
 
@@ -121,15 +129,27 @@ function main(): void {
   const version = createHash('sha1').update(JSON.stringify(offers)).digest('hex').slice(0, 10)
 
   rmSync(webDataDir, { recursive: true, force: true })
-  mkdirSync(resolve(webDataDir, 'm'), { recursive: true })
+  mkdirSync(webDataDir, { recursive: true })
 
   const monthRefs: Manifest['chunks']['months'] = {}
-  for (const key of [...months.keys()].sort()) {
-    const chunk = months.get(key)!
-    const payload = JSON.stringify(chunk)
-    const file = `m/${key}.${version}.json`
-    writeFileSync(resolve(webDataDir, file), payload)
-    monthRefs[key] = { url: file, bytes: Buffer.byteLength(payload), offers: chunk.entries.length }
+  let monthBytes = 0
+  for (const key of [...tree.keys()].sort()) {
+    const byBank = tree.get(key)!
+    const bankRefs: Manifest['chunks']['months'][string]['banks'] = {}
+    for (const bank of [...byBank.keys()].sort()) {
+      const chunk = byBank.get(bank)!
+      const payload = JSON.stringify(chunk)
+      const file = `m/${key}/${bank}.${version}.json`
+      mkdirSync(resolve(webDataDir, 'm', key), { recursive: true })
+      writeFileSync(resolve(webDataDir, file), payload)
+      bankRefs[bank] = {
+        url: file,
+        bytes: Buffer.byteLength(payload),
+        offers: chunk.entries.length,
+      }
+      monthBytes += Buffer.byteLength(payload)
+    }
+    monthRefs[key] = { banks: bankRefs }
   }
 
   // The card list is small and the picker cannot work without it, so it ships
@@ -191,18 +211,25 @@ function main(): void {
 
   writeFileSync(resolve(webDataDir, 'index.json'), JSON.stringify(manifest, null, 2) + '\n')
 
-  const problems = validateChunks(manifest, months, window)
+  const problems = validateChunks(manifest, tree, window)
   if (problems.length > 0) {
     console.error('Chunk validation failed:\n - ' + problems.join('\n - '))
     process.exit(1)
   }
 
-  const totalBytes = Object.values(monthRefs).reduce((sum, ref) => sum + ref.bytes, 0)
+  const monthCount = Object.keys(monthRefs).length
   console.log(
-    `chunks: ${published.size} offers across ${Object.keys(monthRefs).length} months, ${(totalBytes / 1024).toFixed(0)} KB total, version ${version}`,
+    `chunks: ${published.size} offers across ${monthCount} months and ${Object.values(monthRefs).reduce(
+      (sum, ref) => sum + Object.keys(ref.banks).length,
+      0,
+    )} bank-months, ${(monthBytes / 1024).toFixed(0)} KB total, version ${version}`,
   )
   for (const [key, ref] of Object.entries(monthRefs)) {
-    console.log(`  ${key}: ${ref.offers} offers, ${(ref.bytes / 1024).toFixed(1)} KB`)
+    const banks = Object.entries(ref.banks)
+      .sort((a, b) => (b[1].bytes ?? 0) - (a[1].bytes ?? 0))
+      .map(([bank, entry]) => `${bank} ${(entry.bytes / 1024).toFixed(1)}KB`)
+      .join(', ')
+    console.log(`  ${key}: ${banks}`)
   }
 }
 

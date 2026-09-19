@@ -118,19 +118,26 @@ async function main(): Promise<void> {
   }
 
   const kept = previous.filter((offer) => !touched.has(offer.source))
-  const merged = [...kept, ...produced].sort((a, b) => a.id.localeCompare(b.id))
+  const merged = [...kept, ...produced]
+  // HNB's feed can publish the same promotion id twice, so the canonical store
+  // keeps one row per offer and the last reading wins.
+  const unique = [...new Map(merged.map((offer) => [offer.id, offer])).values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )
+  const duplicates = merged.length - unique.length
 
   mkdirSync(dataDir, { recursive: true })
-  writeFileSync(resolve(dataDir, 'offers.jsonl'), merged.map((offer) => JSON.stringify(offer)).join('\n') + '\n')
+  writeFileSync(resolve(dataDir, 'offers.jsonl'), unique.map((offer) => JSON.stringify(offer)).join('\n') + '\n')
   writeFileSync(
     resolve(dataDir, 'latest.json'),
     JSON.stringify(
       {
         generatedAt: now,
         today,
-        offers: merged.length,
+        offers: unique.length,
+        duplicates: duplicates > 0 ? duplicates : undefined,
         sources: Object.fromEntries(
-          [...touched].map((id) => [id, merged.filter((offer) => offer.source === id).length]),
+          [...touched].map((id) => [id, unique.filter((offer) => offer.source === id).length]),
         ),
       },
       null,
@@ -138,9 +145,11 @@ async function main(): Promise<void> {
     ) + '\n',
   )
 
-  const active = merged.filter((offer) => offer.status === 'active').length
-  const unconfirmed = merged.filter((offer) => offer.status === 'unconfirmed').length
-  console.log(`\nwrote ${merged.length} offers (${active} active, ${unconfirmed} unconfirmed)`)
+  const active = unique.filter((offer) => offer.status === 'active').length
+  const unconfirmed = unique.filter((offer) => offer.status === 'unconfirmed').length
+  console.log(
+    `\nwrote ${unique.length} offers (${active} active, ${unconfirmed} unconfirmed)${duplicates > 0 ? `, dropped ${duplicates} duplicate id(s)` : ''}`,
+  )
   console.log(`kept ${kept.length} offers from sources without an adapter`)
 }
 
