@@ -68,5 +68,26 @@
     "offers": 115,
     "ms": 3737,
     "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T20:16:07.419Z",
+    "offers": 894,
+    "ms": 8535,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T20:16:07.419Z",
+    "offers": 115,
+    "ms": 3380,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-19T20:16:07.419Z",
+    "offers": 200,
+    "ms": 96698,
+    "ok": true
   }
 ]

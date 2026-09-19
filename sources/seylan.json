@@ -1,0 +1,37 @@
+{
+  "id": "seylan",
+  "name": "Seylan Bank",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.seylan.lk/promotions/cards"
+    }
+  ],
+  "pagination": { "param": "page", "maxPages": 40 },
+  "itemMarker": "class=\"col-md-4 promotion-item",
+  "categoryMap": {
+    "supermarket": "supermarket",
+    "dining": "dining",
+    "style": "fashion",
+    "health": "health",
+    "electronics": "electronics",
+    "travel": "travel",
+    "education": "other",
+    "solar": "other",
+    "cracker-deals": "other",
+    "entertainment": "other"
+  },
+  "sourceUrlTemplate": "https://www.seylan.lk/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 60,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

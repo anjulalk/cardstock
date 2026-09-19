@@ -21,6 +21,8 @@ export interface SourceContract {
   itemMarker?: string
   /** HTML sources: the site's own category classes, mapped to ours. */
   categoryMap?: Record<string, string>
+  /** A listing that pages through `rel="next"` links. */
+  pagination?: { param?: string; maxPages?: number }
   cadence?: string
   guards?: { minItems?: number; maxDropRatio?: number; requireFields?: string[] }
 }
