@@ -16,6 +16,19 @@ export function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+/** Cuts a listing into one string per card. The boundary is a literal class
+ *  name where that comes first in the markup, or a pattern where the useful
+ *  boundary is an anchor's href. */
+export function splitItems(
+  html: string,
+  contract: { itemMarker?: string; itemPattern?: string },
+): string[] {
+  const source =
+    contract.itemPattern ?? (contract.itemMarker ? escapeRegExp(contract.itemMarker) : null)
+  if (!source) throw new Error('the contract declares neither itemMarker nor itemPattern')
+  return html.split(new RegExp(`(?=${source})`)).slice(1)
+}
+
 /** Used for offer ids when a page has no stable slug of its own. */
 export function slugify(value: string): string {
   return value

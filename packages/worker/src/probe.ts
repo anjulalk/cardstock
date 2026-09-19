@@ -1,4 +1,5 @@
 import { readdirSync } from 'node:fs'
+import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
@@ -15,6 +16,7 @@ const PROBES: Record<string, Prober> = {
   hnb: async (contract) => (await fetchHnb(contract)).length,
   ntb: async (contract) => (await fetchNtb(contract)).length,
   seylan: async (contract) => (await fetchSeylan(contract)).length,
+  boc: async (contract) => (await fetchBoc(contract)).length,
 }
 
 async function main(): Promise<void> {

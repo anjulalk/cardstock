@@ -17,8 +17,11 @@ export interface SourceContract {
   /** How to build an offer's page from its id, published in the manifest. */
   sourceUrlTemplate: string
   imageBase?: string
-  /** HTML sources: where one card starts in the markup. */
+  /** HTML sources: where one card starts in the markup, as a literal. */
   itemMarker?: string
+  /** HTML sources: the same, as a regex source, for markup where the useful
+   *  boundary (an anchor's href) comes before the class name. */
+  itemPattern?: string
   /** HTML sources: the site's own category classes, mapped to ours. */
   categoryMap?: Record<string, string>
   /** A listing that pages through `rel="next"` links. */

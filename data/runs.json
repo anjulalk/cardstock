@@ -89,5 +89,33 @@
     "offers": 200,
     "ms": 96698,
     "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-19T20:26:53.227Z",
+    "offers": 72,
+    "ms": 3125,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T20:26:53.227Z",
+    "offers": 894,
+    "ms": 5496,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T20:26:53.227Z",
+    "offers": 115,
+    "ms": 3577,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-19T20:26:53.227Z",
+    "offers": 200,
+    "ms": 94639,
+    "ok": true
   }
 ]

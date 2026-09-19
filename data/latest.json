@@ -1,8 +1,9 @@
 {
-  "generatedAt": "2026-09-19T20:16:07.419Z",
+  "generatedAt": "2026-09-19T20:26:53.227Z",
   "today": "2026-09-20",
-  "offers": 1209,
+  "offers": 1281,
   "sources": {
+    "boc": 72,
     "hnb": 894,
     "ntb": 115,
     "seylan": 200

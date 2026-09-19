@@ -1,0 +1,35 @@
+{
+  "id": "boc",
+  "name": "Bank of Ceylon",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.boc.lk/personal-banking/card-offers"
+    }
+  ],
+  "itemPattern": "<a href=\"https://www\\.boc\\.lk/personal-banking/card-offers/",
+  "categoryMap": {
+    "supermarkets": "supermarket",
+    "fashion": "fashion",
+    "dining": "dining",
+    "travel-and-leisure": "travel",
+    "online": "online",
+    "health-beauty": "health",
+    "automobile": "other",
+    "mastercard-offers": "other",
+    "visa-offers": "other"
+  },
+  "sourceUrlTemplate": "https://www.boc.lk/personal-banking/card-offers/{id}/product",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 50,
+    "maxDropRatio": 0.25,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}
