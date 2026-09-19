@@ -4,6 +4,7 @@ import { todayIso } from '../../shared/src/index.ts'
 import type { Offer } from '../../shared/src/index.ts'
 import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
+import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
 import { loadContract, type SourceContract } from './contract.ts'
@@ -20,6 +21,7 @@ const FETCHERS: Record<string, Fetcher> = {
   ntb: fetchNtb,
   seylan: fetchSeylan,
   boc: fetchBoc,
+  ndb: fetchNdb,
 }
 
 interface RunRecord {

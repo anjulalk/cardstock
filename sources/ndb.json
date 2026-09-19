@@ -1,0 +1,24 @@
+{
+  "id": "ndb",
+  "name": "NDB",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.ndbbank.com/cards/card-offers"
+    }
+  ],
+  "itemPattern": "<a href=\"/cards/card-offers/offer-details/",
+  "sourceUrlTemplate": "https://www.ndbbank.com/cards/card-offers/offer-details/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 60,
+    "maxDropRatio": 0.25,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

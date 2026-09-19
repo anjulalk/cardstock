@@ -1,6 +1,7 @@
 import { readdirSync } from 'node:fs'
 import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
+import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
 import { loadContract, type SourceContract } from './contract.ts'
@@ -17,6 +18,7 @@ const PROBES: Record<string, Prober> = {
   ntb: async (contract) => (await fetchNtb(contract)).length,
   seylan: async (contract) => (await fetchSeylan(contract)).length,
   boc: async (contract) => (await fetchBoc(contract)).length,
+  ndb: async (contract) => (await fetchNdb(contract)).length,
 }
 
 async function main(): Promise<void> {
