@@ -12,11 +12,11 @@ const monthCache = new Map<string, MonthOffer[]>()
 
 let manifest: Manifest | null = null
 
-function load<T>(path: string): Promise<T> {
+function load<T>(path: string, fresh = false): Promise<T> {
   const url = dataBase + path
   const existing = inflight.get(url) as Promise<T> | undefined
   if (existing) return existing
-  const promise = fetch(url)
+  const promise = fetch(url, fresh ? { cache: 'no-cache' } : undefined)
     .then((response) => {
       if (!response.ok) throw new Error(`${response.status} for ${url}`)
       return response.json() as Promise<T>
@@ -27,7 +27,9 @@ function load<T>(path: string): Promise<T> {
 }
 
 export async function loadManifest(): Promise<Manifest> {
-  manifest = await load<Manifest>('index.json')
+  // The manifest is the one file that must never come from cache: it is how a
+  // new dataVersion is noticed.
+  manifest = await load<Manifest>('index.json', true)
   return manifest
 }
 
