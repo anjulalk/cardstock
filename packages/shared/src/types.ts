@@ -43,7 +43,10 @@ export interface Offer {
   discount: Discount | null
   validFrom: string | null
   validTo: string | null
+  /** Weekday rule, 0 is Sunday, when the offer runs on set days of the week. */
   days: number[]
+  /** Explicit dates, when the offer names them instead of a rule. */
+  dates: string[]
   termsText: string | null
   sourceUrl: string
   image: string | null

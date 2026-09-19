@@ -20,6 +20,8 @@ export interface Draft {
   cardTypeText?: string | null
   discountText?: string | null
   termsText?: string | null
+  /** A source that publishes its own category is believed over our keywords. */
+  categoryHint?: string | null
 }
 
 const ENTITIES: Record<string, string> = {
@@ -120,7 +122,7 @@ const CATEGORY_KEYWORDS: Array<[string, RegExp]> = [
   ['fuel', /fuel|petrol|diesel|filling station|ioc/i],
   ['electronics', /electronic|mobile|smartphone|television|laptop|appliance|computer/i],
   ['home', /furniture|tile|mattress|home|hardware|paint/i],
-  ['travel', /hotel|resort|airline|travel|tour|booking|villa|stay/i],
+  ['travel', /hotel|resort|airline|travel|tour|booking|villa|stay|beach|bungalow|guest ?house/i],
   ['health', /hospital|pharmacy|medical|health|clinic|optical|dental/i],
   ['online', /online|e-?commerce|delivery|app|website/i],
   ['jewellery', /jewel|gems|diamond|gold coin/i],
@@ -159,10 +161,9 @@ export function buildOffer(draft: Draft, now: string, today: string): Offer {
     title,
     vendor: vendor?.id ?? null,
     vendorHint,
-    category: guessCategory(
-      [title, vendorHint, draft.discountText, draft.termsText].filter(Boolean).join(' '),
-      vendor,
-    ),
+    category:
+      draft.categoryHint ??
+      guessCategory([title, vendorHint, draft.discountText, draft.termsText].filter(Boolean).join(' '), vendor),
     networks: eligibility.networks,
     tiers: eligibility.tiers,
     cardTypes,
@@ -170,6 +171,7 @@ export function buildOffer(draft: Draft, now: string, today: string): Offer {
     validFrom,
     validTo,
     days: period.days,
+    dates: period.dates,
     termsText: draft.termsText ? stripHtml(draft.termsText) : null,
     sourceUrl: draft.sourceUrl,
     image: draft.image ?? null,

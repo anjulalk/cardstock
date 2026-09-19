@@ -1,5 +1,7 @@
 import { readdirSync } from 'node:fs'
-import { fetchHnb, loadContract, type SourceContract } from './adapters/hnb.ts'
+import { fetchHnb } from './adapters/hnb.ts'
+import { fetchNtb } from './adapters/ntb.ts'
+import { loadContract, type SourceContract } from './contract.ts'
 import { sourcesDir } from './paths.ts'
 
 /** Live probe. A fixture proves the parser still reads the shape it was written
@@ -10,6 +12,7 @@ type Prober = (contract: SourceContract) => Promise<number>
 
 const PROBES: Record<string, Prober> = {
   hnb: async (contract) => (await fetchHnb(contract)).length,
+  ntb: async (contract) => (await fetchNtb(contract)).length,
 }
 
 async function main(): Promise<void> {

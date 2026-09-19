@@ -2,7 +2,9 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { resolve } from 'node:path'
 import { todayIso } from '../../shared/src/index.ts'
 import type { Offer } from '../../shared/src/index.ts'
-import { fetchHnb, loadContract, type SourceContract } from './adapters/hnb.ts'
+import { fetchHnb } from './adapters/hnb.ts'
+import { fetchNtb } from './adapters/ntb.ts'
+import { loadContract, type SourceContract } from './contract.ts'
 import { buildOffer, type Draft } from './normalize.ts'
 import { dataDir, sourcesDir } from './paths.ts'
 import { validateSource, type Guards } from './validate.ts'
@@ -11,7 +13,7 @@ type Fetcher = (contract: SourceContract) => Promise<Draft[]>
 
 /** One entry per source that has an adapter. Adding a bank means adding a
  *  contract file and one line here. */
-const FETCHERS: Record<string, Fetcher> = { hnb: fetchHnb }
+const FETCHERS: Record<string, Fetcher> = { hnb: fetchHnb, ntb: fetchNtb }
 
 interface RunRecord {
   source: string

@@ -94,28 +94,96 @@ function findDates(text: string, fallbackYear: number): Hit[] {
 export interface Validity {
   from: string | null
   to: string | null
+  /** Weekday rule, 0 is Sunday. */
   days: number[]
+  /** Explicit dates, when the offer names them instead of a rule. */
+  dates: string[]
+}
+
+/** Reads a list of days sharing one month: "Valid on 2nd, 16th and 30th
+ *  September 2026", "11th & 25th August 2026". */
+export function parseDateList(text: string | null, fallbackYear = new Date().getFullYear()): string[] {
+  if (!text) return []
+  const out: string[] = []
+  const pattern =
+    /((?:\d{1,2}(?:st|nd|rd|th)?\s*(?:,|and|&|\/)\s*)+)(\d{1,2})(?:st|nd|rd|th)?\s*(?:of\s+)?(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/gi
+  for (const match of text.matchAll(pattern)) {
+    const month = MONTHS[match[3]!.slice(0, 3).toLowerCase()]
+    if (!month) continue
+    const year = match[4] ? Number(match[4]) : fallbackYear
+    const days = [...(match[1] ?? '').matchAll(/\d{1,2}/g)].map((hit) => Number(hit[0]))
+    days.push(Number(match[2]))
+    for (const day of days) {
+      if (day >= 1 && day <= 31) out.push(`${year}-${pad(month)}-${pad(day)}`)
+    }
+  }
+  return [...new Set(out)].sort()
+}
+
+/** The ISO days an offer qualifies for inside a segment: named dates win,
+ *  then a weekday rule, and a bare range means every day. */
+export function qualifyingDays(
+  from: string,
+  to: string,
+  weekdays: number[],
+  dates: string[],
+): string[] {
+  if (dates.length > 0) return dates.filter((iso) => iso >= from && iso <= to)
+  return datesInRange(from, to, weekdays)
 }
 
 /** Reads "Valid until 31 Aug 2026", "Valid only on 27th August 2026",
  *  "Every Wednesday till 26th August 2026", "1 Sept 2026 - 30 Sept 2026". */
 export function parsePeriodText(text: string | null, fallbackYear = new Date().getFullYear()): Validity {
-  if (!text) return { from: null, to: null, days: [] }
+  if (!text) return { from: null, to: null, days: [], dates: [] }
   const days: number[] = []
   for (const m of text.matchAll(/every\s+([a-z]+)/gi)) {
     const day = WEEKDAYS[m[1]!.toLowerCase()]
     if (day !== undefined && !days.includes(day)) days.push(day)
   }
+  // A span, as in "every Monday to Thursday".
+  for (const m of text.matchAll(/every\s+([a-z]+)\s*(?:to|through|till|until|-|–)\s*([a-z]+)/gi)) {
+    const start = WEEKDAYS[m[1]!.toLowerCase()]
+    const end = WEEKDAYS[m[2]!.toLowerCase()]
+    if (start === undefined || end === undefined) continue
+    const span = (end - start + 7) % 7
+    for (let i = 0; i <= span; i++) {
+      const day = (start + i) % 7
+      if (!days.includes(day)) days.push(day)
+    }
+  }
+  days.sort((a, b) => a - b)
+
+  const dates = parseDateList(text, fallbackYear)
+  if (dates.length > 1) {
+    return { from: dates[0]!, to: dates[dates.length - 1]!, days, dates }
+  }
+
+  // A range inside one month, as in "1st to 15th August 2026". The lookbehind
+  // stops a year like 2026 from being read as the day 26.
+  const sameMonth =
+    /(?<!\d)(\d{1,2})(?:st|nd|rd|th)?\s*(?:to|till|until|-|–|—)\s*(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/i.exec(
+      text,
+    )
+  if (sameMonth) {
+    const month = MONTHS[sameMonth[3]!.slice(0, 3).toLowerCase()]
+    if (month) {
+      const year = sameMonth[4] ? Number(sameMonth[4]) : fallbackYear
+      const from = `${year}-${pad(month)}-${pad(Number(sameMonth[1]))}`
+      const to = `${year}-${pad(month)}-${pad(Number(sameMonth[2]))}`
+      return { from, to, days, dates: [] }
+    }
+  }
 
   const hits = findDates(text, fallbackYear)
-  if (hits.length === 0) return { from: null, to: null, days }
+  if (hits.length === 0) return { from: null, to: null, days, dates: [] }
   if (hits.length === 1) {
     const only = /only\s+on|\bon\s+\d|valid\s+on/i.test(text)
-    if (only) return { from: hits[0]!.iso, to: hits[0]!.iso, days }
-    if (/\bfrom\b/i.test(text)) return { from: hits[0]!.iso, to: null, days }
-    return { from: null, to: hits[0]!.iso, days }
+    if (only) return { from: hits[0]!.iso, to: hits[0]!.iso, days, dates: [] }
+    if (/\bfrom\b/i.test(text)) return { from: hits[0]!.iso, to: null, days, dates: [] }
+    return { from: null, to: hits[0]!.iso, days, dates: [] }
   }
-  return { from: hits[0]!.iso, to: hits[hits.length - 1]!.iso, days }
+  return { from: hits[0]!.iso, to: hits[hits.length - 1]!.iso, days, dates: [] }
 }
 
 /** HNB's feed carries an ISO `to` plus a label such as "Valid Until" or

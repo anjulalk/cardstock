@@ -4,8 +4,10 @@ import {
   addMonths,
   datesInRange,
   monthRange,
+  parseDateList,
   parsePeriodText,
   parseValidityLabel,
+  qualifyingDays,
   weekdayOf,
 } from './dates.ts'
 
@@ -17,6 +19,7 @@ test('dates: till a worded day', () => {
     from: null,
     to: '2026-09-30',
     days: [],
+    dates: [],
   })
 })
 
@@ -25,6 +28,7 @@ test('dates: from and till, second date carrying the year', () => {
     from: '2026-09-01',
     to: '2026-10-31',
     days: [],
+    dates: [],
   })
 })
 
@@ -33,6 +37,7 @@ test('dates: a weekly recurrence resolves the weekday', () => {
     from: null,
     to: '2026-08-26',
     days: [3],
+    dates: [],
   })
 })
 
@@ -41,6 +46,7 @@ test('dates: a single day offer', () => {
     from: '2026-08-27',
     to: '2026-08-27',
     days: [],
+    dates: [],
   })
 })
 
@@ -49,6 +55,7 @@ test('dates: a bare date after on', () => {
     from: '2026-09-16',
     to: '2026-09-16',
     days: [],
+    dates: [],
   })
 })
 
@@ -57,7 +64,39 @@ test('dates: two dates around a dash', () => {
     from: '2026-09-01',
     to: '2026-09-30',
     days: [],
+    dates: [],
   })
+})
+
+test('dates: a range inside one month', () => {
+  assert.deepEqual(parsePeriodText('Valid from 1st to 15th August 2026', YEAR), {
+    from: '2026-08-01',
+    to: '2026-08-15',
+    days: [],
+    dates: [],
+  })
+})
+
+test('dates: named days sharing a month become explicit dates', () => {
+  assert.deepEqual(parseDateList('Valid on 2nd, 16th and 30th September 2026', YEAR), [
+    '2026-09-02',
+    '2026-09-16',
+    '2026-09-30',
+  ])
+  assert.deepEqual(parseDateList('Valid on 11th & 25th August 2026', YEAR), [
+    '2026-08-11',
+    '2026-08-25',
+  ])
+  assert.deepEqual(parsePeriodText('Valid on 2nd, 16th and 30th September 2026', YEAR), {
+    from: '2026-09-02',
+    to: '2026-09-30',
+    days: [],
+    dates: ['2026-09-02', '2026-09-16', '2026-09-30'],
+  })
+})
+
+test('dates: a single named day stays a one day offer, not a list', () => {
+  assert.deepEqual(parseDateList('Valid only on 27th August 2026', YEAR), [])
 })
 
 test('dates: hnbs label adds a from date and keeps its own to', () => {
@@ -87,4 +126,35 @@ test('dates: weekly dates land on the right weekdays', () => {
   const wednesdays = datesInRange('2026-08-01', '2026-08-31', [3])
   assert.deepEqual(wednesdays, ['2026-08-05', '2026-08-12', '2026-08-19', '2026-08-26'])
   for (const day of wednesdays) assert.equal(weekdayOf(day), 3)
+})
+
+test('dates: a weekday span and a same-month range together', () => {
+  const span = parsePeriodText('Valid every Monday to Thursday till 30 September 2026', YEAR)
+  assert.deepEqual(span.days, [1, 2, 3, 4])
+  assert.equal(span.to, '2026-09-30')
+
+  const saturday = parsePeriodText('Valid every Saturday from 1 to 30 September 2026', YEAR)
+  assert.deepEqual(saturday.days, [6])
+  assert.equal(saturday.from, '2026-09-01')
+  assert.equal(saturday.to, '2026-09-30')
+})
+
+test('dates: qualifying days prefer named dates, then a rule, then the range', () => {
+  const named = ['2026-09-02', '2026-09-16', '2026-09-30']
+  assert.deepEqual(qualifyingDays('2026-09-01', '2026-09-30', [], named), named)
+  assert.deepEqual(qualifyingDays('2026-09-15', '2026-09-30', [], named), [
+    '2026-09-16',
+    '2026-09-30',
+  ])
+  assert.deepEqual(qualifyingDays('2026-08-01', '2026-08-31', [3], []), [
+    '2026-08-05',
+    '2026-08-12',
+    '2026-08-19',
+    '2026-08-26',
+  ])
+  assert.deepEqual(qualifyingDays('2026-08-30', '2026-09-01', [], []), [
+    '2026-08-30',
+    '2026-08-31',
+    '2026-09-01',
+  ])
 })

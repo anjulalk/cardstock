@@ -1,0 +1,80 @@
+{
+  "page": 1,
+  "limit": 999,
+  "total": 874,
+  "totalPages": 1,
+  "data": [
+    {
+      "id": 2369,
+      "title": "25% off on fresh Vegetables, Fruits & Seafood for bills above LKR 4,000 at Keells outlets",
+      "thumb": "merchants/keells.jpg",
+      "merchant": "Keells",
+      "cardType": "credit",
+      "to": "2026-09-29",
+      "valid": "Valid Until (Every Tuesday)"
+    },
+    {
+      "id": 1727,
+      "title": "Up to 06 months 0% installments for Hamper value above LKR 10,000 at Keells ",
+      "thumb": "merchants/keells.jpg",
+      "merchant": "Keells",
+      "cardType": "credit",
+      "to": "2026-10-31",
+      "valid": "Valid Until"
+    },
+    {
+      "id": 4072,
+      "title": "Up to 60% on selected items + Up to 24 months 0% installments at Singer",
+      "thumb": "merchants/Singer, Singer Mega, Singer.lk/Singer,SingerMega,Singer.lk.jpg",
+      "merchant": "Singer, Singer Mega, Singer.lk",
+      "cardType": "credit",
+      "to": "2026-12-31",
+      "valid": "Valid From 2026-11-01 to"
+    },
+    {
+      "id": 3587,
+      "title": "Up to 24 months 0% installments at Singer showroom & Singer.lk ",
+      "thumb": "merchants/singer-and-singerlk-new.jpg",
+      "merchant": "Singer showroom & Singer.lk",
+      "cardType": "credit",
+      "to": "2026-10-31",
+      "valid": "Valid Until"
+    },
+    {
+      "id": 3360,
+      "title": "Up to 50% off on selected jewellery items + Up to 12 Months 0% Installments at Ashadi Jewellers",
+      "thumb": "merchants/ashadi-jewellers-logo.jpg",
+      "merchant": "Ashadi Jewellers",
+      "cardType": "credit",
+      "to": "2026-12-31",
+      "valid": "Valid From 2026-04-01 to "
+    },
+    {
+      "id": 3454,
+      "title": "Up to 12 months 0% installments at Mallika Hemachandra Jewellers",
+      "thumb": "merchants/mallika-hemachandra-logo.jpg",
+      "merchant": "Mallika Hemachandra Jewellers",
+      "cardType": "credit",
+      "to": "2026-10-31",
+      "valid": "Valid Until"
+    },
+    {
+      "id": 3457,
+      "title": "Up to 12 months 0% installments at Serendip Gems International (Pvt) Ltd",
+      "thumb": "merchants/serendip-gems-international-limited.jpg",
+      "merchant": "Serendip Gems International (Pvt) Ltd",
+      "cardType": "credit",
+      "to": "2026-10-31",
+      "valid": "Valid Until"
+    },
+    {
+      "id": 3455,
+      "title": "Up to 12 months 0% installments at Abdeen Jewellers (Pvt) Ltd",
+      "thumb": "merchants/abdeen-jewellers.jpg",
+      "merchant": "Abdeen Jewellers (Pvt) Ltd",
+      "cardType": "credit",
+      "to": "2026-10-31",
+      "valid": "Valid Until"
+    }
+  ]
+}

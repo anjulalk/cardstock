@@ -1,0 +1,39 @@
+{
+  "id": "ntb",
+  "name": "Nations Trust Bank",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.nationstrust.com/promotions"
+    }
+  ],
+  "itemMarker": "<div class=\"col-lg-3",
+  "categoryMap": {
+    "supermarket": "supermarket",
+    "clothing": "fashion",
+    "dining": "dining",
+    "hotels-resorts": "travel",
+    "travel": "travel",
+    "wellness": "health",
+    "online": "online",
+    "homecare-electronics": "electronics",
+    "jewellery": "jewellery",
+    "automobile": "other",
+    "private-banking": "other",
+    "regional-offers": "other",
+    "other": "other"
+  },
+  "sourceUrlTemplate": "https://www.nationstrust.com/promotions/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 80,
+    "maxDropRatio": 0.25,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

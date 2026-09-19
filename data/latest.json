@@ -1,8 +1,9 @@
 {
-  "generatedAt": "2026-09-19T19:21:57.021Z",
+  "generatedAt": "2026-09-19T19:57:57.919Z",
   "today": "2026-09-20",
-  "offers": 894,
+  "offers": 1009,
   "sources": {
-    "hnb": 894
+    "hnb": 894,
+    "ntb": 115
   }
 }

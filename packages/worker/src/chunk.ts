@@ -5,13 +5,13 @@ import {
   CONTRACT,
   MONTH_FIELDS,
   addMonths,
-  datesInRange,
   monthKey,
   monthRange,
+  qualifyingDays,
   todayIso,
 } from '../../shared/src/index.ts'
 import type { Facet, Manifest, MonthChunk, Offer, VendorFacet } from '../../shared/src/index.ts'
-import { loadContract } from './adapters/hnb.ts'
+import { loadContract } from './contract.ts'
 import { banks, cards, categories, vendors } from './registry.ts'
 import { dataDir, sourcesDir, webDataDir } from './paths.ts'
 import { validateChunks } from './validate.ts'
@@ -41,18 +41,6 @@ const min = (a: string, b: string) => (a < b ? a : b)
 function lastDayOf(key: string): number {
   const [year, month] = key.split('-').map(Number) as [number, number]
   return new Date(Date.UTC(year, month, 0)).getUTCDate()
-}
-
-/** Every day number between two ISO days, inclusive. */
-function everyDay(from: string, to: string): number[] {
-  const days: number[] = []
-  const cursor = new Date(`${from}T00:00:00Z`)
-  const end = new Date(`${to}T00:00:00Z`)
-  while (cursor <= end) {
-    days.push(cursor.getUTCDate())
-    cursor.setUTCDate(cursor.getUTCDate() + 1)
-  }
-  return days
 }
 
 /** One offer as a positional row. Keys are gone, so an entry costs roughly the
@@ -98,8 +86,14 @@ function main(): void {
   const inWindow: Offer[] = []
 
   for (const offer of offers) {
-    const from = offer.validFrom ?? today
-    const to = offer.validTo ?? from
+    // Nothing without an end date can be placed on a calendar.
+    if (offer.status === 'unconfirmed' || !offer.validTo) continue
+
+    // A source that publishes only an end date (HNB's feeds do) leaves the
+    // start unknown. The current month is the honest floor: the offer was
+    // published, so it is running, and the month is where a visitor looks.
+    const from = offer.validFrom ?? `${monthKey(today)}-01`
+    const to = offer.validTo
     if (to < `${window.from}-01` || from > `${window.to}-31`) continue
 
     const clampedFrom = max(from, `${window.from}-01`)
@@ -112,10 +106,7 @@ function main(): void {
       const segmentTo = min(clampedTo, `${key}-${String(lastDayOf(key)).padStart(2, '0')}`)
       if (segmentFrom > segmentTo) continue
 
-      const days =
-        offer.days.length > 0
-          ? datesInRange(segmentFrom, segmentTo, offer.days).map(dayOf)
-          : everyDay(segmentFrom, segmentTo)
+      const days = qualifyingDays(segmentFrom, segmentTo, offer.days, offer.dates).map(dayOf)
       if (days.length === 0) continue
 
       const chunk = months.get(key) ?? { month: key, fields: [...MONTH_FIELDS], entries: [] }

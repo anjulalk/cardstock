@@ -64,7 +64,8 @@ converts an entry back into the readable shape. Notes on the values:
 - `discount` is `null` or `[kind, value, cap, minSpend]`, where kind is one of `percent`, `amount`,
   `installments`, `cashback`, `other`.
 - `days` holds the concrete day numbers of the month that qualify, so an offer running every
-  Wednesday arrives as `[2, 9, 16, 23, 30]`. The browser never evaluates a recurrence rule, and
+  Wednesday arrives as `[2, 9, 16, 23, 30]`, and an offer naming its own days ("Valid on 2nd, 16th
+  and 30th September") arrives as `[2, 16, 30]`. The browser never evaluates a recurrence rule, and
   never does timezone arithmetic.
 - `terms` is the bank's own wording, kept verbatim where the source publishes it.
 - `cards.bd1f5de697.json` is a plain array of card products (`id`, `bank`, `name`, `tier`,

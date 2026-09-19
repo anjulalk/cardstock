@@ -26,5 +26,47 @@
     "offers": 894,
     "ms": 8243,
     "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T19:55:23.329Z",
+    "offers": 894,
+    "ms": 4930,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T19:55:23.329Z",
+    "offers": 116,
+    "ms": 3103,
+    "ok": false
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T19:55:44.323Z",
+    "offers": 894,
+    "ms": 8003,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T19:55:44.323Z",
+    "offers": 116,
+    "ms": 3282,
+    "ok": false
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-19T19:57:57.919Z",
+    "offers": 894,
+    "ms": 6200,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-19T19:57:57.919Z",
+    "offers": 115,
+    "ms": 3737,
+    "ok": true
   }
 ]
