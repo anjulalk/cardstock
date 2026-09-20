@@ -1,0 +1,23 @@
+{
+  "id": "sampath",
+  "name": "Sampath Bank",
+  "kind": "browser",
+  "blocked": "The list API is reachable and its shape is known from the site's own bundle: GET /api/card-promotions?category=<tab>&page_number=<n>&size=<n> returns {data, page_number, size, total}. The filter works, so total is right (15 for super_markets), but data is always an empty array, and /api/card-promotions/<id> returns {}. No header, locale, referer or origin changed that, and the API base is the site itself, so the rows are filtered server side by something a plain client cannot supply. The rendered pages are a Nuxt SPA whose listing carries no offer text either, and the detail routes answer 500. This needs a browser session.",
+  "policy": {
+    "delayMs": 2000,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "tabs",
+      "url": "https://www.sampath.lk/api/card-promotions?category=super_markets&page_number=1&size=100"
+    }
+  ],
+  "sourceUrlTemplate": "https://www.sampath.lk/sampath-cards/credit-card-offer/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 80,
+    "maxDropRatio": 0.25,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}
