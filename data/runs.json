@@ -397,5 +397,89 @@
     "offers": 200,
     "ms": 100661,
     "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 34,
+    "ms": 2272,
+    "ok": false
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 72,
+    "ms": 3106,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 892,
+    "ms": 5979,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 97,
+    "ms": 2575,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 110,
+    "ms": 3926,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T07:27:56.474Z",
+    "offers": 200,
+    "ms": 140876,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 34,
+    "ms": 2190,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 72,
+    "ms": 2799,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 892,
+    "ms": 5235,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 97,
+    "ms": 2261,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 110,
+    "ms": 3437,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T07:41:54.493Z",
+    "offers": 200,
+    "ms": 107592,
+    "ok": true
   }
 ]

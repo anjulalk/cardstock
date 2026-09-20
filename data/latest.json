@@ -1,9 +1,10 @@
 {
-  "generatedAt": "2026-09-20T07:16:07.724Z",
+  "generatedAt": "2026-09-20T07:41:54.493Z",
   "today": "2026-09-20",
-  "offers": 1321,
+  "offers": 1355,
   "duplicates": 50,
   "sources": {
+    "amana": 34,
     "boc": 72,
     "hnb": 842,
     "ndb": 97,

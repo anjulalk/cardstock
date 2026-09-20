@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { resolve } from 'node:path'
 import { todayIso } from '../../shared/src/index.ts'
 import type { Offer } from '../../shared/src/index.ts'
+import { fetchAmana } from './adapters/amana.ts'
 import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
@@ -24,6 +25,7 @@ const FETCHERS: Record<string, Fetcher> = {
   boc: fetchBoc,
   ndb: fetchNdb,
   union: fetchUnion,
+  amana: fetchAmana,
 }
 
 interface RunRecord {

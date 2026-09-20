@@ -1,0 +1,24 @@
+{
+  "id": "amana",
+  "name": "Amana Bank",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.amanabank.lk/personal/services/visa-debit-card/offers/listing-revamp-offers.html"
+    }
+  ],
+  "itemMarker": "class=\"item-wrapper-box offer-item-wrapper\"",
+  "sourceUrlTemplate": "https://www.amanabank.lk/personal/services/visa-debit-card/offers/listing-revamp-offers.html",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 20,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}
