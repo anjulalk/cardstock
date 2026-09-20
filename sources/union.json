@@ -1,0 +1,25 @@
+{
+  "id": "union",
+  "name": "Union Bank",
+  "kind": "browser",
+  "blocked": "Imperva returns an 844 byte challenge page (NOINDEX, NOFOLLOW) to anything that is not a browser. The adapter below is written and its fixture passes; it needs the browser runner.",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.unionb.com/credit-cards-offers/"
+    }
+  ],
+  "itemMarker": "class=\"single-offer\"",
+  "sourceUrlTemplate": "https://www.unionb.com/offer/{id}/",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 15,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

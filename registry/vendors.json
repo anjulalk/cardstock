@@ -28,6 +28,7 @@
     { "id": "pizzahut", "name": "Pizza Hut", "category": "dining" },
     { "id": "dominos", "name": "Domino's", "category": "dining", "aliases": ["Dominos", "Domino's Pizza"] },
     { "id": "burgerking", "name": "Burger King", "category": "dining" },
+    { "id": "tacobell", "name": "Taco Bell", "category": "dining", "aliases": ["TacoBell"] },
     { "id": "ioc", "name": "Lanka IOC", "category": "fuel", "aliases": ["Lanka IOC", "IOC"] },
     { "id": "singer", "name": "Singer", "category": "electronics", "aliases": ["Singer Sri Lanka", "Singer.lk"] },
     { "id": "abans", "name": "Abans", "category": "electronics" },

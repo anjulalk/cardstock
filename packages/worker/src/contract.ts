@@ -8,6 +8,8 @@ export interface SourceContract {
   id: string
   name: string
   kind: 'api' | 'html' | 'browser'
+  /** Why a browser source cannot be fetched yet, for the run log. */
+  blocked?: string
   policy: {
     robots?: string
     delayMs?: number

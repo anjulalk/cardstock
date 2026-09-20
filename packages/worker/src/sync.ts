@@ -7,6 +7,7 @@ import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
+import { fetchUnion } from './adapters/union.ts'
 import { loadContract, type SourceContract } from './contract.ts'
 import { buildOffer, type Draft } from './normalize.ts'
 import { dataDir, sourcesDir } from './paths.ts'
@@ -22,6 +23,7 @@ const FETCHERS: Record<string, Fetcher> = {
   seylan: fetchSeylan,
   boc: fetchBoc,
   ndb: fetchNdb,
+  union: fetchUnion,
 }
 
 interface RunRecord {
@@ -82,6 +84,14 @@ async function main(): Promise<void> {
     }
 
     const contract = loadContract(id)
+
+    // Browser sources are written and tested, but need a browser to fetch:
+    // their pages answer a non-browser client with a challenge.
+    if (contract.kind === 'browser') {
+      console.log(`[${id}] needs a browser runner, skipping${contract.blocked ? `: ${contract.blocked}` : ''}`)
+      continue
+    }
+
     const started = Date.now()
     const drafts = await fetcher(contract)
     const offers = drafts.map((draft) => buildOffer(draft, now, today))

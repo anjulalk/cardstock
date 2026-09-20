@@ -4,6 +4,7 @@ import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
+import { fetchUnion } from './adapters/union.ts'
 import { loadContract, type SourceContract } from './contract.ts'
 import { sourcesDir } from './paths.ts'
 
@@ -19,6 +20,7 @@ const PROBES: Record<string, Prober> = {
   seylan: async (contract) => (await fetchSeylan(contract)).length,
   boc: async (contract) => (await fetchBoc(contract)).length,
   ndb: async (contract) => (await fetchNdb(contract)).length,
+  union: async (contract) => (await fetchUnion(contract)).length,
 }
 
 async function main(): Promise<void> {
@@ -33,6 +35,10 @@ async function main(): Promise<void> {
       continue
     }
     const contract = loadContract(id)
+    if (contract.kind === 'browser') {
+      console.log(`[${id}] needs a browser runner, not probed`)
+      continue
+    }
     const floor = contract.guards?.minItems ?? 1
     try {
       const count = await prober(contract)

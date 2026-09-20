@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-09-19T21:01:22.242Z",
+  "generatedAt": "2026-09-20T07:16:07.724Z",
   "today": "2026-09-20",
-  "offers": 1329,
-  "duplicates": 49,
+  "offers": 1321,
+  "duplicates": 50,
   "sources": {
     "boc": 72,
-    "hnb": 845,
+    "hnb": 842,
     "ndb": 97,
-    "ntb": 115,
+    "ntb": 110,
     "seylan": 200
   }
 }
