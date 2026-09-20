@@ -663,5 +663,166 @@
     "offers": 199,
     "ms": 101067,
     "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 34,
+    "ms": 3001,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 69,
+    "ms": 2993,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 892,
+    "ms": 6174,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 95,
+    "ms": 2585,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 110,
+    "ms": 4225,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 174,
+    "ms": 98256,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T19:35:51.627Z",
+    "offers": 199,
+    "ms": 95649,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 34,
+    "ms": 2516,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 69,
+    "ms": 2833,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 69,
+    "ms": 2900,
+    "ok": false
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 892,
+    "ms": 5283,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 95,
+    "ms": 2499,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 110,
+    "ms": 4491,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 174,
+    "ms": 95352,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T19:56:57.142Z",
+    "offers": 199,
+    "ms": 99485,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 34,
+    "ms": 2377,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 69,
+    "ms": 3275,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 69,
+    "ms": 2714,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 892,
+    "ms": 5604,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 95,
+    "ms": 2290,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 110,
+    "ms": 3530,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 174,
+    "ms": 93800,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T20:04:30.135Z",
+    "offers": 199,
+    "ms": 103176,
+    "ok": true
   }
 ]

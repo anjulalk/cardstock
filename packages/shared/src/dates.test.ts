@@ -5,6 +5,7 @@ import {
   datesInRange,
   monthRange,
   parseDateList,
+  parseMonthlyRange,
   parsePeriodText,
   parseValidityLabel,
   qualifyingDays,
@@ -126,6 +127,38 @@ test('dates: weekly dates land on the right weekdays', () => {
   const wednesdays = datesInRange('2026-08-01', '2026-08-31', [3])
   assert.deepEqual(wednesdays, ['2026-08-05', '2026-08-12', '2026-08-19', '2026-08-26'])
   for (const day of wednesdays) assert.equal(weekdayOf(day), 3)
+})
+
+test('dates: a monthly day range expands into the dates it means', () => {
+  const result = parseMonthlyRange(
+    'Offer valid from 20th to 30th of every month till December 2026',
+    '2026-09-20',
+  )
+  assert.ok(result)
+  assert.equal(result.from, '2026-09-20')
+  assert.equal(result.to, '2026-12-30')
+  assert.deepEqual(result.dates.slice(0, 3), ['2026-09-20', '2026-09-21', '2026-09-22'])
+  assert.ok(result.dates.includes('2026-10-20'))
+  assert.ok(result.dates.includes('2026-12-30'))
+  assert.ok(!result.dates.includes('2026-12-31'))
+})
+
+test('dates: a monthly range that runs backwards wraps into the next month', () => {
+  const result = parseMonthlyRange(
+    'Offer valid from 24th to 11th of every month till 31st December 2026',
+    '2026-09-24',
+  )
+  assert.ok(result)
+  assert.equal(result.from, '2026-09-24')
+  assert.ok(result.dates.includes('2026-09-30'))
+  assert.ok(result.dates.includes('2026-10-01'))
+  assert.ok(result.dates.includes('2026-10-11'))
+  assert.ok(result.dates.includes('2026-10-24'))
+  assert.ok(!result.dates.includes('2026-10-12'))
+})
+
+test('dates: text that is not a monthly range is left alone', () => {
+  assert.equal(parseMonthlyRange('Offer valid till 30th September 2026', '2026-09-20'), null)
 })
 
 test('dates: the American order reads the same day as ours', () => {

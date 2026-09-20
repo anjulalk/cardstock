@@ -144,6 +144,66 @@ export function qualifyingDays(
   return datesInRange(from, to, weekdays)
 }
 
+/** A day range that repeats every month, as ComBank writes it: "Offer valid
+ *  from 20th to 30th of every month till December 2026". There is no way to
+ *  express that as a weekday rule, so it is expanded into the explicit dates it
+ *  means, from today up to the end the offer names. A range that runs backwards
+ *  ("from 24th to 11th") wraps into the following month. */
+export function parseMonthlyRange(text: string | null, from: string): Validity | null {
+  if (!text) return null
+  const match =
+    /from\s+(\d{1,2})(?:st|nd|rd|th)?\s+to\s+(\d{1,2})(?:st|nd|rd|th)?\s+of\s+every\s+month\s+till\s+(.+)$/i.exec(
+      text,
+    )
+  if (!match) return null
+
+  const startDay = Number(match[1])
+  const endDay = Number(match[2])
+  if (startDay < 1 || startDay > 31 || endDay < 1 || endDay > 31) return null
+
+  const tail = parsePeriodText(match[3]!, Number(from.slice(0, 4)))
+  // "till December 2026" names a month without a day, which means the end of it.
+  const bareMonth = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{4})/i.exec(match[3]!)
+  const last =
+    tail.to ??
+    tail.from ??
+    (bareMonth
+      ? (() => {
+          const key = `${bareMonth[2]}-${pad(MONTHS[bareMonth[1]!.slice(0, 3).toLowerCase()]!)}`
+          return `${key}-${pad(daysInMonth(key).length)}`
+        })()
+      : null)
+  if (!last) return null
+
+  const dates: string[] = []
+  const lastKey = monthKey(last)
+  let key = monthKey(from)
+  let guard = 0
+
+  while (key <= lastKey && guard++ < 24) {
+    const days = daysInMonth(key)
+    const push = (iso: string) => {
+      if (iso >= from && iso <= last) dates.push(iso)
+    }
+
+    if (startDay <= endDay) {
+      for (let day = startDay; day <= endDay && day <= days.length; day++) {
+        push(`${key}-${pad(day)}`)
+      }
+    } else {
+      for (let day = startDay; day <= days.length; day++) push(`${key}-${pad(day)}`)
+      const next = addMonths(key, 1)
+      for (let day = 1; day <= endDay; day++) push(`${next}-${pad(day)}`)
+    }
+
+    key = addMonths(key, 1)
+  }
+
+  if (dates.length === 0) return null
+  const sorted = [...new Set(dates)].sort()
+  return { from: sorted[0]!, to: sorted[sorted.length - 1]!, days: [], dates: sorted }
+}
+
 /** Reads "Valid until 31 Aug 2026", "Valid only on 27th August 2026",
  *  "Every Wednesday till 26th August 2026", "1 Sept 2026 - 30 Sept 2026". */
 export function parsePeriodText(text: string | null, fallbackYear = new Date().getFullYear()): Validity {

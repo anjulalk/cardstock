@@ -1,4 +1,4 @@
-import { parseEligibility, parsePeriodText, parseValidityLabel } from '../../shared/src/index.ts'
+import { parseEligibility, parseMonthlyRange, parsePeriodText, parseValidityLabel } from '../../shared/src/index.ts'
 import type { CardType, Discount, Offer } from '../../shared/src/index.ts'
 import { matchVendor, type Vendor } from './registry.ts'
 
@@ -146,9 +146,12 @@ export function buildOffer(draft: Draft, now: string, today: string): Offer {
   )
   const label = parseValidityLabel(draft.validityLabel ?? null, draft.validTo ?? null)
   const period = parsePeriodText(draft.periodText ?? draft.validityLabel ?? null)
+  // A monthly day range has no weekday rule to read, so it arrives as the dates
+  // it means.
+  const monthly = parseMonthlyRange(draft.periodText ?? draft.validityLabel ?? null, today)
 
-  const validFrom = draft.validFrom ?? label.from ?? period.from ?? null
-  const validTo = period.to ?? label.to ?? draft.validTo ?? null
+  const validFrom = draft.validFrom ?? label.from ?? monthly?.from ?? period.from ?? null
+  const validTo = period.to ?? label.to ?? draft.validTo ?? monthly?.to ?? null
   const cardTypes = draft.cardTypeText ? cardTypesFromText(draft.cardTypeText) : eligibility.cardTypes
 
   const status: Offer['status'] = !validTo ? 'unconfirmed' : validTo < today ? 'expired' : 'active'
@@ -171,7 +174,7 @@ export function buildOffer(draft: Draft, now: string, today: string): Offer {
     validFrom,
     validTo,
     days: period.days,
-    dates: period.dates,
+    dates: monthly?.dates.length ? monthly.dates : period.dates,
     termsText: draft.termsText ? stripHtml(draft.termsText) : null,
     sourceUrl: draft.sourceUrl,
     image: draft.image ?? null,

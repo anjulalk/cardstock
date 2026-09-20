@@ -1,0 +1,35 @@
+{
+  "id": "combank",
+  "name": "Commercial Bank",
+  "kind": "html",
+  "policy": {
+    "robots": "answers 403 to a plain client",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.combank.lk/rewards-promotions"
+    }
+  ],
+  "itemMarker": "class=\"reward box-shadow active\"",
+  "categoryMap": {
+    "food-restaurants": "dining",
+    "supermarket": "supermarket",
+    "travel": "travel",
+    "online-shopping": "online",
+    "healthcare": "health",
+    "fashion-jewellery": "fashion",
+    "education": "other",
+    "auto": "other",
+    "other-offers": "other"
+  },
+  "sourceUrlTemplate": "https://www.combank.lk/rewards-promotion/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 40,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}
