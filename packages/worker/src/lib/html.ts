@@ -18,7 +18,11 @@ export function escapeRegExp(value: string): string {
 
 /** Cuts a listing into one string per card. The boundary is a literal class
  *  name where that comes first in the markup, or a pattern where the useful
- *  boundary is an anchor's href. */
+ *  boundary is an anchor's href.
+ *
+ *  Built on matchAll rather than split: split drops a zero width match at
+ *  position 0, which would silently lose the first card of a page that starts
+ *  with one. */
 export function splitItems(
   html: string,
   contract: { itemMarker?: string; itemPattern?: string },
@@ -26,7 +30,9 @@ export function splitItems(
   const source =
     contract.itemPattern ?? (contract.itemMarker ? escapeRegExp(contract.itemMarker) : null)
   if (!source) throw new Error('the contract declares neither itemMarker nor itemPattern')
-  return html.split(new RegExp(`(?=${source})`)).slice(1)
+
+  const starts = [...html.matchAll(new RegExp(source, 'g'))].map((match) => match.index!)
+  return starts.map((start, index) => html.slice(start, starts[index + 1] ?? html.length))
 }
 
 /** Used for offer ids when a page has no stable slug of its own. */

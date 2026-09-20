@@ -481,5 +481,187 @@
     "offers": 200,
     "ms": 107592,
     "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:08:08.830Z",
+    "offers": 34,
+    "ms": 2385,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:08:08.830Z",
+    "offers": 69,
+    "ms": 3067,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:08:08.830Z",
+    "offers": 892,
+    "ms": 5828,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:08:08.830Z",
+    "offers": 95,
+    "ms": 2550,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:08:08.830Z",
+    "offers": 110,
+    "ms": 3370,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 34,
+    "ms": 2202,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 69,
+    "ms": 2856,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 892,
+    "ms": 5847,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 95,
+    "ms": 2485,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 110,
+    "ms": 3404,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 177,
+    "ms": 89497,
+    "ok": false
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T19:09:21.100Z",
+    "offers": 199,
+    "ms": 100203,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 34,
+    "ms": 2117,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 69,
+    "ms": 2890,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 892,
+    "ms": 5527,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 95,
+    "ms": 2501,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 110,
+    "ms": 3430,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 177,
+    "ms": 91954,
+    "ok": false
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T19:14:07.514Z",
+    "offers": 199,
+    "ms": 97235,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 34,
+    "ms": 2286,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 69,
+    "ms": 3116,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 892,
+    "ms": 5950,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 95,
+    "ms": 2753,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 110,
+    "ms": 3963,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 174,
+    "ms": 95375,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-20T19:19:56.151Z",
+    "offers": 199,
+    "ms": 101067,
+    "ok": true
   }
 ]

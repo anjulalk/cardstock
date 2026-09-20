@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-09-20T07:41:54.493Z",
-  "today": "2026-09-20",
-  "offers": 1355,
+  "generatedAt": "2026-09-20T19:19:56.151Z",
+  "today": "2026-09-21",
+  "offers": 1523,
   "duplicates": 50,
   "sources": {
     "amana": 34,
-    "boc": 72,
+    "boc": 69,
     "hnb": 842,
-    "ndb": 97,
+    "ndb": 95,
     "ntb": 110,
-    "seylan": 200
+    "peoples": 174,
+    "seylan": 199
   }
 }

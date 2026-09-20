@@ -88,6 +88,18 @@ function findDates(text: string, fallbackYear: number): Hit[] {
     const year = m[3] ? Number(m[3]) : fallbackYear
     hits.push({ index: m.index, iso: `${year}-${pad(month)}-${pad(day)}` })
   }
+
+  // American order, as People's Bank writes it: "Till October 31, 2026". The
+  // lookahead stops a bare year ("October 2026") from being read as a day.
+  const monthFirst = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?!\d),?\s*(\d{4})?/gi
+  while ((m = monthFirst.exec(text))) {
+    const month = MONTHS[m[1]!.slice(0, 3).toLowerCase()]
+    const day = Number(m[2])
+    if (!month || day < 1 || day > 31) continue
+    const year = m[3] ? Number(m[3]) : fallbackYear
+    hits.push({ index: m.index, iso: `${year}-${pad(month)}-${pad(day)}` })
+  }
+
   return hits.sort((a, b) => a.index - b.index)
 }
 

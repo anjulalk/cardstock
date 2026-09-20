@@ -128,6 +128,28 @@ test('dates: weekly dates land on the right weekdays', () => {
   for (const day of wednesdays) assert.equal(weekdayOf(day), 3)
 })
 
+test('dates: the American order reads the same day as ours', () => {
+  assert.deepEqual(parsePeriodText('Till October 31, 2026', YEAR), {
+    from: null,
+    to: '2026-10-31',
+    days: [],
+    dates: [],
+  })
+  assert.deepEqual(parsePeriodText('Till 31 October 2026', YEAR), {
+    from: null,
+    to: '2026-10-31',
+    days: [],
+    dates: [],
+  })
+  // A bare month and year is not a day.
+  assert.deepEqual(parsePeriodText('Valid during October 2026', YEAR), {
+    from: null,
+    to: null,
+    days: [],
+    dates: [],
+  })
+})
+
 test('dates: a weekday span and a same-month range together', () => {
   const span = parsePeriodText('Valid every Monday to Thursday till 30 September 2026', YEAR)
   assert.deepEqual(span.days, [1, 2, 3, 4])

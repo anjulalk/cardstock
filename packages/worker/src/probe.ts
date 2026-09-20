@@ -4,6 +4,7 @@ import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
+import { fetchPeoples } from './adapters/peoples.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
 import { fetchUnion } from './adapters/union.ts'
 import { loadContract, type SourceContract } from './contract.ts'
@@ -23,6 +24,7 @@ const PROBES: Record<string, Prober> = {
   ndb: async (contract) => (await fetchNdb(contract)).length,
   union: async (contract) => (await fetchUnion(contract)).length,
   amana: async (contract) => (await fetchAmana(contract)).length,
+  peoples: async (contract) => (await fetchPeoples(contract)).length,
 }
 
 async function main(): Promise<void> {

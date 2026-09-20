@@ -1,0 +1,45 @@
+{
+  "id": "peoples",
+  "name": "People's Bank",
+  "kind": "html",
+  "policy": {
+    "robots": "none published",
+    "delayMs": 1500,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    { "name": "supermarkets", "url": "https://www.peoplesbank.lk/promotion-category/supermarkets/" },
+    { "name": "restaurants", "url": "https://www.peoplesbank.lk/promotion-category/restaurants/" },
+    { "name": "online", "url": "https://www.peoplesbank.lk/promotion-category/online-stores/" },
+    { "name": "electronics", "url": "https://www.peoplesbank.lk/promotion-category/home-care-electronics/" },
+    { "name": "jewellery", "url": "https://www.peoplesbank.lk/promotion-category/jewellers/" },
+    { "name": "wellness", "url": "https://www.peoplesbank.lk/promotion-category/wellness/" },
+    { "name": "travel", "url": "https://www.peoplesbank.lk/promotion-category/travel/" },
+    { "name": "auto", "url": "https://www.peoplesbank.lk/promotion-category/auto-mobile/" },
+    { "name": "books", "url": "https://www.peoplesbank.lk/promotion-category/book-store/" },
+    { "name": "leisure", "url": "https://www.peoplesbank.lk/promotion-category/leisure/" },
+    { "name": "kegalle", "url": "https://www.peoplesbank.lk/promotion-category/kegalle-promotion/" },
+    { "name": "visa", "url": "https://www.peoplesbank.lk/promotion-category/visa/" }
+  ],
+  "pagination": { "maxPages": 8 },
+  "itemMarker": "<article class=\"offer-card\"",
+  "categoryMap": {
+    "supermarkets": "supermarket",
+    "restaurants": "dining",
+    "online-stores": "online",
+    "home-care-electronics": "electronics",
+    "jewellers": "jewellery",
+    "wellness": "health",
+    "travel": "travel",
+    "auto-mobile": "other",
+    "book-store": "other",
+    "visa": "other"
+  },
+  "sourceUrlTemplate": "https://www.peoplesbank.lk/promotion/{id}/",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 60,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

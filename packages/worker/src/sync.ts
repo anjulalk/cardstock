@@ -7,6 +7,7 @@ import { fetchBoc } from './adapters/boc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
+import { fetchPeoples } from './adapters/peoples.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
 import { fetchUnion } from './adapters/union.ts'
 import { loadContract, type SourceContract } from './contract.ts'
@@ -26,6 +27,7 @@ const FETCHERS: Record<string, Fetcher> = {
   ndb: fetchNdb,
   union: fetchUnion,
   amana: fetchAmana,
+  peoples: fetchPeoples,
 }
 
 interface RunRecord {
