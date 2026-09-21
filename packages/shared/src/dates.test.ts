@@ -129,6 +129,13 @@ test('dates: weekly dates land on the right weekdays', () => {
   for (const day of wednesdays) assert.equal(weekdayOf(day), 3)
 })
 
+test('dates: times of day are not read as days', () => {
+  assert.deepEqual(
+    parsePeriodText('Valid from 31 August 2026 at 18:30 until 31 October 2026 at 17:30', YEAR),
+    { from: '2026-08-31', to: '2026-10-31', days: [], dates: [] },
+  )
+})
+
 test('dates: a monthly day range expands into the dates it means', () => {
   const result = parseMonthlyRange(
     'Offer valid from 20th to 30th of every month till December 2026',

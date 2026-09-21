@@ -5,6 +5,7 @@ import type { Offer } from '../../shared/src/index.ts'
 import { fetchAmana } from './adapters/amana.ts'
 import { fetchBoc } from './adapters/boc.ts'
 import { fetchCombank } from './adapters/combank.ts'
+import { fetchDfcc } from './adapters/dfcc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
@@ -25,6 +26,7 @@ const FETCHERS: Record<string, Fetcher> = {
   ntb: fetchNtb,
   seylan: fetchSeylan,
   boc: fetchBoc,
+  dfcc: fetchDfcc,
   combank: fetchCombank,
   ndb: fetchNdb,
   union: fetchUnion,

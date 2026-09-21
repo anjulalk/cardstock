@@ -1,0 +1,36 @@
+{
+  "id": "dfcc",
+  "name": "DFCC Bank",
+  "kind": "browser",
+  "blocked": "The category pages (/cards/credit-card-promotions/<category>) render a hero and then fetch their offers in the browser, so the served HTML carries none of them and the Next.js payload holds no offer data either. Asking the same routes with the RSC header changed nothing, and no API route on the site answered. Only /dfcc-card-offers/today-promotions is rendered on the server, with four cards, and that is where the adapter's shape came from. The mapping is written and tested; the full listing needs the browser runner.",
+  "policy": {
+    "delayMs": 2000,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "today",
+      "url": "https://www.dfcc.lk/dfcc-card-offers/today-promotions"
+    },
+    {
+      "name": "all",
+      "url": "https://www.dfcc.lk/cards/credit-card-promotions"
+    }
+  ],
+  "itemMarker": "class=\"cardd\"",
+  "categoryMap": {
+    "supermarket": "supermarket",
+    "dining": "dining",
+    "travel": "travel",
+    "fashion": "fashion",
+    "health": "health",
+    "online": "online"
+  },
+  "sourceUrlTemplate": "https://www.dfcc.lk/dfcc-card-offers/{id}",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 40,
+    "maxDropRatio": 0.3,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

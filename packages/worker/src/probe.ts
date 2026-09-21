@@ -2,6 +2,7 @@ import { readdirSync } from 'node:fs'
 import { fetchAmana } from './adapters/amana.ts'
 import { fetchBoc } from './adapters/boc.ts'
 import { fetchCombank } from './adapters/combank.ts'
+import { fetchDfcc } from './adapters/dfcc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
@@ -22,6 +23,7 @@ const PROBES: Record<string, Prober> = {
   ntb: async (contract) => (await fetchNtb(contract)).length,
   seylan: async (contract) => (await fetchSeylan(contract)).length,
   boc: async (contract) => (await fetchBoc(contract)).length,
+  dfcc: async (contract) => (await fetchDfcc(contract)).length,
   combank: async (contract) => (await fetchCombank(contract)).length,
   ndb: async (contract) => (await fetchNdb(contract)).length,
   union: async (contract) => (await fetchUnion(contract)).length,

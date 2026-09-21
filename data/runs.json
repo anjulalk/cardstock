@@ -824,5 +824,61 @@
     "offers": 199,
     "ms": 103176,
     "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 34,
+    "ms": 2318,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 69,
+    "ms": 2898,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 71,
+    "ms": 2670,
+    "ok": false
+  },
+  {
+    "source": "hnb",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 892,
+    "ms": 5215,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 97,
+    "ms": 2357,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 112,
+    "ms": 3507,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 176,
+    "ms": 90662,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-09-21T20:13:21.445Z",
+    "offers": 200,
+    "ms": 143164,
+    "ok": true
   }
 ]

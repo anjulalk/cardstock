@@ -208,13 +208,18 @@ export function parseMonthlyRange(text: string | null, from: string): Validity |
  *  "Every Wednesday till 26th August 2026", "1 Sept 2026 - 30 Sept 2026". */
 export function parsePeriodText(text: string | null, fallbackYear = new Date().getFullYear()): Validity {
   if (!text) return { from: null, to: null, days: [], dates: [] }
+  // Times of day carry digits that look like days: DFCC writes "Valid from 31
+  // August 2026 at 18:30 until 31 October 2026 at 17:30", and the 30 of 18:30
+  // would otherwise pair with the following date.
+  const cleaned = text.replace(/\bat\s+\d{1,2}:\d{2}\b/gi, ' ').replace(/\b\d{1,2}:\d{2}\b/g, ' ')
+
   const days: number[] = []
-  for (const m of text.matchAll(/every\s+([a-z]+)/gi)) {
+  for (const m of cleaned.matchAll(/every\s+([a-z]+)/gi)) {
     const day = WEEKDAYS[m[1]!.toLowerCase()]
     if (day !== undefined && !days.includes(day)) days.push(day)
   }
   // A span, as in "every Monday to Thursday".
-  for (const m of text.matchAll(/every\s+([a-z]+)\s*(?:to|through|till|until|-|–)\s*([a-z]+)/gi)) {
+  for (const m of cleaned.matchAll(/every\s+([a-z]+)\s*(?:to|through|till|until|-|–)\s*([a-z]+)/gi)) {
     const start = WEEKDAYS[m[1]!.toLowerCase()]
     const end = WEEKDAYS[m[2]!.toLowerCase()]
     if (start === undefined || end === undefined) continue
@@ -226,16 +231,16 @@ export function parsePeriodText(text: string | null, fallbackYear = new Date().g
   }
   days.sort((a, b) => a - b)
 
-  const dates = parseDateList(text, fallbackYear)
+  const dates = parseDateList(cleaned, fallbackYear)
   if (dates.length > 1) {
     return { from: dates[0]!, to: dates[dates.length - 1]!, days, dates }
   }
 
   // A range inside one month, as in "1st to 15th August 2026". The lookbehind
-  // stops a year like 2026 from being read as the day 26.
+  // stops a year like 2026, or a time like 18:30, from being read as the day.
   const sameMonth =
-    /(?<!\d)(\d{1,2})(?:st|nd|rd|th)?\s*(?:to|till|until|-|–|—)\s*(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/i.exec(
-      text,
+    /(?<![\d:])(\d{1,2})(?:st|nd|rd|th)?\s*(?:to|till|until|-|–|—)\s*(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/i.exec(
+      cleaned,
     )
   if (sameMonth) {
     const month = MONTHS[sameMonth[3]!.slice(0, 3).toLowerCase()]
@@ -247,12 +252,12 @@ export function parsePeriodText(text: string | null, fallbackYear = new Date().g
     }
   }
 
-  const hits = findDates(text, fallbackYear)
+  const hits = findDates(cleaned, fallbackYear)
   if (hits.length === 0) return { from: null, to: null, days, dates: [] }
   if (hits.length === 1) {
-    const only = /only\s+on|\bon\s+\d|valid\s+on/i.test(text)
+    const only = /only\s+on|\bon\s+\d|valid\s+on/i.test(cleaned)
     if (only) return { from: hits[0]!.iso, to: hits[0]!.iso, days, dates: [] }
-    if (/\bfrom\b/i.test(text)) return { from: hits[0]!.iso, to: null, days, dates: [] }
+    if (/\bfrom\b/i.test(cleaned)) return { from: hits[0]!.iso, to: null, days, dates: [] }
     return { from: null, to: hits[0]!.iso, days, dates: [] }
   }
   return { from: hits[0]!.iso, to: hits[hits.length - 1]!.iso, days, dates: [] }
