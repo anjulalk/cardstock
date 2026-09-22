@@ -11,6 +11,7 @@ import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
 import { fetchPanasia } from './adapters/panasia.ts'
 import { fetchPeoples } from './adapters/peoples.ts'
+import { fetchSampath } from './adapters/sampath.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
 import { fetchUnionBrowser } from './adapters/union.ts'
 import { browserAvailable, closeBrowser } from './lib/browser.ts'
@@ -31,6 +32,7 @@ const FETCHERS: Record<string, Fetcher> = {
   amana: fetchAmana,
   peoples: fetchPeoples,
   combank: fetchCombank,
+  sampath: fetchSampath,
 }
 
 /** Fetched with a browser, because a WAF or a client side render stands in the

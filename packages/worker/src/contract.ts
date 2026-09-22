@@ -15,7 +15,14 @@ export interface SourceContract {
     delayMs?: number
     userAgent: string
   }
-  requests: Array<{ name: string; url: string; params?: Record<string, string | number> }>
+  requests: Array<{
+    name: string
+    url: string
+    params?: Record<string, string | number>
+    /** Headers the source insists on. Sampath's API only answers a request that
+     *  says which locale and platform it comes from. */
+    headers?: Record<string, string>
+  }>
   /** How to build an offer's page from its id, published in the manifest. */
   sourceUrlTemplate: string
   imageBase?: string

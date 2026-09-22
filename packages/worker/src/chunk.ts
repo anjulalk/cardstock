@@ -160,6 +160,9 @@ function main(): void {
   const bankNames = new Map(banks.map((bank) => [bank.id, bank.name]))
   const categoryNames = new Map(categories.map((category) => [category.id, category.name]))
   const vendorNames = new Map(vendors.map((vendor) => [vendor.id, vendor.name]))
+  // A merchant's category is the registry's, not whichever offer happened to be
+  // first: an offer can be a dining deal at a hotel, but the merchant is a hotel.
+  const vendorCategories = new Map(vendors.map((vendor) => [vendor.id, vendor.category]))
 
   const vendorFacets: VendorFacet[] = [
     ...inWindow
@@ -167,7 +170,13 @@ function main(): void {
       .reduce((acc, offer) => {
         const id = offer.vendor!
         const entry =
-          acc.get(id) ?? { id, name: vendorNames.get(id) ?? id, category: offer.category ?? 'other', count: 0 }
+          acc.get(id) ??
+          {
+            id,
+            name: vendorNames.get(id) ?? id,
+            category: vendorCategories.get(id) ?? offer.category ?? 'other',
+            count: 0,
+          }
         entry.count += 1
         acc.set(id, entry)
         return acc

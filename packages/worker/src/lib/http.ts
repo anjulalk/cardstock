@@ -7,6 +7,7 @@ export interface FetchOptions {
   delayMs?: number
   retries?: number
   timeoutMs?: number
+  headers?: Record<string, string>
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -31,6 +32,7 @@ export async function fetchText(url: string, opts: FetchOptions): Promise<string
           'User-Agent': opts.userAgent,
           Accept: 'application/json, text/html;q=0.9, */*;q=0.8',
           'Accept-Language': 'en-LK,en;q=0.9',
+          ...(opts.headers ?? {}),
         },
         signal: AbortSignal.timeout(timeoutMs),
         redirect: 'follow',

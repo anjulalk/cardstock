@@ -16,7 +16,11 @@ export interface Vendor {
   id: string
   name: string
   category: string
+  /** Spelling variants a bank may publish. */
   aliases?: string[]
+  /** Match terms for the names a bank actually writes, such as a branch or a
+   *  chain's longer title. */
+  keywords?: string[]
 }
 
 export interface Category {
@@ -42,6 +46,8 @@ const NOISE = new Set([
   'pvt', 'ltd', 'limited', 'plc', 'the', 'and', 'or', 'of', 'at', 'in', 'on',
   'outlet', 'outlets', 'supermarket', 'super', 'store', 'stores', 'showroom',
   'lk', 'com', 'www', 'shop', 'shops', 'group', 'holdings', 'company', 'co',
+  'hotel', 'hotels', 'resort', 'resorts', 'spa', 'spas', 'restaurant',
+  'restaurants', 'cafe', 'cafes', 'boutique', 'bank', 'card', 'cards',
 ])
 
 export function normalizeName(value: string): string {
@@ -54,26 +60,61 @@ export function normalizeName(value: string): string {
     .join(' ')
 }
 
-/** Best effort match from the bank's merchant text to a registry vendor. A miss
- *  is fine: the hint is kept and the row shows as unclassified. */
-export function matchVendor(hint: string | null | undefined): Vendor | null {
-  if (!hint) return null
-  const target = normalizeName(hint)
-  if (!target) return null
+/** "Keells Super - Union Place" and "Club Palm Bay, Marawila" name a branch or a
+ *  town after the merchant, which is not part of its identity. */
+export function stripBranch(value: string): string[] {
+  const variants = new Set<string>()
+  const cut = value.split(/\s+[-–—]\s+|,\s+/)[0]?.trim()
+  if (cut && cut.length > 2 && cut !== value) variants.add(cut)
+  const withoutTail = value.replace(/\s*[-–—]\s*[^,]{0,24}$/g, '').trim()
+  if (withoutTail.length > 2 && withoutTail !== value) variants.add(withoutTail)
+  return [...variants]
+}
 
-  let best: { vendor: Vendor; score: number } | null = null
-  for (const vendor of vendors) {
-    for (const name of [vendor.name, ...(vendor.aliases ?? [])]) {
-      const candidate = normalizeName(name)
-      if (!candidate) continue
-      let score = 0
-      if (candidate === target) score = 3
-      else if (target.startsWith(candidate) || candidate.startsWith(target)) score = 2
-      else if (target.includes(candidate) || candidate.includes(target)) score = 1
-      if (score > 0 && (!best || score > best.score)) best = { vendor, score }
-      if (best?.score === 3) break
+export interface VendorMatch {
+  vendor: Vendor
+  score: number
+  term: string
+}
+
+/** Matches a bank's merchant text to a registry vendor by keyword. The score
+ *  says how sure it is: 4 is the same name, 3 is a name inside a longer one,
+ *  2 is every word of a keyword present. Below that the match is refused and
+ *  the bank's own name is shown instead, which is the honest fallback. */
+export function matchVendor(hint: string | null | undefined): VendorMatch | null {
+  if (!hint) return null
+  const variants = [hint, ...stripBranch(hint)]
+  let best: VendorMatch | null = null
+
+  for (const variant of variants) {
+    const target = normalizeName(variant)
+    if (target.length === 0) continue
+    const targetTokens = target.split(' ')
+
+    for (const vendor of vendors) {
+      for (const term of [vendor.name, ...(vendor.aliases ?? []), ...(vendor.keywords ?? [])]) {
+        const key = normalizeName(term)
+        if (key.length === 0) continue
+        const keyTokens = key.split(' ')
+
+        let score = 0
+        if (key === target) score = 4
+        else if (target.includes(key)) score = 3
+        else if (keyTokens.every((token) => targetTokens.includes(token))) score = 2
+        if (score === 0) continue
+
+        const better =
+          !best ||
+          score > best.score ||
+          (score === best.score && key.length > normalizeName(best.term).length)
+        if (better) best = { vendor, score, term }
+      }
     }
-    if (best?.score === 3) break
+
+    if (best?.score === 4) break
   }
-  return best?.vendor ?? null
+
+  // Two shared words at least. A single long word is not enough: "Hilton Colombo"
+  // shares "Colombo" with a jewellery shop, which is a city, not a brand.
+  return best && best.score >= 2 ? best : null
 }

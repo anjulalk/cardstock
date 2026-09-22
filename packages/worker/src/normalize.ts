@@ -139,7 +139,10 @@ export function guessCategory(text: string, vendor: Vendor | null): string {
 export function buildOffer(draft: Draft, now: string, today: string): Offer {
   const title = stripHtml(draft.title)
   const vendorHint = draft.vendorHint ? stripHtml(draft.vendorHint) : null
-  const vendor = matchVendor(vendorHint) ?? matchVendor(title)
+  // The bank's own merchant field first, then its title, which often names the
+  // merchant when there is no field for it.
+  const match = matchVendor(vendorHint) ?? matchVendor(title)
+  const vendor = match?.vendor ?? null
 
   const eligibility = parseEligibility(
     [draft.eligibilityText, title, draft.discountText].filter(Boolean).join(' '),

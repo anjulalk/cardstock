@@ -58,7 +58,8 @@ export function mapPanasiaList(html: string, contract: SourceContract): Draft[] 
       externalId,
       bank: 'panasia',
       title: merchant ? stripHtml(merchant) : badge || description.slice(0, 60),
-      vendorHint: merchant ? stripHtml(merchant) : badge,
+      // The badge is a discount, not a merchant, so it never becomes the hint.
+      vendorHint: merchant ? stripHtml(merchant) : null,
       image,
       periodText,
       discountText: [badge, description].filter(Boolean).join(' '),

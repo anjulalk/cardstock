@@ -25,6 +25,8 @@ const banks = ref<Array<{ id: string; name: string }>>([])
 const categoryNames = ref<Record<string, string>>({})
 const categoryCounts = ref<Array<{ id: string; name: string; count: number }>>([])
 const category = ref<string | null>(null)
+const vendor = ref<string | null>(null)
+const vendorCounts = ref<Array<{ id: string; name: string; category: string; count: number }>>([])
 const window_ = ref<{ from: string; to: string } | null>(null)
 const generatedAt = ref<string | null>(null)
 const loading = ref(true)
@@ -49,6 +51,7 @@ const visible = computed(() => {
     list = list.filter((offer) => offerMatches(offer, myCards.value))
   }
   if (category.value) list = list.filter((offer) => offer.category === category.value)
+  if (vendor.value) list = list.filter((offer) => offer.vendor === vendor.value)
   return list
 })
 
@@ -165,6 +168,7 @@ onMounted(async () => {
       manifest.facets.categories.map((entry) => [entry.id, entry.name]),
     )
     categoryCounts.value = manifest.facets.categories
+    vendorCounts.value = manifest.facets.vendors
     allCards.value = await loadCards()
     if (monthKey(today) < manifest.window.from) month.value = manifest.window.from
     await showMonth(month.value)
@@ -220,6 +224,21 @@ onMounted(async () => {
           </label>
           <p v-if="onlyMine && !myCards.length" class="mt-2 text-xs text-faint">
             Pick a card above to narrow the calendar.
+          </p>
+
+          <p class="label mt-4 text-faint">Merchant</p>
+          <select
+            v-model="vendor"
+            class="mt-1.5 w-full rounded-md border border-line bg-card px-2 py-1.5 text-sm text-ink"
+          >
+            <option :value="null">Any merchant</option>
+            <option v-for="entry in vendorCounts" :key="entry.id" :value="entry.id">
+              {{ entry.name }} ({{ entry.count }})
+            </option>
+          </select>
+          <p v-if="vendor" class="mt-2 text-xs text-faint">
+            Only offers the banks file under this merchant. Each one still shows the bank's own name
+            for it.
           </p>
 
           <p class="label mt-4 text-faint">Category</p>
