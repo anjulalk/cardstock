@@ -1,0 +1,127 @@
+# AGENTS.md
+
+Cardstock is a static calendar of Sri Lankan credit card offers. A visitor ticks the cards they hold
+and sees which venues run an offer on which days. There is no server and no database: a scheduled job
+reads each bank's own pages or API, normalizes what it finds into `data/offers.jsonl`, and the build
+slices that into the small files the browser asks for.
+
+This file is the working brief. The skills in `.opencode/skills/` carry the detail:
+
+| Skill | Load it when |
+| --- | --- |
+| `source-adapter` | Adding a bank, repairing one that broke, or working on dates and periods |
+| `data-contract` | Changing what the browser downloads, the manifest, or the client loader |
+| `merchant-registry` | Adding a merchant, or a name that a bank spells differently |
+
+## Commands
+
+```bash
+npm install
+npm run sync      # fetch every source, validate, write data/offers.jsonl
+npm run chunk     # build the browser chunks under packages/web/public/data
+npm test          # unit tests, fixtures included
+npm run probe     # assert each source still answers what its contract expects
+npm run dev       # http://localhost:5173
+npm run build     # the static site, into packages/web/dist
+```
+
+Some banks answer a plain client with a challenge page or render their offers only in a browser. Those
+sources are fetched with Playwright, installed separately:
+
+```bash
+npx playwright install chromium
+```
+
+Without it, `npm run sync` skips those sources and logs why. That is deliberate: a checkout should
+work before it has a browser.
+
+## How the pieces fit
+
+```
+sources/<id>.json     the crawl contract for one bank
+registry/*.json       banks, card products with tiers, merchants with keywords
+packages/shared       types, the date parser, the eligibility parser, the wire decoder
+packages/worker       adapters, validation, sync, chunk builder, probe
+packages/web          the Vue app, reading the manifest and chunks at runtime
+data/offers.jsonl     canonical offers, one JSON object per line, generated
+```
+
+`sync` writes the canonical file and stops if a guard fails. `chunk` reads that file and writes
+`packages/web/public/data`, which the browser downloads. Only the run counters (`data/latest.json`,
+`data/runs.json`) are committed; the offers and the chunks are generated and gitignored.
+
+## Adding a bank
+
+The full method is in the `source-adapter` skill. In short:
+
+1. Reconnoitre: is the listing server rendered, an API, or client side? A browser user agent, a count
+   of offer phrases in the HTML, and a look at the bundle for `baseURL` and `/api/` paths answer it.
+2. Write `sources/<id>.json` with the boundaries and the guards.
+3. Write `packages/worker/src/adapters/<id>.ts` with a **pure mapper** (`mapXList(html, contract)`) and
+   a thin fetch wrapper. The mapper is what the tests and the browser runner both call.
+4. Save a trimmed real payload under `sources/<id>/fixtures/` and test the mapper against it.
+5. Register the fetcher in `sync.ts` and `probe.ts`.
+6. `npm run sync`, then `npm run chunk` and `npm run build`.
+
+Every source earns its keep twice: the fixture test fails when our mapping changes, and the daily
+probe fails when the bank's page changes.
+
+## What must not bend
+
+- **Never publish an offer without an end date.** An offer that cannot be placed on a calendar is
+  skipped, with a count in the log, and the offer-count guard notices if that becomes common.
+- **Validate before writing.** Guards run before `data/offers.jsonl` is touched, so a broken source
+  fails the run instead of publishing half its offers.
+- **The id must reproduce the link.** The manifest rebuilds each offer's page from a template and the
+  id, so the id is the bank's slug exactly, underscores and case included.
+- **One row per offer.** Some feeds publish the same id twice; the sync keeps one and reports how many
+  it dropped.
+- **Do not hand-edit a fixture.** Refresh it from the live source, then read the diff.
+- **Do not commit generated output**: `data/offers.jsonl` and `packages/web/public/data/` are ignored
+  on purpose.
+
+## Data and payload rules
+
+The browser never downloads everything. `index.json` names every chunk and its size, months are
+published **one file per bank**, and the client asks only for the banks its cards belong to. September
+2026 is 702 KB of JSON across eleven banks and 81 KB compressed; a visitor holding two banks fetches a
+fraction of that. `DATA-CONTRACT.md` is the agreement; the `data-contract` skill explains the changes
+and the versioning.
+
+## Merchants
+
+The same shop is named differently by each bank. The registry matches by keyword and alias, strips a
+branch or a town, and scores the result. Below the floor it refuses, and the bank's own name is shown
+instead. The client lets a visitor pick one merchant and filters to the offers the banks file under
+it, while each offer keeps its own bank's wording. See the `merchant-registry` skill.
+
+## Design
+
+The site follows the shared design system of this author's projects: warm ivory paper, ink text, one
+clay accent, Inter for chrome, Source Serif 4 for prose, JetBrains Mono for numbers that are compared.
+The tokens are published at <https://anjula.dev/design/tokens.css> and mirrored in
+`packages/web/src/style.css`. Container 80rem, gutters 1.5 to 8rem, reading measure 65ch, hairlines
+rather than shadows, and every pairing legible in both light and dark.
+
+## Writing
+
+All prose follows the same house style as the blog: plain and direct sentences, no em-dashes, sentence
+case headings, no bold lead-ins inside bullets, first person where it is the author's experience.
+Titles read like something a person would search for. The same rules apply to log lines, comments and
+commit messages, not just to published copy.
+
+## Known gaps
+
+- **DFCC** is the last bank out. Its mapping is written and tested from the one route that renders on
+  the server; its category pages need a browser pass that renders them, since a plain render shows
+  none of the cards. Its contract records what was tried.
+- **Sampath's** list API fills `promotion_period`, `eligible_card_categories` and `location` only on
+  its detail route, one request per offer. The calendar does not need them; the terms do, if a detail
+  page is ever wanted.
+- **1264 of 1803 offers** still name a merchant the registry does not know, almost all one-off hotels
+  and small shops appearing once or twice. `packages/worker/report-vendors.mts` prints them, most
+  common first, which is the fastest way to grow the registry.
+- **Seylan's** tier pages (Visa Gold, Platinum, Signature, World Master) are not read yet, which is the
+  cheapest source of more tier labels than the seven in play.
+- The site is not deployed yet: the repository needs creating, Pages setting to the GitHub Actions
+  source, and a domain attaching. The workflows are written and ready.
