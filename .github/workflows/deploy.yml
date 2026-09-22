@@ -53,6 +53,26 @@ jobs:
           BASE_PATH: /
         run: npm run build
 
+      # A build that silently loses its data or its head tags should fail here,
+      # not on the live site.
+      - name: Check the build output
+        run: |
+          echo "Checking the built site..."
+          test -f packages/web/dist/index.html
+          test -f packages/web/dist/sitemap.xml
+          test -f packages/web/dist/robots.txt
+          test -f packages/web/dist/og.png
+          test -f packages/web/dist/icon-192.png
+          test -f packages/web/dist/banks/hnb.png
+          test -f packages/web/dist/data/index.json
+          ls packages/web/dist/data/cards.*.json > /dev/null
+          grep -q 'og:image' packages/web/dist/index.html
+          grep -q 'application/ld+json' packages/web/dist/index.html
+          grep -q 'rel="canonical"' packages/web/dist/index.html
+          echo "bank-months: $(find packages/web/dist/data/m -name '*.json' | wc -l)"
+          echo "data size:   $(du -sh packages/web/dist/data | cut -f1)"
+          echo "site size:   $(du -sh packages/web/dist | cut -f1)"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: packages/web/dist

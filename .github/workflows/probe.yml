@@ -25,5 +25,10 @@ jobs:
 
       - run: npm ci
 
+      # Without a browser the two filtered sources are skipped rather than
+      # probed, which would leave them unwatched.
+      - name: Install the browser for the filtered sources
+        run: npx playwright install --with-deps chromium
+
       - name: Probe the live sources
         run: npm run probe
