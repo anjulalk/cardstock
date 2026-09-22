@@ -121,6 +121,18 @@ is prose, and chrome switches back to Inter with the `ui` utility:
 Do not leave a control in serif or a paragraph in Inter. When adding markup, ask which of the four it
 is, and say so in the class list.
 
+### Marks
+
+Bank marks are 64x64 PNGs in `packages/web/public/banks`, one per bank, shown beside the bank in the
+picker and beside each offer in the day panel, because an offer belongs to a bank. `npm run logos`
+refetches them from the banks' own sites, through the browser, since two of those sites refuse a plain
+client. A bank that publishes no square mark gets a monogram tile in its own brand colour rather than a
+broken image, which is what Amãna has.
+
+Card network marks are drawn in `NetworkMark.vue` in `currentColor`, so they stay inside the palette:
+Mastercard is its two circles, Visa and Amex are wordmarks. Never put a network's brand colour on the
+page; the paper palette is the point.
+
 ## SEO
 
 One page, so the work is small but easy to leave inconsistent: the origin, the name and the palette

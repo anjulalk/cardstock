@@ -15,6 +15,7 @@
     "chunk": "npm run chunk --workspace @cardstock/worker",
     "probe": "npm run probe --workspace @cardstock/worker",
     "assets": "node scripts/make-brand-assets.mts",
+    "logos": "node scripts/fetch-bank-logos.mts",
     "test": "npm run test --workspaces --if-present",
     "dev": "npm run dev --workspace @cardstock/web",
     "build": "npm run build --workspace @cardstock/web",
