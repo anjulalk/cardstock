@@ -2,8 +2,10 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import type { CardProduct, MonthOffer } from '@shared/types.ts'
 import { addMonths, daysInMonth, monthKey, todayIso, weekdayOf } from '@shared/dates.ts'
+import BankMark from './components/BankMark.vue'
 import CardPicker from './components/CardPicker.vue'
 import MonthGrid from './components/MonthGrid.vue'
+import ThemeToggle from './components/ThemeToggle.vue'
 import { loadCards, loadManifest, loadMonth } from './lib/api.ts'
 import {
   discountLabel,
@@ -35,6 +37,10 @@ const error = ref<string | null>(null)
 
 const myCards = computed(() =>
   selected.value.length > 0 ? allCards.value.filter((card) => selected.value.includes(card.id)) : [],
+)
+
+const bankNames = computed(() =>
+  Object.fromEntries(banks.value.map((bank) => [bank.id, bank.name])),
 )
 
 /** Which banks the calendar needs. With cards picked, only those banks are
@@ -99,6 +105,7 @@ const checkedLabel = computed(() => {
     month: 'short',
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
     timeZone: 'Asia/Colombo',
   }).format(new Date(generatedAt.value))
 })
@@ -181,11 +188,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-[80rem] px-6 pt-6 pb-16 sm:px-14 sm:pt-10 md:px-24 lg:px-32">
+  <div class="mx-auto w-full max-w-[80rem] px-6 pt-6 sm:px-14 sm:pt-10 md:px-24 lg:px-32">
     <header class="ui pb-6 sm:pb-10">
       <div class="flex flex-wrap items-baseline justify-between gap-4">
-        <h1 class="text-xl font-semibold">card<span class="text-clay-strong">stock</span></h1>
-          <p v-if="checkedLabel" class="ui shrink-0 text-sm text-soft">Last checked {{ checkedLabel }}</p>
+        <h1 class="font-serif text-xl font-semibold">
+          card<span class="text-clay-strong">stock</span>
+        </h1>
+        <p v-if="checkedLabel" class="ui shrink-0 text-sm text-soft">
+          Last checked {{ checkedLabel }} <span class="text-mute">&middot; Colombo time</span>
+        </p>
       </div>
     </header>
 
@@ -329,7 +340,14 @@ onMounted(async () => {
           </p>
 
           <ul v-else class="mt-3 divide-y divide-hair">
-            <li v-for="offer in dayOffers" :key="offer.id" class="flex flex-wrap gap-x-4 gap-y-1 py-3">
+            <li v-for="offer in dayOffers" :key="offer.id" class="flex flex-wrap gap-x-3 gap-y-1 py-3">
+              <span class="mt-0.5">
+                <BankMark
+                  :bank="offer.banks[0] ?? ''"
+                  :name="bankNames[offer.banks[0] ?? '']"
+                  size="h-6 w-6"
+                />
+              </span>
               <div class="min-w-0 flex-1">
                 <p class="text-ink">{{ offer.title }}</p>
                 <p class="ui mt-0.5 text-xs text-soft">
@@ -358,22 +376,27 @@ onMounted(async () => {
       </div>
     </div>
 
-    <footer class="ui mt-12 text-sm text-soft">
-      <p>
-        Built by
-        <a
-          class="underline-offset-2 transition hover:text-ink hover:underline"
-          href="https://anjula.dev"
-          target="_blank"
-          rel="noreferrer"
-          >Anjula Karunarathne</a
-        >.
-      </p>
-      <p class="mt-1 text-xs">
-        Offers are read from the banks' own pages and may change without notice. Confirm the terms
-        with the bank before you transact. Not affiliated with, endorsed by, or operated by any bank
-        listed, and bank names and marks belong to their respective owners.
-      </p>
+    <footer class="ui py-10 text-sm text-soft">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <p>
+            Built by
+            <a
+              class="underline-offset-2 transition hover:text-ink hover:underline"
+              href="https://anjula.dev"
+              target="_blank"
+              rel="noreferrer"
+              >Anjula Karunarathne</a
+            >.
+          </p>
+          <p class="text-xs">
+            Offers are read from the banks' own pages and may change without notice. Confirm the terms
+            with the bank before you transact. Not affiliated with, endorsed by, or operated by any
+            bank listed, and bank names and marks belong to their respective owners.
+          </p>
+        </div>
+        <ThemeToggle />
+      </div>
     </footer>
   </div>
 </template>

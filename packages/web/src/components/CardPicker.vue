@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { CardProduct } from '@shared/types.ts'
+import BankMark from './BankMark.vue'
+import NetworkMark from './NetworkMark.vue'
 
 const props = defineProps<{
   cards: CardProduct[]
@@ -43,13 +45,17 @@ const tierLabel = (tier: string) => tier.charAt(0).toUpperCase() + tier.slice(1)
 
     <div class="mt-3 space-y-3">
       <div v-for="group in groups()" :key="group.bank.id">
-        <p class="label text-faint">{{ group.bank.name }}</p>
+        <div class="flex items-center gap-2">
+          <BankMark :bank="group.bank.id" :name="group.bank.name" />
+          <p class="label text-faint">{{ group.bank.name }}</p>
+        </div>
         <div class="mt-1.5 flex flex-wrap gap-1.5">
           <button
             v-for="card in group.cards"
             :key="card.id"
             type="button"
-            class="rounded-md border px-2 py-1 text-xs transition"
+            :title="`${card.name}, ${card.network}`"
+            class="flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs transition"
             :class="
               selected.includes(card.id)
                 ? 'border-clay/50 bg-clay/10 text-clay-strong'
@@ -58,7 +64,7 @@ const tierLabel = (tier: string) => tier.charAt(0).toUpperCase() + tier.slice(1)
             @click="emit('toggle', card.id)"
           >
             {{ tierLabel(card.tier) }}
-            <span class="text-faint">{{ card.network }}</span>
+            <span class="text-soft"><NetworkMark :network="card.network" /></span>
           </button>
         </div>
       </div>
