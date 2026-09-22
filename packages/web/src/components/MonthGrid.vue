@@ -43,10 +43,10 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           ]"
           @click="cell.iso && emit('select', cell.iso)"
         >
-          <span>{{ cell.day }}</span>
+          <span class="num">{{ cell.day }}</span>
           <span
             v-if="cell.iso && props.counts[cell.iso]"
-            class="label mt-0.5 text-[10px] text-clay-strong"
+            class="label num mt-0.5 text-[10px] text-clay-strong"
           >
             {{ props.counts[cell.iso] }}
           </span>

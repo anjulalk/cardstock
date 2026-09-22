@@ -14,6 +14,7 @@
     "sync": "npm run sync --workspace @cardstock/worker",
     "chunk": "npm run chunk --workspace @cardstock/worker",
     "probe": "npm run probe --workspace @cardstock/worker",
+    "assets": "node scripts/make-brand-assets.mts",
     "test": "npm run test --workspaces --if-present",
     "dev": "npm run dev --workspace @cardstock/web",
     "build": "npm run build --workspace @cardstock/web",

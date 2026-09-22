@@ -12,6 +12,7 @@ This file is the working brief. The skills in `.opencode/skills/` carry the deta
 | `source-adapter` | Adding a bank, repairing one that broke, or working on dates and periods |
 | `data-contract` | Changing what the browser downloads, the manifest, or the client loader |
 | `merchant-registry` | Adding a merchant, or a name that a bank spells differently |
+| `seo` | Changing the name, the description, the palette or the domain, or adding a page |
 
 ## Commands
 
@@ -23,6 +24,7 @@ npm test          # unit tests, fixtures included
 npm run probe     # assert each source still answers what its contract expects
 npm run dev       # http://localhost:5173
 npm run build     # the static site, into packages/web/dist
+npm run assets    # icons, social card, manifest, robots.txt, CNAME
 ```
 
 Some banks answer a plain client with a challenge page or render their offers only in a browser. Those
@@ -40,6 +42,7 @@ work before it has a browser.
 ```
 sources/<id>.json     the crawl contract for one bank
 registry/*.json       banks, card products with tiers, merchants with keywords
+scripts/              the brand asset generator
 packages/shared       types, the date parser, the eligibility parser, the wire decoder
 packages/worker       adapters, validation, sync, chunk builder, probe
 packages/web          the Vue app, reading the manifest and chunks at runtime
@@ -99,9 +102,30 @@ it, while each offer keeps its own bank's wording. See the `merchant-registry` s
 
 The site follows the shared design system of this author's projects: warm ivory paper, ink text, one
 clay accent, Inter for chrome, Source Serif 4 for prose, JetBrains Mono for numbers that are compared.
-The tokens are published at <https://anjula.dev/design/tokens.css> and mirrored in
-`packages/web/src/style.css`. Container 80rem, gutters 1.5 to 8rem, reading measure 65ch, hairlines
-rather than shadows, and every pairing legible in both light and dark.
+The page carries the shared ambient wash (`--wash-ambient`, two soft clay and moss glows), the
+wordmark is two tones (`card` in ink, `stock` in clay), and the tokens are published at
+<https://anjula.dev/design/tokens.css> and mirrored in `packages/web/src/style.css`. Container 80rem,
+gutters 1.5 to 8rem, reading measure 65ch, hairlines rather than shadows, and every pairing legible
+in both light and dark.
+
+**Typography roles are the part that gets forgotten.** The page is serif, because most of what is on it
+is prose, and chrome switches back to Inter with the `ui` utility:
+
+| Role | How | Where |
+| --- | --- | --- |
+| Reading | `--font-serif`, the body default | the tagline, the intro, offer titles in the day panel |
+| Chrome | the `ui` utility | header, filters, controls, calendar navigation, footer, error and empty states |
+| Metadata | the `label` utility (Inter, uppercase, 0.07em) | eyebrows, counts, the last checked stamp |
+| Compared numbers | the `num` utility (mono, tabular) | day numbers, day counts, discount values |
+
+Do not leave a control in serif or a paragraph in Inter. When adding markup, ask which of the four it
+is, and say so in the class list.
+
+## SEO
+
+One page, so the work is small but easy to leave inconsistent: the origin, the name and the palette
+each appear in several files. The `seo` skill lists them and the checks. `npm run assets` regenerates
+the icons and the social card, and the card must be looked at after any change to the name or palette.
 
 ## Writing
 

@@ -16,6 +16,7 @@ npm run sync      # fetch every source, validate, write data/offers.jsonl
 npm run chunk     # build the browser chunks under packages/web/public/data
 npm run dev       # http://localhost:5173
 npm run probe     # assert each source still answers what its contract expects
+npm run assets    # regenerate the icons, the social card, robots.txt and the CNAME
 ```
 
 Two banks stand behind a bot filter that fingerprints the client rather than the headers, so their
@@ -70,15 +71,20 @@ Eleven of the twelve banks are read, around 1800 offers in total. The live count
   layout, the wire format and its versions.
 - **`.opencode/skills/`** carries the method: `source-adapter` for adding or repairing a bank and the
   full catalogue of date shapes the banks publish, `data-contract` for changing what the browser
-  downloads, `merchant-registry` for resolving one merchant out of many bank spellings.
+  downloads, `merchant-registry` for resolving one merchant out of many bank spellings, and `seo` for
+  the head tags, structured data, sitemap, icons and social card.
 
 ## Design and writing
 
 The site follows the shared design system of this author's projects: warm ivory paper, ink text, one
 clay accent, Inter for chrome, Source Serif 4 for prose, JetBrains Mono for numbers that are compared.
-The tokens are published at <https://anjula.dev/design/tokens.css> and mirrored in
-`packages/web/src/style.css`. Prose follows the house style: plain sentences, no em-dashes, sentence
-case headings.
+The page carries the shared ambient wash (two soft clay and moss glows, `--wash-ambient`), and the
+wordmark is two tones, `card` in ink and `stock` in clay.
+
+Typography follows the system's roles: the page reads in serif, chrome switches back to Inter with the
+`ui` utility, `label` is for metadata and `num` for numbers that are compared. The tokens are published
+at <https://anjula.dev/design/tokens.css> and mirrored in `packages/web/src/style.css`. Prose follows
+the house style: plain sentences, no em-dashes, sentence case headings.
 
 ## Credits
 

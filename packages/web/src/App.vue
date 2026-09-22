@@ -182,10 +182,10 @@ onMounted(async () => {
 
 <template>
   <div class="mx-auto w-full max-w-[80rem] px-6 pt-6 pb-16 sm:px-14 sm:pt-10 md:px-24 lg:px-32">
-    <header class="pb-6 sm:pb-10">
+    <header class="ui pb-6 sm:pb-10">
       <div class="flex flex-wrap items-baseline justify-between gap-4">
         <h1 class="text-xl font-semibold">card<span class="text-clay-strong">stock</span></h1>
-        <p v-if="checkedLabel" class="label text-soft">Last checked {{ checkedLabel }}</p>
+          <p v-if="checkedLabel" class="ui shrink-0 text-sm text-soft">Last checked {{ checkedLabel }}</p>
       </div>
     </header>
 
@@ -197,12 +197,12 @@ onMounted(async () => {
 
     <div
       v-if="error"
-      class="card mt-7 border-down/35! p-5 text-sm text-mute"
+      class="card ui mt-7 border-down/35! p-5 text-sm text-mute"
     >
       Something went wrong loading the offers: {{ error }}
     </div>
 
-    <div v-else-if="loading" class="card mt-7 animate-pulse p-10 text-center text-sm text-soft">
+    <div v-else-if="loading" class="card ui mt-7 animate-pulse p-10 text-center text-sm text-soft">
       Loading offers…
     </div>
 
@@ -216,7 +216,7 @@ onMounted(async () => {
           @clear="clearCards"
         />
 
-        <section class="card p-4 sm:p-5">
+        <section class="card ui p-4 sm:p-5">
           <h2 class="text-sm font-semibold text-ink">Filters</h2>
           <label class="mt-3 flex items-center gap-2 text-sm text-mute">
             <input v-model="onlyMine" type="checkbox" class="accent-clay" />
@@ -275,7 +275,7 @@ onMounted(async () => {
 
       <div class="min-w-0 space-y-5">
         <section class="card p-4 sm:p-5">
-          <header class="flex items-center justify-between gap-3 pb-4">
+          <header class="ui flex items-center justify-between gap-3 pb-4">
             <div class="flex items-center gap-2">
               <button
                 type="button"
@@ -314,32 +314,32 @@ onMounted(async () => {
         </section>
 
         <section class="card rise p-4 sm:p-5">
-          <header class="flex flex-wrap items-baseline justify-between gap-3">
+          <header class="ui flex flex-wrap items-baseline justify-between gap-3">
             <h2 class="text-base font-semibold text-ink">{{ dayLabel }}</h2>
             <p v-if="dayOffers.length" class="label text-faint">
               {{ dayOffers.length }} offer{{ dayOffers.length === 1 ? '' : 's' }}
             </p>
           </header>
 
-          <p v-if="!selectedDay" class="mt-3 text-sm text-soft">
+          <p v-if="!selectedDay" class="ui mt-3 text-sm text-soft">
             Choose a day in the calendar to see what is running.
           </p>
-          <p v-else-if="!dayOffers.length" class="mt-3 text-sm text-soft">
+          <p v-else-if="!dayOffers.length" class="ui mt-3 text-sm text-soft">
             Nothing that matches runs on this day.
           </p>
 
           <ul v-else class="mt-3 divide-y divide-hair">
             <li v-for="offer in dayOffers" :key="offer.id" class="flex flex-wrap gap-x-4 gap-y-1 py-3">
               <div class="min-w-0 flex-1">
-                <p class="text-sm text-ink">{{ offer.title }}</p>
-                <p class="mt-0.5 text-xs text-soft">
+                <p class="text-ink">{{ offer.title }}</p>
+                <p class="ui mt-0.5 text-xs text-soft">
                   {{ offer.vendorHint ?? 'Merchant' }}
                   <span v-if="offer.category">· {{ categoryNames[offer.category] ?? offer.category }}</span>
-                  <span v-if="offer.validTo">· till {{ offer.validTo }}</span>
+                  <span v-if="offer.validTo" class="num">· till {{ offer.validTo }}</span>
                 </p>
               </div>
               <div class="flex items-center gap-3">
-                <span v-if="discountLabel(offer)" class="label text-clay-strong">
+                <span v-if="discountLabel(offer)" class="num text-sm text-clay-strong">
                   {{ discountLabel(offer) }}
                 </span>
                 <a
@@ -347,7 +347,7 @@ onMounted(async () => {
                   :href="offer.sourceUrl"
                   target="_blank"
                   rel="noreferrer"
-                  class="text-xs text-soft underline-offset-2 transition hover:text-ink hover:underline"
+                  class="ui text-xs text-soft underline-offset-2 transition hover:text-ink hover:underline"
                 >
                   Bank terms
                 </a>
@@ -358,7 +358,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <footer class="mt-12 text-sm text-soft">
+    <footer class="ui mt-12 text-sm text-soft">
       <p>
         Built by
         <a

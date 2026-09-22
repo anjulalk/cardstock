@@ -3,21 +3,114 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>cardstock: credit card offers in Sri Lanka, on a calendar</title>
+    <title>Credit Card Offers in Sri Lanka, on a Calendar | cardstock</title>
     <meta
       name="description"
-      content="Pick the cards you hold and see which Sri Lankan supermarkets, fashion stores and restaurants run an offer on which days."
+      content="Pick the credit cards you hold and see which Sri Lankan supermarkets, restaurants and stores run an offer on which days. Read from the banks' own pages."
     />
+    <link rel="canonical" href="https://cardstock.anjula.dev/" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="author" content="Anjula Karunarathne" />
     <meta name="theme-color" content="#faf8f3" />
+    <!-- Set the appearance before first paint so the dark theme never flashes. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('cardstock.appearance')
+          var dark =
+            stored === 'dark' ||
+            (stored !== 'light' &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          if (dark) document.documentElement.classList.add('dark')
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', dark ? '#282622' : '#faf8f3')
+        } catch (e) {}
+      })()
+    </script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="cardstock" />
+    <meta property="og:locale" content="en_LK" />
+    <meta property="og:url" content="https://cardstock.anjula.dev/" />
+    <meta property="og:title" content="Credit Card Offers in Sri Lanka, on a Calendar" />
+    <meta
+      property="og:description"
+      content="Pick the cards you hold and see which supermarkets, restaurants and stores run an offer on which days. Offers are read from the banks' own pages."
+    />
+    <meta property="og:image" content="https://cardstock.anjula.dev/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="cardstock - Sri Lankan credit card offers on a calendar"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Credit Card Offers in Sri Lanka, on a Calendar | cardstock" />
+    <meta
+      name="twitter:description"
+      content="The offers that apply to the cards you actually hold, on the days they run, read from the banks' own pages."
+    />
+    <meta name="twitter:image" content="https://cardstock.anjula.dev/og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap"
       rel="stylesheet"
     />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://cardstock.anjula.dev/#site",
+            "url": "https://cardstock.anjula.dev/",
+            "name": "cardstock",
+            "description": "Sri Lankan credit card offers on a calendar, filtered to the cards you hold.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://cardstock.anjula.dev/#author" }
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://cardstock.anjula.dev/#app",
+            "name": "cardstock",
+            "url": "https://cardstock.anjula.dev/",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "isAccessibleForFree": true,
+            "description": "Pick the cards you hold and see which Sri Lankan supermarkets, restaurants and stores run an offer on which days, read from the banks' own pages.",
+            "author": { "@id": "https://cardstock.anjula.dev/#author" },
+            "about": { "@type": "Thing", "name": "Credit card offers in Sri Lanka" },
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "LKR" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://cardstock.anjula.dev/#author",
+            "name": "Anjula Karunarathne",
+            "url": "https://anjula.dev"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <h1>cardstock: credit card offers in Sri Lanka, on a calendar</h1>
+      <p>
+        cardstock puts the offers of Sri Lankan banks on a calendar. Tick the credit cards you hold and
+        it shows only the supermarkets, restaurants and stores that accept them, on the days the offer
+        runs, with each offer linked back to the bank's own terms.
+      </p>
+      <p>Offers are read from the banks' own published pages. Enable JavaScript to use the calendar.</p>
+    </noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
