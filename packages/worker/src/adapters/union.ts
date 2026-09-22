@@ -1,4 +1,5 @@
 import { type SourceContract } from '../contract.ts'
+import { renderHtml } from '../lib/browser.ts'
 import { fetchText } from '../lib/http.ts'
 import { firstMatch, splitItems } from '../lib/html.ts'
 import type { Draft } from '../normalize.ts'
@@ -83,5 +84,16 @@ export async function fetchUnion(contract: SourceContract): Promise<Draft[]> {
   })
   const drafts = mapUnionList(html, contract)
   console.log(`[union] the page holds ${drafts.length} offers`)
+  return drafts
+}
+
+/** Imperva refuses a plain client, so the page is rendered in a browser and the
+ *  same mapping is applied to what the browser ends up with. */
+export async function fetchUnionBrowser(contract: SourceContract): Promise<Draft[]> {
+  const request = contract.requests[0]
+  if (!request) throw new Error('[union] the contract has no request')
+  const html = await renderHtml(request.url, { userAgent: contract.policy.userAgent, idleMs: 1500 })
+  const drafts = mapUnionList(html, contract)
+  console.log(`[union] the rendered page holds ${drafts.length} offers`)
   return drafts
 }

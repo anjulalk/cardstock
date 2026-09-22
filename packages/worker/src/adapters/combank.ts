@@ -1,4 +1,5 @@
 import { type SourceContract } from '../contract.ts'
+import { parsePeriodText } from '../../../shared/src/index.ts'
 import { fetchText } from '../lib/http.ts'
 import { firstMatch, splitItems } from '../lib/html.ts'
 import type { Draft } from '../normalize.ts'
@@ -23,6 +24,7 @@ export function mapCombankList(html: string, contract: SourceContract): Draft[] 
   const parts = splitItems(html, contract)
   const drafts: Draft[] = []
   const seen = new Set<string>()
+  let skipped = 0
 
   for (const part of parts) {
     const href = firstMatch(part, /href="(https:\/\/www\.combank\.lk\/rewards-promotion\/[^"]+)"/)
@@ -39,6 +41,15 @@ export function mapCombankList(html: string, contract: SourceContract): Draft[] 
     const tag = stripHtml(firstMatch(part, /<div class="offer-tag[^"]*">([\s\S]*?)<\/div>/) ?? '')
     const dateText = stripHtml(firstMatch(part, /class="valid-date"[^>]*>([\s\S]*?)<\/p>/) ?? '')
 
+    // A card whose period cannot be placed is skipped rather than published
+    // undated, and the offer count guard notices if that becomes common. An
+    // offer with a start and no end cannot be placed either, so it needs an end.
+    const period = parsePeriodText(dateText)
+    if (!dateText || !period.to) {
+      skipped += 1
+      continue
+    }
+
     drafts.push({
       source: 'combank',
       externalId,
@@ -54,6 +65,7 @@ export function mapCombankList(html: string, contract: SourceContract): Draft[] 
     })
   }
 
+  if (skipped > 0) console.log(`[combank] skipped ${skipped} card(s) with no placeable period`)
   return drafts
 }
 

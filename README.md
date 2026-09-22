@@ -15,6 +15,16 @@ npm run dev       # http://localhost:5173
 npm run probe     # assert each source still returns what the contract expects
 ```
 
+Four banks answer a plain client with a challenge page or render their offers only in the browser
+(Union, Pan Asia, Sampath, DFCC). Those sources are fetched with Playwright, which is installed
+separately:
+
+```bash
+npx playwright install chromium
+```
+
+Without it, `npm run sync` skips those sources and says why, so the rest still works.
+
 ## Layout
 
 | Path | What lives there |

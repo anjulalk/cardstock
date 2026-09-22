@@ -89,6 +89,16 @@ function findDates(text: string, fallbackYear: number): Hit[] {
     hits.push({ index: m.index, iso: `${year}-${pad(month)}-${pad(day)}` })
   }
 
+  // Day first with dashes or slashes, as Pan Asia writes it: "11-09-2026" and
+  // "10/09/2026". A Sri Lankan bank means the 11th of September.
+  const dashed = /(?<![\d/-])(\d{1,2})[-/](\d{1,2})[-/](\d{4})(?![\d/-])/g
+  while ((m = dashed.exec(text))) {
+    const day = Number(m[1])
+    const month = Number(m[2])
+    if (day < 1 || day > 31 || month < 1 || month > 12) continue
+    hits.push({ index: m.index, iso: `${m[3]}-${pad(month)}-${pad(day)}` })
+  }
+
   // American order, as People's Bank writes it: "Till October 31, 2026". The
   // lookahead stops a bare year ("October 2026") from being read as a day.
   const monthFirst = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?!\d),?\s*(\d{4})?/gi

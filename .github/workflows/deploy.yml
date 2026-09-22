@@ -39,6 +39,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Install the browser for the blocked sources
+        run: npx playwright install --with-deps chromium
+
       - name: Sync
         run: npm run sync
 

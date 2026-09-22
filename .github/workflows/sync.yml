@@ -37,6 +37,11 @@ jobs:
       - name: Test
         run: npm test
 
+      # Four banks answer a plain client with a challenge or render client side,
+      # so their pages are fetched with a browser.
+      - name: Install the browser for those sources
+        run: npx playwright install --with-deps chromium
+
       # Validation runs before anything is written, so a source that breaks
       # fails the job instead of publishing half its offers.
       - name: Sync

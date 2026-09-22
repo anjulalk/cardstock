@@ -1,0 +1,24 @@
+{
+  "id": "panasia",
+  "name": "Pan Asia Bank",
+  "kind": "browser",
+  "blocked": "Sucuri answers a plain client with a 307 and no Location header. Rendered in a browser the offers are there as flip cards, so this source is fetched with the browser runner.",
+  "policy": {
+    "delayMs": 2000,
+    "userAgent": "cardstock/0.1 (+https://cardstock.anjula.dev/about)"
+  },
+  "requests": [
+    {
+      "name": "list",
+      "url": "https://www.pabcbank.com/card-offers/"
+    }
+  ],
+  "itemMarker": "class=\"flip-card\"",
+  "sourceUrlTemplate": "https://www.pabcbank.com/card-offers/",
+  "cadence": "0 6,18 * * *",
+  "guards": {
+    "minItems": 20,
+    "maxDropRatio": 0.35,
+    "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
+  }
+}

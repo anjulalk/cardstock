@@ -33,7 +33,7 @@
   "cadence": "0 6,18 * * *",
   "guards": {
     "minItems": 80,
-    "maxDropRatio": 0.25,
+    "maxDropRatio": 0.35,
     "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
   }
 }

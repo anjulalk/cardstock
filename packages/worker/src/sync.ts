@@ -9,9 +9,11 @@ import { fetchDfcc } from './adapters/dfcc.ts'
 import { fetchHnb } from './adapters/hnb.ts'
 import { fetchNdb } from './adapters/ndb.ts'
 import { fetchNtb } from './adapters/ntb.ts'
+import { fetchPanasia } from './adapters/panasia.ts'
 import { fetchPeoples } from './adapters/peoples.ts'
 import { fetchSeylan } from './adapters/seylan.ts'
-import { fetchUnion } from './adapters/union.ts'
+import { fetchUnionBrowser } from './adapters/union.ts'
+import { browserAvailable, closeBrowser } from './lib/browser.ts'
 import { loadContract, type SourceContract } from './contract.ts'
 import { buildOffer, type Draft } from './normalize.ts'
 import { dataDir, sourcesDir } from './paths.ts'
@@ -19,20 +21,26 @@ import { validateSource, type Guards } from './validate.ts'
 
 type Fetcher = (contract: SourceContract) => Promise<Draft[]>
 
-/** One entry per source that has an adapter. Adding a bank means adding a
- *  contract file and one line here. */
+/** Fetched with a plain client. */
 const FETCHERS: Record<string, Fetcher> = {
   hnb: fetchHnb,
   ntb: fetchNtb,
   seylan: fetchSeylan,
   boc: fetchBoc,
-  dfcc: fetchDfcc,
-  combank: fetchCombank,
   ndb: fetchNdb,
-  union: fetchUnion,
   amana: fetchAmana,
   peoples: fetchPeoples,
+  combank: fetchCombank,
 }
+
+/** Fetched with a browser, because a WAF or a client side render stands in the
+ *  way of a plain client. Skipped when Playwright is not installed. */
+const BROWSER_FETCHERS: Record<string, Fetcher> = {
+  union: fetchUnionBrowser,
+  panasia: fetchPanasia,
+}
+
+void fetchDfcc
 
 interface RunRecord {
   source: string
@@ -85,18 +93,25 @@ async function main(): Promise<void> {
 
   for (const file of contracts) {
     const id = file.replace(/\.json$/, '')
-    const fetcher = FETCHERS[id]
-    if (!fetcher) {
-      console.log(`[${id}] no adapter yet, skipping`)
-      continue
-    }
-
     const contract = loadContract(id)
 
-    // Browser sources are written and tested, but need a browser to fetch:
-    // their pages answer a non-browser client with a challenge.
+    // A browser source needs a browser. Without one it is skipped with the
+    // reason, so a plain npm run sync still works on a machine without Chromium.
+    let fetcher = FETCHERS[id]
     if (contract.kind === 'browser') {
-      console.log(`[${id}] needs a browser runner, skipping${contract.blocked ? `: ${contract.blocked}` : ''}`)
+      if (!(await browserAvailable())) {
+        console.log(`[${id}] needs a browser runner, skipping${contract.blocked ? `: ${contract.blocked}` : ''}`)
+        continue
+      }
+      fetcher = BROWSER_FETCHERS[id]
+      if (!fetcher) {
+        console.log(`[${id}] the browser runner has no fetcher for this source yet, skipping`)
+        continue
+      }
+    }
+
+    if (!fetcher) {
+      console.log(`[${id}] no adapter yet, skipping`)
       continue
     }
 
@@ -131,6 +146,7 @@ async function main(): Promise<void> {
   }
 
   if (errors.length > 0) {
+    await closeBrowser()
     console.error('\nValidation failed. Nothing was written.')
     process.exit(1)
   }
@@ -169,6 +185,7 @@ async function main(): Promise<void> {
     `\nwrote ${unique.length} offers (${active} active, ${unconfirmed} unconfirmed)${duplicates > 0 ? `, dropped ${duplicates} duplicate id(s)` : ''}`,
   )
   console.log(`kept ${kept.length} offers from sources without an adapter`)
+  await closeBrowser()
 }
 
 await main()
