@@ -21,16 +21,32 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Approve, then queue the merge. The merge itself waits for every check,
-      # so a minor that breaks the build never lands on its own.
-      - name: Approve a minor or patch, and queue it to merge when the checks pass
+      # Approve, wait for the checks this pull request started, then merge. The
+      # wait is the point: a minor that breaks the build never lands on its own.
+      - name: Approve a minor or patch, and merge it once the checks pass
         if: contains(fromJSON('["version-update:semver-minor","version-update:semver-patch"]'), steps.meta.outputs.update-type)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR: ${{ github.event.pull_request.html_url }}
         run: |
-          gh pr review --approve "$PR"
-          gh pr merge --auto --squash --delete-branch "$PR"
+          if ! gh pr review --approve "$PR" 2>/tmp/review-error; then
+            gh pr comment "$PR" --body "The approval did not go through: $(cat /tmp/review-error)"
+            exit 1
+          fi
+
+          # Ten minutes covers a slow runner. After that the approval stays and
+          # the merge is left to a person.
+          for attempt in $(seq 1 30); do
+            if gh pr checks "$PR" > /dev/null 2>&1; then break; fi
+            sleep 20
+          done
+
+          if ! gh pr checks "$PR" > /dev/null 2>&1; then
+            gh pr comment "$PR" --body "Approved. The checks are not green yet, so the merge is yours."
+            exit 0
+          fi
+
+          gh pr merge --squash --delete-branch "$PR" || gh pr comment "$PR" --body "Approved and the checks are green, but GitHub would not merge it yet. It may need a moment, or a look."
 
       - name: Say what a major or unknown update needs
         if: contains(fromJSON('["version-update:semver-major","version-update:semver-unknown"]'), steps.meta.outputs.update-type)
@@ -38,4 +54,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR: ${{ github.event.pull_request.html_url }}
         run: |
-          gh pr comment "$PR" --body "This one needs a person. A major or unknown jump can change behaviour, so it is not queued to merge on its own."
+          gh pr comment "$PR" --body "This one needs a person. A major or unknown jump can change behaviour, so it is not merged on its own."
