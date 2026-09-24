@@ -1,5 +1,11 @@
 # cardstock
 
+[![CI](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml/badge.svg)](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml)
+[![Deploy](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml/badge.svg)](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml)
+[![Offers tracked](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanjulalk%2Fcardstock%2Fmain%2Fdata%2Flatest.json&query=%24.offers&label=offers&color=c1603c)](https://cardstock.anjula.dev)
+[![Node 24](https://img.shields.io/badge/node-24-5f5a51)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-c1603c)](LICENSE)
+
 Credit card offers in Sri Lanka, on a calendar, filtered to the cards you actually hold. Pick the
 cards in your wallet once, then see which supermarkets, restaurants and stores run an offer on which
 days.

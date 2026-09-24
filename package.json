@@ -5,6 +5,7 @@
     "name": "Anjula Karunarathne",
     "url": "https://anjula.dev"
   },
+  "license": "MIT",
   "private": true,
   "type": "module",
   "workspaces": [
