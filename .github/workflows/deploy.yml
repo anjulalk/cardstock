@@ -43,10 +43,14 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Sync
-        run: npm run sync 2>&1 | tee -a "$RUNNER_TEMP/sync.log"
+        run: |
+          set -o pipefail
+          npm run sync 2>&1 | tee -a "$RUNNER_TEMP/sync.log"
 
       - name: Build chunks
-        run: npm run chunk 2>&1 | tee -a "$RUNNER_TEMP/sync.log"
+        run: |
+          set -o pipefail
+          npm run chunk 2>&1 | tee -a "$RUNNER_TEMP/sync.log"
 
       - name: Build
         env:
