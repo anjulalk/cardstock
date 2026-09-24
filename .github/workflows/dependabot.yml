@@ -34,14 +34,22 @@ jobs:
             exit 1
           fi
 
+          # Every check except this workflow's own, which is this job and would
+          # never finish while the job waits for it. A skipped check counts as
+          # fine, since the deploy job is skipped on a pull request.
+          green() {
+            gh pr checks "$PR" --json name,state \
+              --jq '[.[] | select(.name != "review")] | all(.state == "SUCCESS" or .state == "SKIPPED")' 2>/dev/null
+          }
+
           # Ten minutes covers a slow runner. After that the approval stays and
           # the merge is left to a person.
           for attempt in $(seq 1 30); do
-            if gh pr checks "$PR" > /dev/null 2>&1; then break; fi
+            if [ "$(green)" = "true" ]; then break; fi
             sleep 20
           done
 
-          if ! gh pr checks "$PR" > /dev/null 2>&1; then
+          if [ "$(green)" != "true" ]; then
             gh pr comment "$PR" --body "Approved. The checks are not green yet, so the merge is yours."
             exit 0
           fi
