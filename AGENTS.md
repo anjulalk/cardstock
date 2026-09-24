@@ -91,10 +91,12 @@ node scripts/check-relay.mts   # proves the relay answers where a direct request
   skipped, with a count in the log, and the offer-count guard notices if that becomes common.
 - **Availability is not quality.** A source the runner cannot reach, or one that answers with nothing,
   is recorded in `data/runs.json` and left out of that run rather than failing it, because a datacenter
-  IP can be refused where a home one is not. A source that answers with *wrong* data still fails the
-  run. The daily probe is what fails loudly about a source that has gone.
-- **Validate before writing.** Guards run before `data/offers.jsonl` is touched, so a broken source
-  fails the run instead of publishing half its offers.
+  IP can be refused where a home one is not. The daily probe is what fails loudly about a source that
+  has gone.
+- **A guard decides what is published, not whether the run survives.** A source that breaks its floor,
+  loses too much of its list or drops a required field sits the run out: its previous offers stay in
+  the store and on the site, and the reason lands in `data/runs.json`. Half a list is worse than the
+  last good one. The run fails only when no source answered at all.
 - **The id must reproduce the link.** The manifest rebuilds each offer's page from a template and the
   id, so the id is the bank's slug exactly, underscores and case included.
 - **One row per offer.** Some feeds publish the same id twice; the sync keeps one and reports how many
@@ -179,5 +181,9 @@ commit messages, not just to published copy.
   common first, which is the fastest way to grow the registry.
 - **Seylan's** tier pages (Visa Gold, Platinum, Signature, World Master) are not read yet, which is the
   cheapest source of more tier labels than the seven in play.
-- The site is not deployed yet: the repository needs creating, Pages setting to the GitHub Actions
-  source, and a domain attaching. The workflows are written and ready.
+- The site is deployed by the workflows to GitHub Pages, and the repository's Pages source is the
+  GitHub Actions workflow. The one step left is the DNS record for `cardstock.anjula.dev`, which
+  `packages/web/public/CNAME` pins the site to; until it exists the `github.io` address answers 404.
+- In CI the canonical store rides in an `actions/cache` entry (`data/offers.jsonl`, key prefix
+  `offers-`), because a fresh checkout has no store and a skipped source must not take its bank off
+  the site. A cache miss falls back to the committed counts in `data/latest.json`.

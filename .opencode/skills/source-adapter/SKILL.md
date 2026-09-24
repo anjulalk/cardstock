@@ -88,13 +88,15 @@ Two details that cause real bugs:
 
 ## 5. Guards
 
-- `minItems` is an absolute floor. A run below it fails and nothing is written.
+- `minItems` is an absolute floor. A run below it leaves that source out of the run and publishes
+  nothing of its answer.
 - `maxDropRatio` compares against the last run, or against the committed counts in CI where there is
   no previous file. **Month end legitimately drops offers**: NTB loses a quarter of its list when a
   month turns, so its limit is 0.35 rather than the default 0.25.
 - `requireFields` is checked against the canonical names (`validTo`, not the API's `to`).
-- `probe` runs the fetchers and asserts the floor, so a bank redesign fails a daily job instead of
-  quietly shrinking the calendar.
+- A source that trips any guard sits the run out: the reason lands in `data/runs.json`, its previous
+  offers stay published, and the run goes on. A run of guard skips is a signal to run the probe, which
+  is the job that fails loudly about a bank that has gone.
 
 ## 6. The date shapes these banks publish
 

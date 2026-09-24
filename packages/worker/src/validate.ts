@@ -7,19 +7,21 @@ export interface Guards {
   requireFields?: string[]
 }
 
-/** Guards that run before anything is committed. A source that suddenly
- *  returns half its offers is a broken parser, not a quiet week. */
+/** Guards that decide whether a source's fresh answer is published. The reasons
+ *  they return leave that source out of this run: a source that suddenly returns
+ *  half its offers is a broken parser, not a quiet week, and half a list is
+ *  worse than the last good one. */
 export function validateSource(
   source: string,
   offers: Offer[],
   previous: Offer[],
   guards: Guards,
 ): string[] {
-  const errors: string[] = []
+  const reasons: string[] = []
 
   const floor = guards.minItems ?? 0
   if (offers.length < floor) {
-    errors.push(`${source}: ${offers.length} offers, the floor is ${floor}`)
+    reasons.push(`${source}: ${offers.length} offers, the floor is ${floor}`)
   }
 
   for (const field of guards.requireFields ?? []) {
@@ -27,7 +29,7 @@ export function validateSource(
       const value = (offer as unknown as Record<string, unknown>)[field]
       return value === null || value === undefined || String(value).trim() === ''
     }).length
-    if (missing > 0) errors.push(`${source}: ${missing} offers are missing ${field}`)
+    if (missing > 0) reasons.push(`${source}: ${missing} offers are missing ${field}`)
   }
 
   const prior = previous.filter((offer) => offer.source === source)
@@ -36,13 +38,13 @@ export function validateSource(
     const lost = prior.filter((offer) => !ids.has(offer.id)).length
     const ratio = lost / prior.length
     if (ratio > guards.maxDropRatio) {
-      errors.push(
+      reasons.push(
         `${source}: lost ${lost} of ${prior.length} offers (${Math.round(ratio * 100)}%), the limit is ${Math.round(guards.maxDropRatio * 100)}%`,
       )
     }
   }
 
-  return errors
+  return reasons
 }
 
 /** The chunk builder's own check: the manifest and the chunks it names must

@@ -42,6 +42,16 @@ jobs:
       - name: Install the browser for the blocked sources
         run: npx playwright install --with-deps chromium
 
+      # CI starts from a fresh checkout and data/offers.jsonl is not committed,
+      # so the canonical store rides in a cache. Without it, a source that sits a
+      # run out would take its bank off the site until the next good run.
+      - name: Restore the canonical store
+        uses: actions/cache@v4
+        with:
+          path: data/offers.jsonl
+          key: offers-${{ github.run_id }}
+          restore-keys: offers-
+
       - name: Sync
         run: |
           set -o pipefail
@@ -70,9 +80,9 @@ jobs:
       - id: pages
         uses: actions/deploy-pages@v4
 
-      # A failed run leaves what it said in the repo, so the reason is readable
-      # without a token and without opening the job log. Last, so it catches any
-      # step that failed above it, and best effort, so it cannot become the story.
+      # A failed run says what it said in the run summary and in the repo, so the
+      # reason is readable without a token. Last, so it catches any step that
+      # failed above it, and best effort, so it cannot become the story.
       - name: Record a failure
         if: failure()
         run: |
@@ -81,6 +91,13 @@ jobs:
             echo "the pipeline failed on $(date -u '+%Y-%m-%d %H:%MZ') at ${GITHUB_SHA:0:7}"
             tail -n 300 "$RUNNER_TEMP/sync.log" 2>/dev/null || echo 'no sync or chunk output captured'
           } > data/last-failure.log
+          {
+            echo '## The pipeline failed'
+            echo ''
+            echo '```'
+            cat data/last-failure.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
           git config user.name 'cardstock bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git checkout -B main

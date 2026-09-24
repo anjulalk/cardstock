@@ -43,9 +43,9 @@ packages/web          the Vue app, reading the manifest and chunks at runtime
 data/offers.jsonl     canonical offers, one per line, generated
 ```
 
-`sync` validates before it writes, so a source that breaks fails the run rather than publishing half
-its offers. `chunk` then publishes one file per bank per month, which is what keeps a visitor's
-download proportional to the cards they hold rather than to every offer in the country.
+`sync` validates before it writes, and a source that breaks its guards sits the run out rather than
+publishing half its offers. `chunk` then publishes one file per bank per month, which is what keeps a
+visitor's download proportional to the cards they hold rather than to every offer in the country.
 
 ## The banks
 

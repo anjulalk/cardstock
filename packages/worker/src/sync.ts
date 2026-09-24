@@ -93,7 +93,6 @@ async function main(): Promise<void> {
 
   const produced: Offer[] = []
   const touched = new Set<string>()
-  const errors: string[] = []
 
   for (const file of contracts) {
     const id = file.replace(/\.json$/, '')
@@ -137,7 +136,6 @@ async function main(): Promise<void> {
 
     const offers = drafts.map((draft) => buildOffer(draft, now, today))
     const guards: Guards = contract.guards ?? {}
-    const problems = validateSource(id, offers, previous, guards)
 
     // The same reasoning for a source that answers with nothing at all: no bank
     // legitimately publishes none, so this is a block or a redesign, and the
@@ -148,6 +146,8 @@ async function main(): Promise<void> {
       appendRun({ source: id, at: now, offers: 0, ms, ok: false, error: 'no offers' })
       continue
     }
+
+    const problems = validateSource(id, offers, previous, guards)
 
     const baseline = previousCounts?.[id]
     if (baseline && baseline > 0 && guards.maxDropRatio !== undefined) {
@@ -161,22 +161,21 @@ async function main(): Promise<void> {
 
     const ms = Date.now() - started
 
+    // The guards decide what is published, not whether the run survives. A
+    // source that trips one sits this run out: its previous offers stay in the
+    // store and on the site, and data/runs.json carries the reason. The probe
+    // is what fails loudly about a source that has gone.
     if (problems.length > 0) {
-      errors.push(...problems)
-      console.error(`[${id}] guards failed: ${problems.join('; ')}`)
-    } else {
-      console.log(`[${id}] ${offers.length} offers in ${ms}ms`)
+      const reason = problems.join('; ').slice(0, 300)
+      console.error(`[${id}] skipped this run: ${reason}`)
+      appendRun({ source: id, at: now, offers: 0, ms, ok: false, error: reason })
+      continue
     }
 
-    appendRun({ source: id, at: now, offers: offers.length, ms, ok: problems.length === 0 })
+    console.log(`[${id}] ${offers.length} offers in ${ms}ms`)
+    appendRun({ source: id, at: now, offers: offers.length, ms, ok: true })
     produced.push(...offers)
     touched.add(id)
-  }
-
-  if (errors.length > 0) {
-    await closeBrowser()
-    console.error('\nValidation failed. Nothing was written.')
-    process.exit(1)
   }
 
   if (produced.length === 0) {
@@ -204,8 +203,12 @@ async function main(): Promise<void> {
         today,
         offers: unique.length,
         duplicates: duplicates > 0 ? duplicates : undefined,
+        // Every source still in the store, not only this run's, so the counts
+        // stay a usable baseline for a run that starts from a fresh checkout.
         sources: Object.fromEntries(
-          [...touched].map((id) => [id, unique.filter((offer) => offer.source === id).length]),
+          [...new Set(unique.map((offer) => offer.source))]
+            .sort()
+            .map((id) => [id, unique.filter((offer) => offer.source === id).length]),
         ),
       },
       null,
@@ -218,7 +221,7 @@ async function main(): Promise<void> {
   console.log(
     `\nwrote ${unique.length} offers (${active} active, ${unconfirmed} unconfirmed)${duplicates > 0 ? `, dropped ${duplicates} duplicate id(s)` : ''}`,
   )
-  console.log(`kept ${kept.length} offers from sources without an adapter`)
+  console.log(`kept ${kept.length} offers from sources that sat this run out`)
   await closeBrowser()
 }
 
