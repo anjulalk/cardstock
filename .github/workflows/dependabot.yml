@@ -42,7 +42,7 @@ jobs:
           # fine, since the deploy job is skipped on a pull request.
           green() {
             gh pr checks "$PR" --json name,state \
-              --jq '[.[] | select(.name != "review")] | all(.state == "SUCCESS" or .state == "SKIPPED")' 2>/dev/null
+              --jq '[.[] | select(.name != "review")] as $checks | ($checks | length > 0) and all($checks[]; .state == "SUCCESS" or .state == "SKIPPED")' 2>/dev/null
           }
 
           # Ten minutes covers a slow runner. After that the approval stays and
