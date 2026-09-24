@@ -55,8 +55,6 @@ jobs:
           npm run chunk 2>&1 | tee -a "$RUNNER_TEMP/sync.log"
 
       - name: Commit the run
-
-      - name: Commit the run
         run: |
           git config user.name 'cardstock bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
