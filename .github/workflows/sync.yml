@@ -91,7 +91,7 @@ jobs:
       - name: Check the build output
         run: node scripts/check-build.mts
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: packages/web/dist
 
