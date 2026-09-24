@@ -45,7 +45,22 @@ jobs:
       # Validation runs before anything is written, so a source that breaks
       # fails the job instead of publishing half its offers.
       - name: Sync
-        run: npm run sync
+        run: npm run sync 2>&1 | tee "$RUNNER_TEMP/sync.log"
+
+      - name: Record a failure
+        if: failure()
+        run: |
+          mkdir -p data
+          {
+            echo "sync failed on $(date -u '+%Y-%m-%d %H:%MZ') at ${GITHUB_SHA:0:7}"
+            tail -n 250 "$RUNNER_TEMP/sync.log" 2>/dev/null || echo 'no log captured'
+          } > data/last-failure.log
+          git config user.name 'cardstock bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/last-failure.log
+          git commit -m "data: record a failed sync"
+          git pull --rebase origin main
+          git push
 
       - name: Build chunks
         run: npm run chunk
