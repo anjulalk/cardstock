@@ -60,6 +60,10 @@ jobs:
         run: |
           git config user.name 'cardstock bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # A good run clears the record of the last bad one.
+          if [ -f data/last-failure.log ]; then
+            git rm -q data/last-failure.log
+          fi
           git add data/latest.json data/runs.json
           if git diff --cached --quiet; then
             echo 'run counters unchanged'
@@ -76,14 +80,7 @@ jobs:
         run: npm run build
 
       - name: Check the build output
-        run: |
-          echo "Checking the built site..."
-          test -f packages/web/dist/index.html
-          test -f packages/web/dist/sitemap.xml
-          test -f packages/web/dist/data/index.json
-          grep -q 'og:image' packages/web/dist/index.html
-          echo "bank-months: $(find packages/web/dist/data/m -name '*.json' | wc -l)"
-          echo "site size:   $(du -sh packages/web/dist | cut -f1)"
+        run: node scripts/check-build.mts
 
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -95,14 +92,16 @@ jobs:
       - name: Record a failure
         if: failure()
         run: |
-          mkdir -p data
+          set +e
           {
             echo "the pipeline failed on $(date -u '+%Y-%m-%d %H:%MZ') at ${GITHUB_SHA:0:7}"
             tail -n 300 "$RUNNER_TEMP/sync.log" 2>/dev/null || echo 'no sync or chunk output captured'
           } > data/last-failure.log
           git config user.name 'cardstock bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/last-failure.log
+          git checkout -B main
+          git add -f data/last-failure.log
           git commit -m "data: record a failed run"
           git pull --rebase origin main
-          git push
+          git push origin main
+          exit 0
