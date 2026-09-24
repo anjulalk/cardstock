@@ -85,6 +85,7 @@ export function matchVendor(hint: string | null | undefined): VendorMatch | null
   if (!hint) return null
   const variants = [hint, ...stripBranch(hint)]
   let best: VendorMatch | null = null
+  let bestScore = 0
 
   for (const variant of variants) {
     const target = normalizeName(variant)
@@ -107,11 +108,17 @@ export function matchVendor(hint: string | null | undefined): VendorMatch | null
           !best ||
           score > best.score ||
           (score === best.score && key.length > normalizeName(best.term).length)
-        if (better) best = { vendor, score, term }
+        if (better) {
+          best = { vendor, score, term }
+          bestScore = score
+        }
       }
     }
 
-    if (best?.score === 4) break
+    // The exit reads a plain number rather than the match itself: narrowing the
+    // match inside a break condition leaves TypeScript thinking it is null once
+    // the loop is over, and every read after it fails to compile.
+    if (bestScore === 4) break
   }
 
   // Two shared words at least. A single long word is not enough: "Hilton Colombo"

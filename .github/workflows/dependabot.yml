@@ -1,0 +1,41 @@
+name: dependabot
+
+# Dependabot's own runs get a read-only token, so the review happens here, in
+# the base repository's context. Nothing from the pull request is checked out or
+# executed, which is what keeps pull_request_target safe.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  review:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dependabot/fetch-metadata@v3
+        id: meta
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Approve, then queue the merge. The merge itself waits for every check,
+      # so a minor that breaks the build never lands on its own.
+      - name: Approve a minor or patch, and queue it to merge when the checks pass
+        if: contains(fromJSON('["version-update:semver-minor","version-update:semver-patch"]'), steps.meta.outputs.update-type)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr review --approve "$PR"
+          gh pr merge --auto --squash --delete-branch "$PR"
+
+      - name: Say what a major or unknown update needs
+        if: contains(fromJSON('["version-update:semver-major","version-update:semver-unknown"]'), steps.meta.outputs.update-type)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr comment "$PR" --body "This one needs a person. A major or unknown jump can change behaviour, so it is not queued to merge on its own."

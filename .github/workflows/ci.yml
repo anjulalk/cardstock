@@ -1,0 +1,54 @@
+name: ci
+
+# The deploy workflow runs on main and owns the live site. This one answers the
+# question a pull request asks: does it still check, does it still test, and does
+# it still build.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check
+        run: npm run check
+
+      - name: Test
+        run: npm test
+
+      # The canonical offers are generated on main by the sync, so a pull
+      # request only proves that the app itself still builds.
+      - name: Build
+        env:
+          BASE_PATH: /
+        run: npm run build
+
+      # Pages serves one deployment and that one belongs to main, so a pull
+      # request gets the built site as a downloadable artifact instead.
+      - name: Attach the built site to the run
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: packages/web/dist
+          retention-days: 7
