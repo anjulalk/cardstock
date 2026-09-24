@@ -1,5 +1,8 @@
 /** Small fetch wrapper: identifies the crawler, keeps a courtesy delay between
- *  requests to one host, and retries the transient failures these sites throw. */
+ *  requests to one host, retries the transient failures these sites throw, and
+ *  falls back to a relay when a bank refuses the runner's address outright. */
+
+import { isProxied, proxiedUrl, restoreUrls } from './net.ts'
 
 export interface FetchOptions {
   source: string
@@ -8,6 +11,8 @@ export interface FetchOptions {
   retries?: number
   timeoutMs?: number
   headers?: Record<string, string>
+  /** Set false for a source that must never go through a relay. */
+  relay?: boolean
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -18,6 +23,30 @@ export async function fetchJson<T>(url: string, opts: FetchOptions): Promise<T> 
 }
 
 export async function fetchText(url: string, opts: FetchOptions): Promise<string> {
+  try {
+    return await attempt(url, opts)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+
+    // A 403 is a refusal, not a bad request: some banks answer every cloud
+    // egress IP that way, so a direct request from CI can never succeed. Ask
+    // again through the relay, and put the URLs in the response back to the
+    // bank's own before anything reads them.
+    if (opts.relay !== false && /\b403\b/.test(message)) {
+      const via = proxiedUrl(url)
+      if (via) {
+        console.warn(`[${opts.source}] refused directly, retrying through the relay`)
+        const text = await attempt(via, { ...opts, headers: opts.headers })
+        console.log(`[${opts.source}] the relay answered for ${new URL(url).host}`)
+        return restoreUrls(text)
+      }
+    }
+
+    throw error
+  }
+}
+
+async function attempt(url: string, opts: FetchOptions): Promise<string> {
   const retries = opts.retries ?? 2
   const timeoutMs = opts.timeoutMs ?? 30000
   let lastError: unknown = null
@@ -41,7 +70,8 @@ export async function fetchText(url: string, opts: FetchOptions): Promise<string
         const body = await res.text().catch(() => '')
         throw new Error(`${res.status} ${res.statusText} for ${url}${body ? ` :: ${body.slice(0, 120)}` : ''}`)
       }
-      return await res.text()
+      const text = await res.text()
+      return isProxied(url) ? restoreUrls(text) : text
     } catch (error) {
       lastError = error
       const message = error instanceof Error ? error.message : String(error)

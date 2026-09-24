@@ -7,7 +7,7 @@
     "sync": "node src/sync.ts",
     "chunk": "node src/chunk.ts",
     "probe": "node src/probe.ts",
-    "test": "node --test src/*.test.ts src/adapters/*.test.ts",
+    "test": "node --test src/*.test.ts src/adapters/*.test.ts src/lib/*.test.ts",
     "check": "tsc --noEmit"
   },
   "dependencies": {

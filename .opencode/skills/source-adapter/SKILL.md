@@ -24,6 +24,10 @@ Never guess the shape. The answers below decide everything else:
 5. If the page still resists, render it in a browser and watch the network, or read the rendered
    markup. Union (Imperva) and Pan Asia (Sucuri) fingerprint the client, not the headers.
 6. Check `robots.txt`, and keep a courtesy delay. Every contract sets `policy.delayMs`.
+7. If a source works from a laptop but fails in CI, it is refusing the runner's address rather than
+   your request. That is what the relay in `lib/net.ts` is for: a 403 is retried through
+   `CARDSTOCK_PROXY` if set, and through Google's translation proxy if not, with the response put back
+   to the bank's own URLs before parsing. `node scripts/check-relay.mts` proves the path works.
 
 ## 2. The contract
 

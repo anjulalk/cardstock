@@ -50,6 +50,8 @@ interface RunRecord {
   offers: number
   ms: number
   ok: boolean
+  /** Why a source was unavailable, when it was. */
+  error?: string
 }
 
 function readJson<T>(file: string, fallback: T): T {
@@ -118,10 +120,34 @@ async function main(): Promise<void> {
     }
 
     const started = Date.now()
-    const drafts = await fetcher(contract)
+    let drafts: Draft[] = []
+    try {
+      drafts = await fetcher(contract)
+    } catch (error) {
+      // Availability is not quality. A source the runner cannot reach, because a
+      // datacenter IP is refused where a home one is not, must not stop the other
+      // banks from publishing. The run log records it and the daily probe is what
+      // fails loudly about it.
+      const message = (error instanceof Error ? error.message : String(error)).slice(0, 200)
+      const ms = Date.now() - started
+      console.error(`[${id}] unavailable this run: ${message}`)
+      appendRun({ source: id, at: now, offers: 0, ms, ok: false, error: message })
+      continue
+    }
+
     const offers = drafts.map((draft) => buildOffer(draft, now, today))
     const guards: Guards = contract.guards ?? {}
     const problems = validateSource(id, offers, previous, guards)
+
+    // The same reasoning for a source that answers with nothing at all: no bank
+    // legitimately publishes none, so this is a block or a redesign, and the
+    // probe is the alarm rather than this run.
+    if (offers.length === 0) {
+      const ms = Date.now() - started
+      console.error(`[${id}] answered with no offers, treating it as unavailable this run`)
+      appendRun({ source: id, at: now, offers: 0, ms, ok: false, error: 'no offers' })
+      continue
+    }
 
     const baseline = previousCounts?.[id]
     if (baseline && baseline > 0 && guards.maxDropRatio !== undefined) {
@@ -150,6 +176,12 @@ async function main(): Promise<void> {
   if (errors.length > 0) {
     await closeBrowser()
     console.error('\nValidation failed. Nothing was written.')
+    process.exit(1)
+  }
+
+  if (produced.length === 0) {
+    await closeBrowser()
+    console.error('\nNo source answered. Nothing was written.')
     process.exit(1)
   }
 

@@ -1,4 +1,5 @@
 import type { Browser, Page } from 'playwright'
+import { isProxied, proxiedUrl, restoreUrls } from './net.ts'
 
 /** Four banks answer a plain client with a challenge page: Imperva for Union,
  *  Sucuri for Pan Asia, and a client side render for Sampath and DFCC. Those
@@ -45,8 +46,28 @@ export async function closeBrowser(): Promise<void> {
 }
 
 /** Renders a page and returns the HTML the browser ends up with, after the
- *  page has settled. */
+ *  page has settled. A page that fails to load, or that comes back as a few
+ *  hundred bytes of challenge, is retried through the relay: a bank that
+ *  refuses the runner's address refuses it to the browser too. */
 export async function renderHtml(url: string, options: BrowserOptions = {}): Promise<string> {
+  const BLOCKED_BYTES = 3000
+
+  try {
+    const html = await renderOnce(url, options)
+    if (html.length >= BLOCKED_BYTES || isProxied(url)) return html
+    console.warn(`[browser] ${new URL(url).host} answered ${html.length} bytes, retrying through the relay`)
+  } catch (error) {
+    if (isProxied(url)) throw error
+    const message = error instanceof Error ? error.message : String(error)
+    console.warn(`[browser] ${new URL(url).host} did not load (${message.slice(0, 80)}), retrying through the relay`)
+  }
+
+  const via = proxiedUrl(url)
+  if (!via) throw new Error(`the relay is unavailable for ${url}`)
+  return renderOnce(via, options)
+}
+
+async function renderOnce(url: string, options: BrowserOptions): Promise<string> {
   const browser = await getBrowser(options.userAgent)
   const page = await browser.newPage({ userAgent: options.userAgent })
   try {
@@ -57,7 +78,8 @@ export async function renderHtml(url: string, options: BrowserOptions = {}): Pro
       await page.waitForLoadState('networkidle', { timeout: options.timeoutMs ?? 45000 }).catch(() => undefined)
     }
     await page.waitForTimeout(options.idleMs ?? 1200)
-    return await page.content()
+    const html = await page.content()
+    return isProxied(url) ? restoreUrls(html) : html
   } finally {
     await page.close()
   }

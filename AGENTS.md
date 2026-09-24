@@ -69,10 +69,30 @@ The full method is in the `source-adapter` skill. In short:
 Every source earns its keep twice: the fixture test fails when our mapping changes, and the daily
 probe fails when the bank's page changes.
 
+## When a bank refuses the runner
+
+Some banks answer every cloud egress IP with a 403, so the same request that works from a laptop can
+never work from CI. A 403 is therefore retried through a relay: `CARDSTOCK_PROXY` when it is set (a
+relay that takes `{url}`, or takes the encoded target appended), and Google's translation proxy when it
+is not. The proxy rewrites every URL in the response to its own host, so responses that arrive that way
+have the bank's own URLs put back before anything reads them, and hrefs, ids and image paths stay
+correct.
+
+A rendered page takes the same route: a load that fails, or that returns a few hundred bytes of
+challenge, is retried through the relay.
+
+```bash
+node scripts/check-relay.mts   # proves the relay answers where a direct request is refused
+```
+
 ## What must not bend
 
 - **Never publish an offer without an end date.** An offer that cannot be placed on a calendar is
   skipped, with a count in the log, and the offer-count guard notices if that becomes common.
+- **Availability is not quality.** A source the runner cannot reach, or one that answers with nothing,
+  is recorded in `data/runs.json` and left out of that run rather than failing it, because a datacenter
+  IP can be refused where a home one is not. A source that answers with *wrong* data still fails the
+  run. The daily probe is what fails loudly about a source that has gone.
 - **Validate before writing.** Guards run before `data/offers.jsonl` is touched, so a broken source
   fails the run instead of publishing half its offers.
 - **The id must reproduce the link.** The manifest rebuilds each offer's page from a template and the

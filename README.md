@@ -28,6 +28,10 @@ npx playwright install chromium
 
 Without it, `npm run sync` skips those sources and says why, and everything else still works.
 
+Some banks refuse every cloud address with a 403, so a scheduled run cannot reach them directly. Those
+requests are retried through a relay: set `CARDSTOCK_PROXY` to a relay of your own (it takes `{url}`, or
+the encoded target appended), or leave it unset to fall back to Google's translation proxy.
+
 ## How it fits together
 
 ```
