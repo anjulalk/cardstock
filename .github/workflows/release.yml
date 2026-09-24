@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump.
+        type: choice
+        options: [none, patch, minor, major]
+        default: none
+  pull_request_target:
+    types: [labeled, closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: >-
+      github.event_name != 'pull_request_target' ||
+      (github.event.pull_request.merged == true &&
+       (contains(github.event.pull_request.labels.*.name, 'release:patch') ||
+        contains(github.event.pull_request.labels.*.name, 'release:minor') ||
+        contains(github.event.pull_request.labels.*.name, 'release:major')))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_type == 'tag' && github.ref || 'main' }}
+      - name: Resolve release
+        id: release
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_BUMP: ${{ inputs.bump }}
+        run: |
+          bump=none
+          if [[ "$EVENT_NAME" == 'workflow_dispatch' ]]; then
+            bump="$DISPATCH_BUMP"
+          fi
+          if [[ "$EVENT_NAME" == 'pull_request_target' ]]; then
+            labels=$(jq -r '.pull_request.labels[].name' "$GITHUB_EVENT_PATH")
+            if grep -Fxq 'release:major' <<< "$labels"; then
+              bump=major
+            elif grep -Fxq 'release:minor' <<< "$labels"; then
+              bump=minor
+            elif grep -Fxq 'release:patch' <<< "$labels"; then
+              bump=patch
+            fi
+          fi
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+      - name: Bump version
+        id: bump
+        if: steps.release.outputs.bump == 'patch' || steps.release.outputs.bump == 'minor' || steps.release.outputs.bump == 'major'
+        shell: bash
+        env:
+          BUMP: ${{ steps.release.outputs.bump }}
+        run: |
+          set -euo pipefail
+          current=$(tr -d '[:space:]' < VERSION)
+          IFS=. read -r major minor patch <<< "$current"
+          case "$BUMP" in
+            patch) patch=$((patch + 1)) ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            *) echo "Unsupported bump: $BUMP" >&2; exit 1 ;;
+          esac
+          version="$major.$minor.$patch"
+          printf '%s\n' "$version" > VERSION
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add VERSION
+          git commit -m "Release v$version"
+          git tag "v$version"
+          git push origin HEAD:main "v$version"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+      - name: Publish release
+        if: github.ref_type == 'tag' || steps.bump.outputs.tag
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.bump.outputs.tag || github.ref_name }}
+        run: gh release create "$TAG" --title "$TAG" --generate-notes --verify-tag

@@ -1,6 +1,7 @@
 # cardstock
 
 [![ci](https://img.shields.io/github/actions/workflow/status/anjulalk/cardstock/ci.yml?branch=main&label=ci&labelColor=44403a&style=flat-square)](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/anjulalk/cardstock?label=release&labelColor=44403a&color=5f5a51&style=flat-square)](https://github.com/anjulalk/cardstock/releases/latest)
 [![deploy](https://img.shields.io/github/actions/workflow/status/anjulalk/cardstock/deploy.yml?branch=main&label=deploy&labelColor=44403a&style=flat-square)](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml)
 [![offers](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanjulalk%2Fcardstock%2Fmain%2Fdata%2Flatest.json&query=%24.offers&label=offers&labelColor=44403a&color=c1603c&style=flat-square)](https://cardstock.anjula.dev)
 [![node](https://img.shields.io/badge/node-24-5f5a51?labelColor=44403a&style=flat-square)](https://nodejs.org/)
@@ -95,6 +96,10 @@ Typography follows the system's roles: the page reads in serif, chrome switches 
 `ui` utility, `label` is for metadata and `num` for numbers that are compared. The tokens are published
 at <https://anjula.dev/design/tokens.css> and mirrored in `packages/web/src/style.css`. Prose follows
 the house style: plain sentences, no em-dashes, sentence case headings.
+
+## Releases
+
+The live site deploys from `main`. Merge a pull request labeled `release:patch`, `release:minor` or `release:major` to update `VERSION`, create a Git tag and publish a GitHub release. You can also dispatch the `release.yml` workflow with a version bump.
 
 ## Credits
 
