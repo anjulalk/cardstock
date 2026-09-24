@@ -1,10 +1,10 @@
 # cardstock
 
-[![CI](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml/badge.svg)](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml)
-[![Deploy](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml/badge.svg)](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml)
-[![Offers tracked](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanjulalk%2Fcardstock%2Fmain%2Fdata%2Flatest.json&query=%24.offers&label=offers&color=c1603c)](https://cardstock.anjula.dev)
-[![Node 24](https://img.shields.io/badge/node-24-5f5a51)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-c1603c)](LICENSE)
+[![ci](https://img.shields.io/github/actions/workflow/status/anjulalk/cardstock/ci.yml?branch=main&label=ci&labelColor=44403a&style=flat-square)](https://github.com/anjulalk/cardstock/actions/workflows/ci.yml)
+[![deploy](https://img.shields.io/github/actions/workflow/status/anjulalk/cardstock/deploy.yml?branch=main&label=deploy&labelColor=44403a&style=flat-square)](https://github.com/anjulalk/cardstock/actions/workflows/deploy.yml)
+[![offers](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanjulalk%2Fcardstock%2Fmain%2Fdata%2Flatest.json&query=%24.offers&label=offers&labelColor=44403a&color=c1603c&style=flat-square)](https://cardstock.anjula.dev)
+[![node](https://img.shields.io/badge/node-24-5f5a51?labelColor=44403a&style=flat-square)](https://nodejs.org/)
+[![license](https://img.shields.io/badge/license-MIT-c1603c?labelColor=44403a&style=flat-square)](LICENSE)
 
 Credit card offers in Sri Lanka, on a calendar, filtered to the cards you actually hold. Pick the
 cards in your wallet once, then see which supermarkets, restaurants and stores run an offer on which
