@@ -46,7 +46,7 @@ jobs:
       # so the canonical store rides in a cache. Without it, a source that sits a
       # run out would take its bank off the site until the next good run.
       - name: Restore the canonical store
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: data/offers.jsonl
           key: offers-${{ github.run_id }}
