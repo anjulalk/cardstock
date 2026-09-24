@@ -182,9 +182,10 @@ commit messages, not just to published copy.
 - **Seylan's** tier pages (Visa Gold, Platinum, Signature, World Master) are not read yet, which is the
   cheapest source of more tier labels than the seven in play.
 - The site is deployed by the workflows to GitHub Pages, and the repository's Pages source is the
-  GitHub Actions workflow. The deploy sets the custom domain `cardstock.anjula.dev` through the pages
-  API, because Pages reads that from the repository setting rather than from `public/CNAME`. The DNS
-  record at Cloudflare proxies the subdomain to GitHub, the way `fxtrack.anjula.dev` does.
+  GitHub Actions workflow. The custom domain `cardstock.anjula.dev` is a repository setting made once
+  by hand under Settings, Pages: the workflow token answers 403 to the pages settings API, and
+  `public/CNAME` in the artifact does not set it. The DNS record at Cloudflare proxies the subdomain
+  to GitHub, the way `fxtrack.anjula.dev` does.
 - In CI the canonical store rides in an `actions/cache` entry (`data/offers.jsonl`, key prefix
   `offers-`), because a fresh checkout has no store and a skipped source must not take its bank off
   the site. A cache miss falls back to the committed counts in `data/latest.json`.
