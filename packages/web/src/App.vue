@@ -92,6 +92,28 @@ const dayOffers = computed(() => {
     .sort((a, b) => (b.discount?.value ?? 0) - (a.discount?.value ?? 0))
 })
 
+/** The day list is the longest thing on the page and a busy day holds more
+ *  than a hundred offers, which buries the footer. Eight at a time keeps the
+ *  end of the page reachable, and the button says what is left. */
+const PAGE = 8
+const shown = ref(PAGE)
+const dayOffersShown = computed(() => dayOffers.value.slice(0, shown.value))
+const moreCount = computed(() => Math.max(0, dayOffers.value.length - shown.value))
+
+watch(
+  () => [
+    selectedDay.value,
+    month.value,
+    category.value,
+    vendor.value,
+    onlyMine.value,
+    selected.value.join('|'),
+  ],
+  () => {
+    shown.value = PAGE
+  },
+)
+
 const monthLabel = computed(() =>
   new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(
     new Date(`${month.value}-01T00:00:00Z`),
@@ -340,7 +362,11 @@ onMounted(async () => {
           </p>
 
           <ul v-else class="mt-3 divide-y divide-hair">
-            <li v-for="offer in dayOffers" :key="offer.id" class="flex flex-wrap gap-x-3 gap-y-1 py-3">
+            <li
+              v-for="offer in dayOffersShown"
+              :key="offer.id"
+              class="flex flex-wrap gap-x-3 gap-y-1 py-3"
+            >
               <span class="mt-0.5">
                 <BankMark
                   :bank="offer.banks[0] ?? ''"
@@ -372,6 +398,16 @@ onMounted(async () => {
               </div>
             </li>
           </ul>
+
+          <div v-if="moreCount > 0" class="mt-4 flex justify-center">
+            <button
+              type="button"
+              class="ui rounded-md border border-line px-3 py-1.5 text-sm text-mute transition hover:border-faint/60 hover:text-ink"
+              @click="shown += PAGE"
+            >
+              See {{ Math.min(PAGE, moreCount) }} more
+            </button>
+          </div>
         </section>
       </div>
     </div>
