@@ -8,6 +8,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -22,12 +23,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # Approve, wait for the checks this pull request started, then merge. The
-      # wait is the point: a minor that breaks the build never lands on its own.
-      - name: Approve a minor or patch, and merge it once the checks pass
-        if: contains(fromJSON('["version-update:semver-minor","version-update:semver-patch"]'), steps.meta.outputs.update-type)
+      # wait is the point: an update that breaks the build never lands on its own.
+      - name: Approve a routine update and merge it once the checks pass
+        id: merge
+        if: contains(fromJSON('["version-update:semver-minor","version-update:semver-patch","security-update"]'), steps.meta.outputs.update-type)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR: ${{ github.event.pull_request.html_url }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           if ! gh pr review --approve "$PR" 2>/tmp/review-error; then
             gh pr comment "$PR" --body "The approval did not go through: $(cat /tmp/review-error)"
@@ -54,8 +57,24 @@ jobs:
             exit 0
           fi
 
-          gh pr merge --squash --delete-branch "$PR" || gh pr comment "$PR" --body "Approved and the checks are green, but GitHub would not merge it yet. It may need a moment, or a look."
+          if gh pr merge --squash --delete-branch --match-head-commit "$HEAD_SHA" "$PR"; then
+            echo "merged=true" >> "$GITHUB_OUTPUT"
+          else
+            gh pr comment "$PR" --body "Approved and the checks are green, but GitHub has not merged it yet. It may need a moment, or a look." || true
+          fi
 
+      - name: Release merged update
+        if: steps.merge.outputs.merged == 'true' && contains(fromJSON('["version-update:semver-minor","version-update:semver-patch","security-update"]'), steps.meta.outputs.update-type)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+        run: |
+          if [[ "$UPDATE_TYPE" == 'version-update:semver-minor' ]]; then
+            bump=minor
+          else
+            bump=patch
+          fi
+          gh workflow run release.yml --ref main -f bump="$bump"
       - name: Say what a major or unknown update needs
         if: contains(fromJSON('["version-update:semver-major","version-update:semver-unknown"]'), steps.meta.outputs.update-type)
         env:
