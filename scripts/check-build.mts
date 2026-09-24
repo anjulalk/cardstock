@@ -32,7 +32,9 @@ check('the social card', present('og.png'))
 check('the favicon', present('favicon.svg'))
 check('a touch icon', present('icon-192.png'))
 check('the web manifest', present('site.webmanifest'))
-check('the CNAME', present('CNAME'))
+// The custom domain lives in the repository settings, not in this file, but an
+// empty or misspelled one here is how a domain quietly stops answering.
+check('the CNAME names the domain', mentions('CNAME', 'cardstock.anjula.dev'))
 check('a bank mark', present('banks/hnb.png'))
 
 check('the manifest', present('data/index.json'))
