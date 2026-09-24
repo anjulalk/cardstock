@@ -15,6 +15,16 @@ The site is static. A scheduled job reads each bank's own pages or API, normaliz
 `data/offers.jsonl`, and the build slices that into the small files the browser asks for. There is no
 server and no database.
 
+## A look inside
+
+The screenshots below are captured from the local app with deterministic synthetic demo data. They use
+neither real bank data nor live offers. The fictional banks and merchants keep the examples clearly
+separate from current offers.
+
+![Cardstock calendar showing fictional Harbor, Cedar and Lumen demo bank offers across September 2026](docs/calendar.png)
+
+![Cardstock filtered to a fictional Harbor Demo Bank Signature card and Harbor Market, showing matching synthetic offers](docs/filtered.png)
+
 ## Quick start
 
 ```bash
