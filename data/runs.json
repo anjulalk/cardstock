@@ -1,83 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-09-22T21:45:49.921Z",
-    "offers": 219,
-    "ms": 101187,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-09-22T21:45:49.921Z",
-    "offers": 24,
-    "ms": 57899,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 48,
-    "ms": 2314,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 68,
-    "ms": 2845,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 69,
-    "ms": 3754,
-    "ok": true
-  },
-  {
-    "source": "hnb",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 897,
-    "ms": 5188,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 99,
-    "ms": 2142,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 127,
-    "ms": 3329,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 33,
-    "ms": 32915,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 176,
-    "ms": 87782,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-09-24T04:02:06.043Z",
-    "offers": 118,
-    "ms": 3334,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-09-24T04:02:06.043Z",
     "offers": 226,
     "ms": 223033,
@@ -1430,5 +1353,83 @@
     "ms": 55887,
     "ok": false,
     "error": "union: lost 23 of 24 offers (96%), the limit is 30%"
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 47,
+    "ms": 4012,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 63,
+    "ms": 5885,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 0,
+    "ms": 7716,
+    "ok": false,
+    "error": "combank: lost 35 of 65 offers (54%), the limit is 50%"
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 906,
+    "ms": 6111,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 87,
+    "ms": 3286,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 121,
+    "ms": 4718,
+    "ok": true
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 29,
+    "ms": 14375,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 178,
+    "ms": 127441,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 111,
+    "ms": 6758,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 239,
+    "ms": 167238,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-03T05:42:57.633Z",
+    "offers": 24,
+    "ms": 12655,
+    "ok": true
   }
 ]
