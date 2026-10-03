@@ -29,6 +29,18 @@ export const WEEKDAYS: Record<string, number> = {
 
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`)
 
+/** Repairs the stray replacement characters a bank leaves in its prose. A page
+ *  served as UTF-8 that was really written in a single byte encoding comes back
+ *  with U+FFFD wherever a smart quote or a dash was, and it lands mid phrase
+ *  often enough to break the wording: Nations Trust writes
+ *  "Valid�till 31�October 2026", where the day and the month are separated by
+ *  a character that is not a space, so neither pattern below matches and the
+ *  offer loses its end date. The character carries no date meaning, so it
+ *  becomes the separator it was standing in for. */
+function repair(text: string): string {
+  return text.replace(/\uFFFD/g, ' ')
+}
+
 export function todayIso(now = new Date()): string {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
@@ -128,8 +140,8 @@ export function parseDateList(text: string | null, fallbackYear = new Date().get
   if (!text) return []
   const out: string[] = []
   const pattern =
-    /((?:\d{1,2}(?:st|nd|rd|th)?\s*(?:,|and|&|\/)\s*)+)(\d{1,2})(?:st|nd|rd|th)?\s*(?:of\s+)?(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/gi
-  for (const match of text.matchAll(pattern)) {
+    /((?:\d{1,2}(?:st|nd|rd|th)?\s*(?:,|and|&|\/)\s*)+)(\d{1,2})(?:st|nd|rd|th)?\s*(?:of\s+)?(jan|feb|mar|apr|may|jun|aug|sep|oct|nov|dec)[a-z]*\.?,?\s*(\d{4})?/gi
+  for (const match of repair(text).matchAll(pattern)) {
     const month = MONTHS[match[3]!.slice(0, 3).toLowerCase()]
     if (!month) continue
     const year = match[4] ? Number(match[4]) : fallbackYear
@@ -161,9 +173,10 @@ export function qualifyingDays(
  *  ("from 24th to 11th") wraps into the following month. */
 export function parseMonthlyRange(text: string | null, from: string): Validity | null {
   if (!text) return null
+  const repaired = repair(text)
   const match =
     /from\s+(\d{1,2})(?:st|nd|rd|th)?\s+to\s+(\d{1,2})(?:st|nd|rd|th)?\s+of\s+every\s+month\s+till\s+(.+)$/i.exec(
-      text,
+      repaired,
     )
   if (!match) return null
 
@@ -221,7 +234,9 @@ export function parsePeriodText(text: string | null, fallbackYear = new Date().g
   // Times of day carry digits that look like days: DFCC writes "Valid from 31
   // August 2026 at 18:30 until 31 October 2026 at 17:30", and the 30 of 18:30
   // would otherwise pair with the following date.
-  const cleaned = text.replace(/\bat\s+\d{1,2}:\d{2}\b/gi, ' ').replace(/\b\d{1,2}:\d{2}\b/g, ' ')
+  const cleaned = repair(text)
+    .replace(/\bat\s+\d{1,2}:\d{2}\b/gi, ' ')
+    .replace(/\b\d{1,2}:\d{2}\b/g, ' ')
 
   const days: number[] = []
   for (const m of cleaned.matchAll(/every\s+([a-z]+)/gi)) {

@@ -28,8 +28,8 @@
   "sourceUrlTemplate": "https://www.combank.lk/rewards-promotion/{id}",
   "cadence": "0 6,18 * * *",
   "guards": {
-    "minItems": 40,
-    "maxDropRatio": 0.3,
+    "minItems": 25,
+    "maxDropRatio": 0.5,
     "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
   }
 }

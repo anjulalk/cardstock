@@ -120,8 +120,13 @@ adding a pattern, and add a test for every new shape.
 | An `data-ics` JSON | `{"start":"2026-12-16","end":"2026-12-17"}`, end exclusive | Amana |
 | Epoch milliseconds | `1790360940000`, the last minute of the day in Colombo | Sampath |
 | An end date only | `Expiration date: 30 Sep 2026` | HNB, BOC, ComBank |
+| A broken byte for a separator | `Valid till 31 October 2026` | NTB |
 
 Rules and traps that came out of these:
+
+- **A replacement character is a separator.** NTB serves UTF-8 that was written in a single byte
+  encoding, so a smart quote comes back as U+FFFD. It lands where a separator belongs, which costs
+  the offer its end date and the run its guard. The parser turns U+FFFD into a space first.
 
 - **Strip times of day first.** DFCC writes `at 18:30 until 31 October 2026`, and the `30` of `18:30`
   reads as a day unless it is removed. The parser strips `at HH:MM` and `HH:MM`.
@@ -133,6 +138,9 @@ Rules and traps that came out of these:
 - **Day first is the local convention.** `11-09-2026` from a Sri Lankan bank is the 11th of September.
 - **A padded calendar link is not the offer.** Union's page reads `18th to 20th September` while its
   calendar link runs 17th to 22nd. The prose wins; the link is a fallback.
+- **A slug the bank recycles is not a stable identity.** Union re-slugs its whole wall between
+  campaigns, so a drop ratio reads the rotation as a broken parser. Its contract carries no
+  `maxDropRatio`; the floor and the required fields still catch a redesign.
 - **The parser is where the model is decided**: `days` is a weekday rule (0 is Sunday), `dates` is a
   list of ISO days, and `qualifyingDays` turns either into the day numbers of a month. The chunker
   never sees a rule, only the days.

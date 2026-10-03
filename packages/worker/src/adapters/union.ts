@@ -5,7 +5,15 @@ import { firstMatch, splitItems } from '../lib/html.ts'
 import type { Draft } from '../normalize.ts'
 import { stripHtml } from '../normalize.ts'
 
-/** Union lists 24 offers on one page, each a WordPress card:
+/** Union recycles the whole wall between campaigns, so its slugs are not a
+ *  stable identity: the October catalogue is retail (adidas, nike, mango) where
+ *  September's was hotels and dining, and only a handful of slugs carry over.
+ *  A drop ratio would read that rotation as a broken parser and sit the source
+ *  out, so the contract carries no maxDropRatio for it. The floor and the
+ *  required fields still catch a redesign, because a page whose markup moved
+ *  yields no offers at all, which sync treats as unavailable.
+ *
+ *  Union lists 24 offers on one page, each a WordPress card:
  *
  *  <div class="single-offer">
  *    <div class="merchant-logo-wrap"><a href="https://www.unionb.com/offer/ub-12/">

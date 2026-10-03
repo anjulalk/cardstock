@@ -63,18 +63,23 @@ jobs:
             gh pr comment "$PR" --body "Approved and the checks are green, but GitHub has not merged it yet. It may need a moment, or a look." || true
           fi
 
+      # The dispatch goes through the API rather than `gh workflow run`, which
+      # reads the current git ref and so fails in a job that checked nothing out.
       - name: Release merged update
         if: steps.merge.outputs.merged == 'true' && contains(fromJSON('["version-update:semver-minor","version-update:semver-patch","security-update"]'), steps.meta.outputs.update-type)
         env:
           GH_TOKEN: ${{ github.token }}
           UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
         run: |
+          set -euo pipefail
           if [[ "$UPDATE_TYPE" == 'version-update:semver-minor' ]]; then
             bump=minor
           else
             bump=patch
           fi
-          gh workflow run release.yml --ref main -f bump="$bump"
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/release.yml/dispatches" \
+            -f ref=main -f "inputs[bump]=$bump" >/dev/null
+          echo "dispatched release.yml with bump=$bump"
       - name: Say what a major or unknown update needs
         if: contains(fromJSON('["version-update:semver-major","version-update:semver-unknown"]'), steps.meta.outputs.update-type)
         env:

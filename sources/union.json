@@ -19,7 +19,6 @@
   "cadence": "0 6,18 * * *",
   "guards": {
     "minItems": 15,
-    "maxDropRatio": 0.3,
     "requireFields": ["id", "title", "validTo", "bank", "sourceUrl"]
   }
 }

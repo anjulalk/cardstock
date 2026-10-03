@@ -168,6 +168,35 @@ test('dates: text that is not a monthly range is left alone', () => {
   assert.equal(parseMonthlyRange('Offer valid till 30th September 2026', '2026-09-20'), null)
 })
 
+test('dates: a broken byte between the words is the separator it replaced', () => {
+  // Nations Trust serves UTF-8 that was written in a single byte encoding, so a
+  // smart quote comes back as U+FFFD. It lands where a separator belongs, which
+  // otherwise costs the offer its end date and the run its guard.
+  assert.deepEqual(parsePeriodText('Valid\uFFFDtill 31\uFFFDOctober 2026', YEAR), {
+    from: null,
+    to: '2026-10-31',
+    days: [],
+    dates: [],
+  })
+})
+
+test('dates: a broken byte does not hide a weekday rule', () => {
+  assert.deepEqual(parsePeriodText('Valid every Saturday\uFFFDfrom 1st to 31st October 2026', YEAR), {
+    from: '2026-10-01',
+    to: '2026-10-31',
+    days: [6],
+    dates: [],
+  })
+})
+
+test('dates: a broken byte does not hide a named day list', () => {
+  assert.deepEqual(parseDateList('Valid on 2nd,\uFFFD16th and 30th September 2026', YEAR), [
+    '2026-09-02',
+    '2026-09-16',
+    '2026-09-30',
+  ])
+})
+
 test('dates: the American order reads the same day as ours', () => {
   assert.deepEqual(parsePeriodText('Till October 31, 2026', YEAR), {
     from: null,
