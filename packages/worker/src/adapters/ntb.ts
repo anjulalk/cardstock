@@ -30,8 +30,14 @@ export function mapNtbList(html: string, contract: SourceContract): Draft[] {
 
     // The grid also carries one informational card ("General Terms and
     // Condition for Offers") with no period. It is not an offer.
-    const periodText = firstMatch(part, /<small>([\s\S]*?)<\/small>/)
-    if (!periodText || periodText.trim().length === 0) {
+    //
+    // The text is cleaned before it is parsed, as every other source does. NTB
+    // separates the day from the month with a non-breaking space, which the
+    // bank writes as an entity, so a relayed page reads "31&nbsp;October 2026".
+    // Left as markup the entity is eight characters between the two, the date
+    // patterns do not match, and the offer loses its end date.
+    const periodText = stripHtml(firstMatch(part, /<small>([\s\S]*?)<\/small>/) ?? '')
+    if (periodText.length === 0) {
       skipped += 1
       continue
     }

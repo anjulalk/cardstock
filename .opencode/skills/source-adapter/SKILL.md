@@ -92,7 +92,13 @@ Two details that cause real bugs:
   nothing of its answer.
 - `maxDropRatio` compares against the last run, or against the committed counts in CI where there is
   no previous file. **Month end legitimately drops offers**: NTB loses a quarter of its list when a
-  month turns, so its limit is 0.35 rather than the default 0.25.
+  month turns, so its limit is 0.35 rather than the default 0.25. NDB does the same, losing 27 of 99
+  on the last day of September, all of them expired. Check where the lost offers ended before moving
+  a limit: a list that shrank because its dates passed is not a broken parser.
+- **A drop ratio needs a stable identity to mean anything.** It compares ids, so a bank that recycles
+  its slugs between campaigns reads as a total loss every time. Union's wall went from hotels to
+  retail and kept four slugs out of 24, which is a 96% drop and no fault at all. Leave the ratio off
+  such a contract rather than raising it past what a real regression would produce.
 - `requireFields` is checked against the canonical names (`validTo`, not the API's `to`).
 - A source that trips any guard sits the run out: the reason lands in `data/runs.json`, its previous
   offers stay published, and the run goes on. A run of guard skips is a signal to run the probe, which
@@ -121,13 +127,17 @@ adding a pattern, and add a test for every new shape.
 | Epoch milliseconds | `1790360940000`, the last minute of the day in Colombo | Sampath |
 | An end date only | `Expiration date: 30 Sep 2026` | HNB, BOC, ComBank |
 | A broken byte for a separator | `Valid till 31 October 2026` | NTB |
+| An entity for a non-breaking space | `Valid till 31&nbsp;October 2026` | NTB |
 
 Rules and traps that came out of these:
 
 - **A replacement character is a separator.** NTB serves UTF-8 that was written in a single byte
   encoding, so a smart quote comes back as U+FFFD. It lands where a separator belongs, which costs
   the offer its end date and the run its guard. The parser turns U+FFFD into a space first.
-
+- **Run the period text through `stripHtml` before parsing it.** The same bank's relayed page carries
+  the non-breaking space as the entity `&nbsp;`, eight characters in the gap where a space belongs.
+  Only ComBank's adapter was doing this. An adapter that hands raw markup to the parser will lose
+  dates to entities it never asked for.
 - **Strip times of day first.** DFCC writes `at 18:30 until 31 October 2026`, and the `30` of `18:30`
   reads as a day unless it is removed. The parser strips `at HH:MM` and `HH:MM`.
 - **A month and a year is not a day.** `October 2026` must not become the 20th; the month-first
