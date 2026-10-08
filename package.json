@@ -23,7 +23,7 @@
     "check": "npm run check --workspaces --if-present"
   },
   "devDependencies": {
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "typescript": "^5.9.3"
   },
   "engines": {
