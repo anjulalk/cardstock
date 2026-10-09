@@ -1,84 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-09-29T18:14:36.947Z",
-    "offers": 240,
-    "ms": 114895,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-09-29T18:14:36.947Z",
-    "offers": 24,
-    "ms": 11950,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 50,
-    "ms": 3875,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 76,
-    "ms": 5753,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 63,
-    "ms": 8066,
-    "ok": true
-  },
-  {
-    "source": "hnb",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 935,
-    "ms": 6310,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 110,
-    "ms": 3812,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 0,
-    "ms": 5083,
-    "ok": false,
-    "error": "ntb: 4 offers are missing validTo"
-  },
-  {
-    "source": "panasia",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 32,
-    "ms": 32288,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 179,
-    "ms": 138134,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-09-30T05:56:56.837Z",
-    "offers": 122,
-    "ms": 6519,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-09-30T05:56:56.837Z",
     "offers": 240,
     "ms": 236415,
@@ -1430,6 +1352,84 @@
     "at": "2026-10-08T19:00:19.298Z",
     "offers": 24,
     "ms": 13180,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 57,
+    "ms": 4184,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 73,
+    "ms": 5879,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 61,
+    "ms": 10159,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 923,
+    "ms": 4276,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 109,
+    "ms": 4279,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 0,
+    "ms": 5617,
+    "ok": false,
+    "error": "ntb: 1 offers are missing validTo"
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 29,
+    "ms": 12139,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 156,
+    "ms": 134862,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 125,
+    "ms": 4245,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 240,
+    "ms": 239783,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-09T06:40:11.182Z",
+    "offers": 24,
+    "ms": 13455,
     "ok": true
   }
 ]
