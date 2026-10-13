@@ -1,85 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-04T06:18:23.477Z",
-    "offers": 239,
-    "ms": 119790,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-04T06:18:23.477Z",
-    "offers": 24,
-    "ms": 11984,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 47,
-    "ms": 4022,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 63,
-    "ms": 6035,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 0,
-    "ms": 9514,
-    "ok": false,
-    "error": "400 Bad Request for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f01ef"
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 906,
-    "ms": 5026,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 87,
-    "ms": 3768,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 120,
-    "ms": 5133,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 29,
-    "ms": 12711,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 0,
-    "ms": 22344,
-    "ok": false,
-    "error": "fetch failed"
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-04T17:00:46.653Z",
-    "offers": 111,
-    "ms": 4258,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-04T17:00:46.653Z",
     "offers": 239,
     "ms": 120068,
@@ -1417,6 +1338,85 @@
     "at": "2026-10-13T07:04:33.504Z",
     "offers": 24,
     "ms": 12510,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 65,
+    "ms": 3916,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 0,
+    "ms": 3738,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-boc-lk.translate.goog/personal-banking/card-offers?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: "
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 70,
+    "ms": 8115,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 958,
+    "ms": 6704,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 114,
+    "ms": 3822,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 0,
+    "ms": 5397,
+    "ok": false,
+    "error": "ntb: 1 offers are missing validTo"
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 37,
+    "ms": 12802,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 157,
+    "ms": 114497,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 126,
+    "ms": 5613,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 240,
+    "ms": 118265,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-13T19:31:07.354Z",
+    "offers": 24,
+    "ms": 13568,
     "ok": true
   }
 ]
