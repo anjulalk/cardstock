@@ -1,84 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-05T06:11:32.844Z",
-    "offers": 240,
-    "ms": 256555,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-05T06:11:32.844Z",
-    "offers": 24,
-    "ms": 11127,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 47,
-    "ms": 3932,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 62,
-    "ms": 5982,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 0,
-    "ms": 6753,
-    "ok": false,
-    "error": "combank: lost 35 of 65 offers (54%), the limit is 50%"
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 915,
-    "ms": 6595,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 91,
-    "ms": 3524,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 120,
-    "ms": 5466,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 29,
-    "ms": 13435,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 182,
-    "ms": 125299,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-05T20:44:36.342Z",
-    "offers": 112,
-    "ms": 4636,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-05T20:44:36.342Z",
     "offers": 240,
     "ms": 112890,
@@ -1418,6 +1340,84 @@
     "at": "2026-10-14T05:21:14.676Z",
     "offers": 24,
     "ms": 14884,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 65,
+    "ms": 4481,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 87,
+    "ms": 6343,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 71,
+    "ms": 10275,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 972,
+    "ms": 6505,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 116,
+    "ms": 3208,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 0,
+    "ms": 3605,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-nationstrust-com.translate.goog/promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f"
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 37,
+    "ms": 13018,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 157,
+    "ms": 120067,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 129,
+    "ms": 7989,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 240,
+    "ms": 124865,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-14T17:35:29.757Z",
+    "offers": 24,
+    "ms": 13810,
     "ok": true
   }
 ]
