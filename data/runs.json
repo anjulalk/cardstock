@@ -1,84 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 239,
-    "ms": 242202,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 24,
-    "ms": 14884,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 65,
-    "ms": 4481,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 87,
-    "ms": 6343,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 71,
-    "ms": 10275,
-    "ok": true
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 972,
-    "ms": 6505,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 116,
-    "ms": 3208,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 0,
-    "ms": 3605,
-    "ok": false,
-    "error": "429 Too Many Requests for https://www-nationstrust-com.translate.goog/promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f"
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 37,
-    "ms": 13018,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 157,
-    "ms": 120067,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-14T17:35:29.757Z",
-    "offers": 129,
-    "ms": 7989,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-14T17:35:29.757Z",
     "offers": 240,
     "ms": 124865,
@@ -1409,6 +1331,83 @@
     "at": "2026-10-23T05:22:34.029Z",
     "offers": 24,
     "ms": 15605,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 74,
+    "ms": 3817,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 84,
+    "ms": 5350,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 71,
+    "ms": 5828,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 1019,
+    "ms": 6066,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 119,
+    "ms": 3813,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 141,
+    "ms": 4867,
+    "ok": true
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 37,
+    "ms": 14364,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 171,
+    "ms": 115326,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 130,
+    "ms": 9214,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 240,
+    "ms": 118168,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-23T17:32:43.707Z",
+    "offers": 24,
+    "ms": 12526,
     "ok": true
   }
 ]
