@@ -1,85 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-13T19:31:07.354Z",
-    "offers": 240,
-    "ms": 118265,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-13T19:31:07.354Z",
-    "offers": 24,
-    "ms": 13568,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 65,
-    "ms": 4520,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 0,
-    "ms": 6114,
-    "ok": false,
-    "error": "429 Too Many Requests for https://www-boc-lk.translate.goog/personal-banking/card-offers?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: "
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 70,
-    "ms": 8356,
-    "ok": true
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 965,
-    "ms": 6435,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 114,
-    "ms": 3789,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 0,
-    "ms": 4822,
-    "ok": false,
-    "error": "ntb: 1 offers are missing validTo"
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 37,
-    "ms": 13207,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 157,
-    "ms": 124466,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-14T05:21:14.676Z",
-    "offers": 126,
-    "ms": 6196,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-14T05:21:14.676Z",
     "offers": 239,
     "ms": 242202,
@@ -1411,6 +1332,83 @@
     "at": "2026-10-22T17:36:47.356Z",
     "offers": 24,
     "ms": 14004,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 74,
+    "ms": 2790,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 84,
+    "ms": 6116,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 71,
+    "ms": 7981,
+    "ok": true
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 1019,
+    "ms": 6114,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 117,
+    "ms": 2991,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 138,
+    "ms": 4309,
+    "ok": true
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 36,
+    "ms": 12275,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 171,
+    "ms": 161022,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 130,
+    "ms": 4656,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 240,
+    "ms": 274080,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-23T05:22:34.029Z",
+    "offers": 24,
+    "ms": 15605,
     "ok": true
   }
 ]
