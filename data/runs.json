@@ -1,83 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-21T05:16:43.286Z",
-    "offers": 240,
-    "ms": 256875,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-21T05:16:43.286Z",
-    "offers": 24,
-    "ms": 13000,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 71,
-    "ms": 4396,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 84,
-    "ms": 6046,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 71,
-    "ms": 8288,
-    "ok": true
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 1008,
-    "ms": 5826,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 119,
-    "ms": 6163,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 136,
-    "ms": 5306,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 37,
-    "ms": 15820,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 171,
-    "ms": 123051,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-21T17:38:16.050Z",
-    "offers": 129,
-    "ms": 4314,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-21T17:38:16.050Z",
     "offers": 240,
     "ms": 117486,
@@ -1410,6 +1333,84 @@
     "at": "2026-10-30T06:24:43.028Z",
     "offers": 24,
     "ms": 15400,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 81,
+    "ms": 3914,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 89,
+    "ms": 6036,
+    "ok": true
+  },
+  {
+    "source": "combank",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 0,
+    "ms": 8315,
+    "ok": false,
+    "error": "403 Forbidden for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR"
+  },
+  {
+    "source": "hnb",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 1019,
+    "ms": 6266,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 121,
+    "ms": 3213,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 204,
+    "ms": 5017,
+    "ok": true
+  },
+  {
+    "source": "panasia",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 33,
+    "ms": 14351,
+    "ok": true
+  },
+  {
+    "source": "peoples",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 178,
+    "ms": 119025,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 124,
+    "ms": 4617,
+    "ok": true
+  },
+  {
+    "source": "seylan",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 240,
+    "ms": 113440,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-10-30T18:12:51.934Z",
+    "offers": 24,
+    "ms": 14682,
     "ok": true
   }
 ]
