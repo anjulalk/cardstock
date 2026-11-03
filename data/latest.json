@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-02T21:55:10.182Z",
-  "today": "2026-11-02",
-  "offers": 2048,
-  "duplicates": 56,
+  "generatedAt": "2026-11-03T07:13:29.987Z",
+  "today": "2026-11-03",
+  "offers": 2049,
+  "duplicates": 60,
   "sources": {
     "amana": 78,
     "boc": 87,
     "combank": 71,
-    "hnb": 948,
+    "hnb": 949,
     "ndb": 121,
     "ntb": 151,
     "panasia": 32,

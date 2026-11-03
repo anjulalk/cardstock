@@ -1,84 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-10-24T16:13:55.644Z",
-    "offers": 240,
-    "ms": 149621,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-10-24T16:13:55.644Z",
-    "offers": 24,
-    "ms": 13063,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 74,
-    "ms": 4440,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 84,
-    "ms": 6184,
-    "ok": true
-  },
-  {
-    "source": "combank",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 0,
-    "ms": 7023,
-    "ok": false,
-    "error": "403 Forbidden for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR"
-  },
-  {
-    "source": "hnb",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 1019,
-    "ms": 5917,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 119,
-    "ms": 3507,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 141,
-    "ms": 5480,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 37,
-    "ms": 12918,
-    "ok": true
-  },
-  {
-    "source": "peoples",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 171,
-    "ms": 115691,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-10-25T05:15:27.567Z",
-    "offers": 129,
-    "ms": 5603,
-    "ok": true
-  },
-  {
-    "source": "seylan",
     "at": "2026-10-25T05:15:27.567Z",
     "offers": 240,
     "ms": 183557,
@@ -1431,6 +1353,90 @@
     "at": "2026-11-02T21:55:10.182Z",
     "offers": 22,
     "ms": 12668,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 78,
+    "ms": 3856,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 6477,
+    "ok": false,
+    "error": "boc: lost 24 of 87 offers (28%), the limit is 25%"
+  },
+  {
+    "source": "combank",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 6929,
+    "ok": false,
+    "error": "403 Forbidden for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR"
+  },
+  {
+    "source": "hnb",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 1009,
+    "ms": 6944,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 3585,
+    "ok": false,
+    "error": "ndb: lost 52 of 121 offers (43%), the limit is 35%"
+  },
+  {
+    "source": "ntb",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 3390,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-nationstrust-com.translate.goog/promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f"
+  },
+  {
+    "source": "panasia",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 14110,
+    "ok": false,
+    "error": "panasia: 12 offers, the floor is 20; panasia: lost 20 of 32 offers (63%), the limit is 35%"
+  },
+  {
+    "source": "peoples",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 112378,
+    "ok": false,
+    "error": "peoples: lost 98 of 178 offers (55%), the limit is 30%"
+  },
+  {
+    "source": "sampath",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 0,
+    "ms": 5936,
+    "ok": false,
+    "error": "sampath: 71 offers, the floor is 80; sampath: lost 53 of 120 offers (44%), the limit is 25%"
+  },
+  {
+    "source": "seylan",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 240,
+    "ms": 557612,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-11-03T07:13:29.987Z",
+    "offers": 22,
+    "ms": 12718,
     "ok": true
   }
 ]
