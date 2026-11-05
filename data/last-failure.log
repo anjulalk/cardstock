@@ -1,0 +1,155 @@
+the pipeline failed on 2026-11-05 20:22Z at 92d7b4d
+
+> sync
+> npm run sync --workspace @cardstock/worker
+
+
+> @cardstock/worker@0.0.0 sync
+> node src/sync.ts
+
+[amana] the page holds 78 offers
+[amana] 78 offers in 3425ms
+[boc] attempt 1 failed: 403 Forbidden for https://www.boc.lk/personal-banking/card-offers :: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML><HEAD><META
+[boc] refused directly, retrying through the relay
+[boc] the relay answered for www.boc.lk
+[boc] the page holds 68 offers
+[boc] skipped this run: boc: lost 24 of 87 offers (28%), the limit is 25%
+[combank] attempt 1 failed: 403 Forbidden for https://www.combank.lk/rewards-promotions :: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML><HEAD><META
+[combank] refused directly, retrying through the relay
+[combank] attempt 1 failed: 400 Bad Request for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f01efa04d48da2a721ccb48e84', deleteIsEnforc
+[combank] unavailable this run: 400 Bad Request for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f01ef
+[dfcc] the browser runner has no fetcher for this source yet, skipping
+[hnb] GET https://venus.hnb.lk/api/get_all_web_card_promos?page=1&limit=999
+[hnb] web feed reports 967 promotions
+[hnb] GET https://venus.hnb.lk/api/get_all_pcard_promotions
+[hnb] premium feed reports 20 promotions
+[hnb] 987 offers in 5469ms
+[ndb] skipped 3 card(s) with no placeable period
+[ndb] the page holds 86 offers
+[ndb] skipped this run: ndb: lost 45 of 121 offers (37%), the limit is 35%
+[ntb] attempt 1 failed: 403 Forbidden for https://www.nationstrust.com/promotions :: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML><HEAD><META
+[ntb] refused directly, retrying through the relay
+[ntb] the relay answered for www.nationstrust.com
+[ntb] skipped 2 card(s) with no period
+[ntb] the page holds 164 offers
+[ntb] 164 offers in 5078ms
+[panasia] skipped 2 card(s) with no placeable period
+[panasia] the rendered page holds 17 offers
+[panasia] skipped this run: panasia: 17 offers, the floor is 20; panasia: lost 20 of 32 offers (63%), the limit is 35%
+[peoples] supermarkets page 1: +5 (total 5)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/supermarkets/page/2/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] restaurants page 1: +41 (total 46)
+[peoples] online page 1: +6 (total 52)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/online-stores/page/2/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] electronics page 1: +5 (total 57)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/home-care-electronics/page/2/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] auto page 1: +4 (total 61)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/auto-mobile/page/2/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] leisure page 1: +21 (total 82)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/kegalle-promotion/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] kegalle answered 404, skipping it
+[peoples] skipped 3 card(s) with no period
+[peoples] visa page 1: +3 (total 85)
+[peoples] attempt 1 failed: 404 Not Found for https://www.peoplesbank.lk/promotion-category/visa/page/2/ :: <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=
+[peoples] skipped this run: peoples: lost 97 of 178 offers (54%), the limit is 30%
+[sampath] skipped 6 row(s) with no end date
+[sampath] the api returns 132 promotions
+[sampath] skipped this run: sampath: lost 53 of 120 offers (44%), the limit is 25%
+[seylan] page 1: +6 (total 6)
+[seylan] page 2: +6 (total 12)
+[seylan] page 3: +6 (total 18)
+[seylan] page 4: +6 (total 24)
+[seylan] page 5: +6 (total 30)
+[seylan] page 6: +6 (total 36)
+[seylan] page 7: +6 (total 42)
+[seylan] page 8: +6 (total 48)
+[seylan] page 9: +6 (total 54)
+[seylan] page 10: +6 (total 60)
+[seylan] page 11: +6 (total 66)
+[seylan] page 12: +6 (total 72)
+[seylan] page 13: +5 (total 77)
+[seylan] page 14: +6 (total 83)
+[seylan] page 15: +6 (total 89)
+[seylan] page 16: +6 (total 95)
+[seylan] page 17: +6 (total 101)
+[seylan] page 18: +6 (total 107)
+[seylan] page 19: +6 (total 113)
+[seylan] page 20: +6 (total 119)
+[seylan] page 21: +6 (total 125)
+[seylan] page 22: +6 (total 131)
+[seylan] page 23: +6 (total 137)
+[seylan] page 24: +6 (total 143)
+[seylan] page 25: +6 (total 149)
+[seylan] page 26: +6 (total 155)
+[seylan] page 27: +6 (total 161)
+[seylan] page 28: +6 (total 167)
+[seylan] page 29: +6 (total 173)
+[seylan] page 30: +6 (total 179)
+[seylan] page 31: +6 (total 185)
+[seylan] page 32: +6 (total 191)
+[seylan] page 33: +6 (total 197)
+[seylan] page 34: +6 (total 203)
+[seylan] page 35: +6 (total 209)
+[seylan] page 36: +6 (total 215)
+[seylan] page 37: +6 (total 221)
+[seylan] page 38: +6 (total 227)
+[seylan] page 39: +6 (total 233)
+[seylan] page 40: +6 (total 239)
+[seylan] 239 offers in 252868ms
+[union] the rendered page holds 24 offers
+[union] 24 offers in 13601ms
+
+wrote 2043 offers (1923 active, 0 unconfirmed), dropped 58 duplicate id(s)
+kept 609 offers from sources that sat this run out
+
+> chunk
+> npm run chunk --workspace @cardstock/worker
+
+
+> @cardstock/worker@0.0.0 chunk
+> node src/chunk.ts
+
+chunks: 1805 offers across 10 months and 83 bank-months, 1850 KB total, version bd3c08e091
+  2026-08: sampath 100.1KB, seylan 8.8KB, hnb 8.4KB, amana 5.5KB, ndb 0.7KB, ntb 0.5KB
+  2026-09: sampath 188.6KB, hnb 15.2KB, seylan 9.8KB, amana 6.0KB, ndb 1.0KB, peoples 0.6KB, ntb 0.5KB
+  2026-10: sampath 255.6KB, hnb 29.7KB, seylan 27.0KB, amana 7.5KB, combank 4.9KB, ndb 3.3KB, union 2.6KB, ntb 1.4KB, peoples 1.1KB
+  2026-11: hnb 258.0KB, sampath 150.7KB, ntb 39.2KB, seylan 37.4KB, boc 22.5KB, peoples 21.7KB, ndb 17.2KB, combank 12.1KB, amana 7.4KB, union 6.0KB, panasia 5.6KB
+  2026-12: hnb 238.1KB, sampath 106.3KB, seylan 48.1KB, ntb 32.5KB, amana 22.7KB, peoples 18.3KB, boc 13.5KB, ndb 13.2KB, combank 10.4KB, panasia 5.7KB, union 5.3KB
+  2027-01: sampath 13.0KB, hnb 5.6KB, seylan 2.7KB, amana 2.6KB, ntb 1.8KB, peoples 1.3KB, combank 0.9KB, ndb 0.7KB, boc 0.6KB
+  2027-02: sampath 10.7KB, hnb 3.4KB, seylan 1.9KB, amana 1.5KB, ntb 1.1KB, combank 0.9KB, ndb 0.7KB, boc 0.6KB
+  2027-03: sampath 3.6KB, hnb 3.2KB, seylan 1.9KB, amana 1.6KB, ntb 1.1KB, combank 0.9KB, ndb 0.7KB, boc 0.6KB
+  2027-04: sampath 3.6KB, seylan 1.9KB, hnb 1.5KB, amana 1.2KB, ndb 0.7KB, combank 0.5KB, ntb 0.5KB
+  2027-05: sampath 1.5KB, seylan 1.0KB, hnb 1.0KB, amana 0.7KB, ndb 0.7KB, combank 0.6KB, ntb 0.5KB
