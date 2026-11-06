@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-11-05T20:15:17.861Z",
-  "today": "2026-11-05",
-  "offers": 2043,
+  "generatedAt": "2026-11-06T07:22:11.799Z",
+  "today": "2026-11-06",
+  "offers": 2045,
   "duplicates": 58,
   "sources": {
     "amana": 78,
     "boc": 87,
     "combank": 71,
-    "hnb": 929,
+    "hnb": 930,
     "ndb": 121,
     "ntb": 164,
     "panasia": 32,
     "peoples": 178,
     "sampath": 120,
-    "seylan": 239,
+    "seylan": 240,
     "union": 24
   }
 }
