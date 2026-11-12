@@ -11,14 +11,14 @@
     "check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "vue": "^3.5.44"
+    "vue": "^3.5.45"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@vitejs/plugin-vue": "^6.0.10",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "vue-tsc": "^3.3.14"
   }
 }
