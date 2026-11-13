@@ -1,89 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-11-04T06:57:37.094Z",
-    "offers": 240,
-    "ms": 213859,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-11-04T06:57:37.094Z",
-    "offers": 22,
-    "ms": 13694,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 78,
-    "ms": 4541,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 7133,
-    "ok": false,
-    "error": "boc: lost 24 of 87 offers (28%), the limit is 25%"
-  },
-  {
-    "source": "combank",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 9067,
-    "ok": false,
-    "error": "400 Bad Request for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f01ef"
-  },
-  {
-    "source": "hnb",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 996,
-    "ms": 5545,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 3636,
-    "ok": false,
-    "error": "ndb: lost 52 of 121 offers (43%), the limit is 35%"
-  },
-  {
-    "source": "ntb",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 158,
-    "ms": 5771,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 13951,
-    "ok": false,
-    "error": "panasia: 12 offers, the floor is 20; panasia: lost 20 of 32 offers (63%), the limit is 35%"
-  },
-  {
-    "source": "peoples",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 107445,
-    "ok": false,
-    "error": "peoples: lost 97 of 178 offers (54%), the limit is 30%"
-  },
-  {
-    "source": "sampath",
-    "at": "2026-11-04T20:00:08.872Z",
-    "offers": 0,
-    "ms": 5293,
-    "ok": false,
-    "error": "sampath: lost 53 of 120 offers (44%), the limit is 25%"
-  },
-  {
-    "source": "seylan",
     "at": "2026-11-04T20:00:08.872Z",
     "offers": 240,
     "ms": 113226,
@@ -1501,6 +1418,89 @@
     "at": "2026-11-13T07:14:34.789Z",
     "offers": 24,
     "ms": 23567,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 93,
+    "ms": 3833,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 3736,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-boc-lk.translate.goog/personal-banking/card-offers?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: "
+  },
+  {
+    "source": "combank",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 5649,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a8924"
+  },
+  {
+    "source": "hnb",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 1019,
+    "ms": 5642,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 105,
+    "ms": 3602,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 3389,
+    "ok": false,
+    "error": "429 Too Many Requests for https://www-nationstrust-com.translate.goog/promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f"
+  },
+  {
+    "source": "panasia",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 10837,
+    "ok": false,
+    "error": "panasia: 17 offers, the floor is 20; panasia: lost 20 of 32 offers (63%), the limit is 35%"
+  },
+  {
+    "source": "peoples",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 105761,
+    "ok": false,
+    "error": "peoples: lost 94 of 178 offers (53%), the limit is 30%"
+  },
+  {
+    "source": "sampath",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 0,
+    "ms": 4795,
+    "ok": false,
+    "error": "sampath: lost 57 of 120 offers (48%), the limit is 25%"
+  },
+  {
+    "source": "seylan",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 240,
+    "ms": 139400,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-11-13T20:00:15.521Z",
+    "offers": 24,
+    "ms": 15733,
     "ok": true
   }
 ]
