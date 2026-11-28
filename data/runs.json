@@ -1,87 +1,6 @@
 [
   {
     "source": "seylan",
-    "at": "2026-11-19T07:56:20.328Z",
-    "offers": 240,
-    "ms": 261191,
-    "ok": true
-  },
-  {
-    "source": "union",
-    "at": "2026-11-19T07:56:20.328Z",
-    "offers": 24,
-    "ms": 13514,
-    "ok": true
-  },
-  {
-    "source": "amana",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 101,
-    "ms": 4460,
-    "ok": true
-  },
-  {
-    "source": "boc",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 0,
-    "ms": 8153,
-    "ok": false,
-    "error": "boc: lost 25 of 87 offers (29%), the limit is 25%"
-  },
-  {
-    "source": "combank",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 0,
-    "ms": 7399,
-    "ok": false,
-    "error": "403 Forbidden for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR"
-  },
-  {
-    "source": "hnb",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 1019,
-    "ms": 5406,
-    "ok": true
-  },
-  {
-    "source": "ndb",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 118,
-    "ms": 3425,
-    "ok": true
-  },
-  {
-    "source": "ntb",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 290,
-    "ms": 5895,
-    "ok": true
-  },
-  {
-    "source": "panasia",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 0,
-    "ms": 11456,
-    "ok": false,
-    "error": "panasia: lost 20 of 32 offers (63%), the limit is 35%"
-  },
-  {
-    "source": "peoples",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 321,
-    "ms": 157707,
-    "ok": true
-  },
-  {
-    "source": "sampath",
-    "at": "2026-11-19T20:57:08.197Z",
-    "offers": 0,
-    "ms": 5031,
-    "ok": false,
-    "error": "sampath: lost 58 of 120 offers (48%), the limit is 25%"
-  },
-  {
-    "source": "seylan",
     "at": "2026-11-19T20:57:08.197Z",
     "offers": 240,
     "ms": 191294,
@@ -1469,6 +1388,87 @@
     "at": "2026-11-28T08:24:12.305Z",
     "offers": 24,
     "ms": 13987,
+    "ok": true
+  },
+  {
+    "source": "amana",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 112,
+    "ms": 4035,
+    "ok": true
+  },
+  {
+    "source": "boc",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 0,
+    "ms": 8845,
+    "ok": false,
+    "error": "boc: lost 27 of 87 offers (31%), the limit is 25%"
+  },
+  {
+    "source": "combank",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 0,
+    "ms": 8727,
+    "ok": false,
+    "error": "400 Bad Request for https://www-combank-lk.translate.goog/rewards-promotions?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en :: <!DOCTYPE html><html><head><script>window['ppConfig'] = {productName: 'a89246f01ef"
+  },
+  {
+    "source": "hnb",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 1019,
+    "ms": 5292,
+    "ok": true
+  },
+  {
+    "source": "ndb",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 137,
+    "ms": 4103,
+    "ok": true
+  },
+  {
+    "source": "ntb",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 300,
+    "ms": 5783,
+    "ok": true
+  },
+  {
+    "source": "panasia",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 0,
+    "ms": 7100,
+    "ok": false,
+    "error": "panasia: lost 16 of 32 offers (50%), the limit is 35%"
+  },
+  {
+    "source": "peoples",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 343,
+    "ms": 160244,
+    "ok": true
+  },
+  {
+    "source": "sampath",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 0,
+    "ms": 5666,
+    "ok": false,
+    "error": "sampath: lost 60 of 120 offers (50%), the limit is 25%"
+  },
+  {
+    "source": "seylan",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 240,
+    "ms": 115946,
+    "ok": true
+  },
+  {
+    "source": "union",
+    "at": "2026-11-28T20:31:54.647Z",
+    "offers": 24,
+    "ms": 13020,
     "ok": true
   }
 ]
